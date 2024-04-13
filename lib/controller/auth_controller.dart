@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import '../screens/bottom_bar/bottom_bar_screen.dart';
 
 class AuthController extends GetxController {
-  RxBool isPasswordShow = false.obs;
-  RxBool isConfirmPasswordShow = false.obs;
+  RxBool isPasswordShow = true.obs;
+  RxBool isConfirmPasswordShow = true.obs;
 
   Future<void> signUp(
       {required String email,
