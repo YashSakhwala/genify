@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
@@ -11,13 +10,18 @@ class TextFieldView extends StatelessWidget {
   final TextInputType? keyboardType;
   final String hintText;
   final Widget? suffixIcon;
-  const TextFieldView(
-      {super.key,
-      required this.hintText,
-      required this.title,
-      this.width,
-      this.suffixIcon,
-      this.keyboardType});
+  final bool? obscureText;
+  final TextEditingController textEditingController;
+  const TextFieldView({
+    super.key,
+    required this.hintText,
+    required this.title,
+    this.width,
+    this.suffixIcon,
+    this.keyboardType,
+    this.obscureText = false,
+    required this.textEditingController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +35,11 @@ class TextFieldView extends StatelessWidget {
               : AppTextStyle.regularTextStyle,
         ),
         SizedBox(
-          width: width ?? double.infinity,
-          height: kIsWeb ? 40 : 50,
+          // width: width ?? double.infinity,
+          // height: kIsWeb ? 40 : 50,
           child: TextField(
+            controller: textEditingController,
+            obscureText: obscureText!,
             cursorColor: AppColors.greyColor,
             keyboardType: keyboardType,
             decoration: InputDecoration(

@@ -8,6 +8,7 @@ import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
 import 'package:get/get.dart';
+import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 
 class SignUpCommomView extends StatefulWidget {
@@ -19,6 +20,11 @@ class SignUpCommomView extends StatefulWidget {
 
 class _SignUpCommomViewState extends State<SignUpCommomView> {
   AuthController authController = Get.put(AuthController());
+
+  final TextEditingController email = TextEditingController();
+  final TextEditingController phoneNo = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +80,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         TextFieldView(
           title: "Email",
           hintText: "example@gmail.com",
+          textEditingController: email,
         ),
         SizedBox(
           height: 20,
@@ -82,14 +89,30 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           title: "Phone number",
           hintText: "1234567890",
           keyboardType: TextInputType.phone,
+          textEditingController: phoneNo,
         ),
         SizedBox(
           height: 20,
         ),
-        TextFieldView(
-          title: "Password",
-          hintText: "******",
-          suffixIcon: Icon(Icons.remove_red_eye_outlined),
+        Obx(
+          () => TextFieldView(
+            title: "Password",
+            hintText: "******",
+            textEditingController: password,
+            obscureText: authController.isPasswordShow.value,
+            suffixIcon: GestureDetector(
+              onTap: () {
+                authController.isPasswordShow.value =
+                    !authController.isPasswordShow.value;
+              },
+              child: Image.asset(
+                authController.isPasswordShow.value == true
+                    ? AppImages.openEye
+                    : AppImages.closeEye,
+                scale: 20,
+              ),
+            ),
+          ),
         ),
         SizedBox(
           height: 20,
@@ -97,6 +120,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         TextFieldView(
           title: "Confirm password",
           hintText: "******",
+          textEditingController: confirmPassword,
           suffixIcon: Icon(Icons.remove_red_eye_outlined),
         ),
         SizedBox(
@@ -110,7 +134,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             // );
 
             authController.signUp(
-                email: "yash@gmail.com", password: "password");
+                email: "yash_1@gmail.com", password: "password",context: context);
           },
           title: "Sign Up",
         ),
