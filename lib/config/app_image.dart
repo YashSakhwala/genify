@@ -5,6 +5,7 @@ class AppImages {
   static const String logoBackground = "assets/images/logo_with_background.png";
 
   // Auth screen icons
+  static const String addImage = "assets/icons/add_image.png";
   static const String openEye = "assets/icons/open_eye.png";
   static const String closeEye = "assets/icons/close_eye.png";
 

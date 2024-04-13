@@ -49,9 +49,9 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                 color: AppColors.greyColor.shade300,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.add_a_photo_outlined,
-                size: 40,
+              child: Image.asset(
+                AppImages.addImage,
+                scale: 11,
                 color: AppColors.greyColor,
               ),
             ),
@@ -150,8 +150,8 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             // );
 
             authController.signUp(
-                email: "yash_1@gmail.com",
-                password: "password",
+                email: "yash_2@gmail.com",
+                password: "abcdefg",
                 context: context);
           },
           title: "Sign Up",

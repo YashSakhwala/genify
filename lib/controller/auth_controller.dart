@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/widgets/common_widgets/indicatior.dart';
 import 'package:get/get.dart';
-
 import '../screens/bottom_bar/bottom_bar_screen.dart';
 
 class AuthController extends GetxController {
