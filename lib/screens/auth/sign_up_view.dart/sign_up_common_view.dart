@@ -109,6 +109,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                 authController.isPasswordShow.value == true
                     ? AppImages.openEye
                     : AppImages.closeEye,
+                color: AppColors.greyColor,
                 scale: 20,
               ),
             ),
@@ -117,11 +118,26 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         SizedBox(
           height: 20,
         ),
-        TextFieldView(
-          title: "Confirm password",
-          hintText: "******",
-          textEditingController: confirmPassword,
-          suffixIcon: Icon(Icons.remove_red_eye_outlined),
+        Obx(
+          () => TextFieldView(
+            title: "Confirm password",
+            hintText: "******",
+            textEditingController: confirmPassword,
+            obscureText: authController.isConfirmPasswordShow.value,
+            suffixIcon: GestureDetector(
+              onTap: () {
+                authController.isConfirmPasswordShow.value =
+                    !authController.isConfirmPasswordShow.value;
+              },
+              child: Image.asset(
+                authController.isConfirmPasswordShow.value
+                    ? AppImages.openEye
+                    : AppImages.closeEye,
+                color: AppColors.greyColor,
+                scale: 20,
+              ),
+            ),
+          ),
         ),
         SizedBox(
           height: 55,
@@ -134,7 +150,9 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             // );
 
             authController.signUp(
-                email: "yash_1@gmail.com", password: "password",context: context);
+                email: "yash_1@gmail.com",
+                password: "password",
+                context: context);
           },
           title: "Sign Up",
         ),

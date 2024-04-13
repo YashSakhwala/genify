@@ -34,32 +34,27 @@ class TextFieldView extends StatelessWidget {
               ? AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
               : AppTextStyle.regularTextStyle,
         ),
-        SizedBox(
-          // width: width ?? double.infinity,
-          // height: kIsWeb ? 40 : 50,
-          child: TextField(
-            controller: textEditingController,
-            obscureText: obscureText!,
-            cursorColor: AppColors.greyColor,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.greyColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.greyColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              hintText: hintText,
-              hintStyle: TextStyle(color: AppColors.greyColor),
-              suffixIcon: suffixIcon,
-              suffixIconColor: AppColors.greyColor,
+        TextField(
+          controller: textEditingController,
+          obscureText: obscureText!,
+          cursorColor: AppColors.greyColor,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: 8,
             ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            hintText: hintText,
+            hintStyle: TextStyle(color: AppColors.greyColor),
+            suffixIcon: suffixIcon,
           ),
         ),
       ],

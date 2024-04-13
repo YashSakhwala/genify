@@ -62,6 +62,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
                 authController.isPasswordShow.value
                     ? AppImages.openEye
                     : AppImages.closeEye,
+                color: AppColors.greyColor,
                 scale: 20,
               ),
             ),
