@@ -7,12 +7,13 @@ class ButtonView extends StatelessWidget {
   final double? width;
   final double? height;
   final Function() onTap;
-  const ButtonView(
-      {super.key,
-      required this.title,
-      this.width,
-      this.height,
-      required this.onTap});
+  const ButtonView({
+    super.key,
+    required this.title,
+    this.width,
+    this.height,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
