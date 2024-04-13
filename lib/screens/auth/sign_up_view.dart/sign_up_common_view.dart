@@ -150,7 +150,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             // );
 
             authController.signUp(
-                email: "yash_2@gmail.com",
+                email: "yash_3@gmail.com",
                 password: "abcdefg",
                 context: context);
           },
