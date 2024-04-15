@@ -7,6 +7,7 @@ import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
+import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
@@ -149,10 +150,14 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             //   (route) => false,
             // );
 
-            authController.signUp(
-                email: "yash_3@gmail.com",
-                password: "abcdefg",
-                context: context);
+            if (email.text.isEmpty && password.text.isEmpty) {
+              toastMessage(msg: "Enter email and password");
+            } else {
+              // authController.logIn(
+              //   email: "yash_3@gmail.com",
+              //   password: "abcdefg",
+              //   context: context);
+            }
           },
           title: "Sign Up",
         ),

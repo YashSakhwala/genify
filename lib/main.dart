@@ -3,10 +3,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:genify/controller/local_storage.dart';
 import 'package:genify/screens/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  LocalStorage.sharedPreferences = await SharedPreferences.getInstance();
 
   if (kIsWeb) {
     await Firebase.initializeApp(

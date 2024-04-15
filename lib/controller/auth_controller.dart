@@ -2,7 +2,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:genify/controller/local_storage.dart';
 import 'package:genify/widgets/common_widgets/indicatior.dart';
+import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import '../screens/bottom_bar/bottom_bar_screen.dart';
 
@@ -10,21 +12,29 @@ class AuthController extends GetxController {
   RxBool isPasswordShow = true.obs;
   RxBool isConfirmPasswordShow = true.obs;
 
-  Future<void> signUp(
+  Future<void> logIn(
       {required String email,
       required String password,
       required BuildContext context}) async {
-    showIndicator(context);
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    try {
+      showIndicator(context);
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-    UserCredential userCredential = await firebaseAuth
-        .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
 
-    print(userCredential.user!.uid);
+      LocalStorage.sharedPreferences.setBool(LocalStorage.logIn, true);
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => BottomBarScreen()),
-      (route) => false,
-    );
+      print(userCredential.user!.uid);
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => BottomBarScreen()),
+        (route) => false,
+      );
+    } catch (e) {
+      toastMessage(msg: "Email is incorrect");
+
+      Navigator.of(context).pop();
+    }
   }
 }

@@ -6,8 +6,8 @@ import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/sign_up_screen.dart';
-import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
+import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
@@ -86,10 +86,15 @@ class _LoginCommonViewState extends State<LoginCommonView> {
         ),
         ButtonView(
           onTap: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => BottomBarScreen()),
-              (route) => false,
-            );
+            if (email.text.isEmpty && password.text.isEmpty) {
+              toastMessage(msg: "Enter email and password");
+            } else {
+              authController.logIn(
+                email: email.text,
+                password: password.text,
+                context: context,
+              );
+            }
           },
           title: "Login",
         ),
