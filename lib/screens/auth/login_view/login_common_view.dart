@@ -89,6 +89,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
             if (email.text.isEmpty && password.text.isEmpty) {
               toastMessage(msg: "Enter email and password");
             } else {
+              authController.isSignUpScreen.value = false;
               authController.logIn(
                 email: email.text,
                 password: password.text,

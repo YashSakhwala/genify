@@ -145,18 +145,15 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         ),
         ButtonView(
           onTap: () {
-            // Navigator.of(context).pushAndRemoveUntil(
-            //   MaterialPageRoute(builder: (context) => BottomBarScreen()),
-            //   (route) => false,
-            // );
-
             if (email.text.isEmpty && password.text.isEmpty) {
               toastMessage(msg: "Enter email and password");
             } else {
-              // authController.logIn(
-              //   email: "yash_3@gmail.com",
-              //   password: "abcdefg",
-              //   context: context);
+              authController.isSignUpScreen.value = true;
+              authController.logIn(
+                email: email.text,
+                password: password.text,
+                context: context,
+              );
             }
           },
           title: "Sign Up",
