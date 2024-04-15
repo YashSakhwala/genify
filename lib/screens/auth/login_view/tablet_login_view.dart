@@ -52,7 +52,6 @@ class _TabletLoginViewScreenState extends State<TabletLoginViewScreen> {
               elevation: 25,
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                height: 450,
                 width: 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

@@ -86,8 +86,8 @@ class _LoginCommonViewState extends State<LoginCommonView> {
         ),
         ButtonView(
           onTap: () {
-            if (email.text.isEmpty && password.text.isEmpty) {
-              toastMessage(msg: "Enter email and password");
+            if (email.text.isEmpty || password.text.isEmpty) {
+              toastMessage(msg: "Fill the information");
             } else {
               authController.isSignUpScreen.value = false;
               authController.logIn(

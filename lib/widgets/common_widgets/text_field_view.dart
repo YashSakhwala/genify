@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldView extends StatelessWidget {
   final double? width;
@@ -11,7 +12,9 @@ class TextFieldView extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final List<TextInputFormatter>? textInputFormatter;
   final TextEditingController textEditingController;
+
   const TextFieldView({
     super.key,
     required this.hintText,
@@ -20,6 +23,7 @@ class TextFieldView extends StatelessWidget {
     this.suffixIcon,
     this.keyboardType,
     this.obscureText = false,
+    this.textInputFormatter,
     required this.textEditingController,
   });
 
@@ -37,6 +41,7 @@ class TextFieldView extends StatelessWidget {
         TextField(
           controller: textEditingController,
           obscureText: obscureText!,
+          inputFormatters: textInputFormatter,
           cursorColor: AppColors.greyColor,
           keyboardType: keyboardType,
           decoration: InputDecoration(

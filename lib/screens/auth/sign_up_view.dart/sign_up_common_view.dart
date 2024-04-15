@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
@@ -91,6 +92,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           hintText: "1234567890",
           keyboardType: TextInputType.phone,
           textEditingController: phoneNo,
+          textInputFormatter: [LengthLimitingTextInputFormatter(10)],
         ),
         SizedBox(
           height: 20,
@@ -107,7 +109,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     !authController.isPasswordShow.value;
               },
               child: Image.asset(
-                authController.isPasswordShow.value == true
+                authController.isPasswordShow.value
                     ? AppImages.openEye
                     : AppImages.closeEye,
                 color: AppColors.greyColor,
@@ -131,7 +133,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     !authController.isConfirmPasswordShow.value;
               },
               child: Image.asset(
-                authController.isConfirmPasswordShow.value
+                authController.isConfirmPasswordShow.value == true
                     ? AppImages.openEye
                     : AppImages.closeEye,
                 color: AppColors.greyColor,
@@ -145,8 +147,13 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         ),
         ButtonView(
           onTap: () {
-            if (email.text.isEmpty && password.text.isEmpty) {
-              toastMessage(msg: "Enter email and password");
+            if (email.text.isEmpty ||
+                phoneNo.text.isEmpty ||
+                password.text.isEmpty ||
+                confirmPassword.text.isEmpty) {
+              toastMessage(msg: "Fill the information");
+            } else if (password.text != confirmPassword.text) {
+              toastMessage(msg: "Both passwords are not same");
             } else {
               authController.isSignUpScreen.value = true;
               authController.logIn(

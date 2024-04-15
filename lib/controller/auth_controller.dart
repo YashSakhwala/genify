@@ -40,8 +40,8 @@ class AuthController extends GetxController {
         (route) => false,
       );
     } catch (e) {
-      // toastMessage(msg: "Email is incorrect");
-      toastMessage(msg: e.toString());
+      toastMessage(msg: "Email is incorrect");
+      // toastMessage(msg: e.toString());
 
       Navigator.of(context).pop();
     }
