@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "346582759932",
-    "project_id": "genify-61fe5",
-    "storage_bucket": "genify-61fe5.appspot.com"
+    "project_number": "955025586687",
+    "project_id": "genify-app-d06b8",
+    "storage_bucket": "genify-app-d06b8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:346582759932:android:ba8eafccd7add583f7da79",
+        "mobilesdk_app_id": "1:955025586687:android:999115628db7d834ce0fca",
         "android_client_info": {
           "package_name": "com.example.genify"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1uW8EPj1hOC2RjrCJHRRgni4Axa9bEhI"
+          "current_key": "AIzaSyAqVLB9580m38DxPz5TtgzhXYXucS8SnhM"
         }
       ],
       "services": {

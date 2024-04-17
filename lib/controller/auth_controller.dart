@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
 import 'package:genify/widgets/common_widgets/toast_view.dart';
 import '../widgets/common_widgets/indicatior.dart';
-import 'local_storage.dart';
+import '../config/local_storage.dart';
 
 class AuthController extends GetxController {
-  RxBool isPasswordShow = true.obs;
+  RxBool isLoginPasswordShow = true.obs;
+  RxBool isSignUpPasswordShow = true.obs;
   RxBool isConfirmPasswordShow = true.obs;
   RxBool isSignUpScreen = true.obs;
+  RxString imagePath = "".obs;
 
   Future<void> logIn(
       {required String email,
@@ -40,7 +42,7 @@ class AuthController extends GetxController {
         (route) => false,
       );
     } catch (e) {
-      toastMessage(msg: "Email is incorrect");
+      toastMessage(msg: "Email is incorrect", context: context);
       // toastMessage(msg: e.toString());
 
       Navigator.of(context).pop();

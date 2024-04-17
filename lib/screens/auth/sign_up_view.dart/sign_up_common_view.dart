@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +13,7 @@ import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
 import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 
@@ -28,172 +32,209 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Text(
-            "Create an account",
-            style: AppTextStyle.largeTextStyle,
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Stack(
-          children: [
-            Container(
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                color: AppColors.greyColor.shade300,
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                AppImages.addImage,
-                scale: 11,
-                color: AppColors.greyColor,
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 5,
-              child: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryColor,
-                ),
-                child: Icon(
-                  Icons.add,
-                  size: 18,
-                  color: AppColors.whiteColor,
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextFieldView(
-          title: "Email",
-          hintText: "example@gmail.com",
-          textEditingController: email,
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        TextFieldView(
-          title: "Phone number",
-          hintText: "1234567890",
-          keyboardType: TextInputType.phone,
-          textEditingController: phoneNo,
-          textInputFormatter: [LengthLimitingTextInputFormatter(10)],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Obx(
-          () => TextFieldView(
-            title: "Password",
-            hintText: "******",
-            textEditingController: password,
-            obscureText: authController.isPasswordShow.value,
-            suffixIcon: GestureDetector(
-              onTap: () {
-                authController.isPasswordShow.value =
-                    !authController.isPasswordShow.value;
-              },
-              child: Image.asset(
-                authController.isPasswordShow.value
-                    ? AppImages.openEye
-                    : AppImages.closeEye,
-                color: AppColors.greyColor,
-                scale: 20,
-              ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              "Create an account",
+              style: AppTextStyle.largeTextStyle,
             ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Obx(
-          () => TextFieldView(
-            title: "Confirm password",
-            hintText: "******",
-            textEditingController: confirmPassword,
-            obscureText: authController.isConfirmPasswordShow.value,
-            suffixIcon: GestureDetector(
-              onTap: () {
-                authController.isConfirmPasswordShow.value =
-                    !authController.isConfirmPasswordShow.value;
-              },
-              child: Image.asset(
-                authController.isConfirmPasswordShow.value == true
-                    ? AppImages.openEye
-                    : AppImages.closeEye,
-                color: AppColors.greyColor,
-                scale: 20,
-              ),
-            ),
+          SizedBox(
+            height: 30,
           ),
-        ),
-        SizedBox(
-          height: 55,
-        ),
-        ButtonView(
-          onTap: () {
-            if (email.text.isEmpty ||
-                phoneNo.text.isEmpty ||
-                password.text.isEmpty ||
-                confirmPassword.text.isEmpty) {
-              toastMessage(msg: "Fill the information");
-            } else if (password.text != confirmPassword.text) {
-              toastMessage(msg: "Both passwords are not same");
-            } else {
-              authController.isSignUpScreen.value = true;
-              authController.logIn(
-                email: email.text,
-                password: password.text,
-                context: context,
-              );
-            }
-          },
-          title: "Sign Up",
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Do you have an account? ',
-                style: AppTextStyle.regularTextStyle.copyWith(fontSize: 14),
-              ),
-              TextSpan(
-                  text: 'Log In',
-                  style: AppTextStyle.regularTextStyle.copyWith(
-                    fontSize: 14,
-                    color: AppColors.primaryColor,
+          InkWell(
+            onTap: () async {
+              ImagePicker imagePicker = ImagePicker();
+
+              XFile? xFile =
+                  await imagePicker.pickImage(source: ImageSource.gallery);
+
+              if (xFile != null && xFile.path.isNotEmpty) {
+                authController.imagePath.value = xFile.path;
+              }
+            },
+            child: Stack(
+              children: [
+                Obx(
+                  () => Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: AppColors.greyColor.shade300,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: authController.imagePath.value.isEmpty
+                            ? Image.asset(
+                                AppImages.addImage,
+                                color: AppColors.greyColor,
+                                scale: 11,
+                              ).image
+                            : kIsWeb
+                                ? Image.network(
+                                    authController.imagePath.value,
+                                  ).image
+                                : Image.file(
+                                    File(authController.imagePath.value),
+                                  ).image,
+                        fit: authController.imagePath.value.isEmpty
+                            ? BoxFit.scaleDown
+                            : BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                      );
-                    }),
-            ],
+                ),
+                Positioned(
+                  bottom: 10,
+                  right: 5,
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primaryColor,
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      size: 18,
+                      color: AppColors.whiteColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 10,
+          ),
+          TextFieldView(
+            title: "Email",
+            hintText: "example@gmail.com",
+            textEditingController: email,
+            needValidator: true,
+            emailValidator: true,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextFieldView(
+            title: "Phone number",
+            hintText: "1234567890",
+            keyboardType: TextInputType.phone,
+            textEditingController: phoneNo,
+            needValidator: true,
+            phoneNoValidator: true,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Obx(
+            () => TextFieldView(
+              title: "Password",
+              hintText: "******",
+              textEditingController: password,
+              obscureText: authController.isSignUpPasswordShow.value,
+              needValidator: true,
+              passwordValidator: true,
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  authController.isSignUpPasswordShow.value =
+                      !authController.isSignUpPasswordShow.value;
+                },
+                child: Image.asset(
+                  authController.isSignUpPasswordShow.value
+                      ? AppImages.openEye
+                      : AppImages.closeEye,
+                  color: AppColors.greyColor,
+                  scale: 20,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Obx(
+            () => TextFieldView(
+              title: "Confirm password",
+              hintText: "******",
+              textEditingController: confirmPassword,
+              obscureText: authController.isConfirmPasswordShow.value,
+              needValidator: true,
+              passwordValidator: true,
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  authController.isConfirmPasswordShow.value =
+                      !authController.isConfirmPasswordShow.value;
+                },
+                child: Image.asset(
+                  authController.isConfirmPasswordShow.value == true
+                      ? AppImages.openEye
+                      : AppImages.closeEye,
+                  color: AppColors.greyColor,
+                  scale: 20,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 55,
+          ),
+          ButtonView(
+            onTap: () {
+              if (_formKey.currentState!.validate()) {
+                if (password.text != confirmPassword.text) {
+                  toastMessage(
+                      msg: "Both passwords are not same", context: context);
+                } else {
+                  authController.isSignUpScreen.value = true;
+                  authController.logIn(
+                    email: email.text,
+                    password: password.text,
+                    context: context,
+                  );
+                }
+              }
+            },
+            title: "Sign Up",
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Do you have an account? ',
+                  style: AppTextStyle.regularTextStyle.copyWith(fontSize: 14),
+                ),
+                TextSpan(
+                    text: 'Log In',
+                    style: AppTextStyle.regularTextStyle.copyWith(
+                      fontSize: 14,
+                      color: AppColors.primaryColor,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        );
+                      }),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

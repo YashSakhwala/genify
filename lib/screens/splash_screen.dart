@@ -4,7 +4,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
-import 'package:genify/controller/local_storage.dart';
+import 'package:genify/config/local_storage.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
 
@@ -16,18 +16,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool? logIn;
+  bool? islogIn;
 
   @override
   void initState() {
-    logIn = LocalStorage.sharedPreferences.getBool(LocalStorage.logIn);
+    islogIn = LocalStorage.sharedPreferences.getBool(LocalStorage.logIn);
 
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              logIn == true ? BottomBarScreen() : LoginScreen(),
+              islogIn == true ? BottomBarScreen() : LoginScreen(),
         ),
         (route) => false,
       );

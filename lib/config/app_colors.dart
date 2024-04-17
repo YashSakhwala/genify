@@ -7,6 +7,7 @@ class AppColors {
   static const blackColor = Colors.black;
   static const greyColor = Colors.grey;
   static const blueColor = Colors.blue;
+  static const redColor = Colors.red;
   static const blackThemeBoxColor = Color(0xFF2c2d32);
   static const transparentColor = Colors.transparent;
 }

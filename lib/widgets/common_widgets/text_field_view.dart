@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
-import 'package:flutter/services.dart';
+import '../../utils/validation.dart';
 
 class TextFieldView extends StatelessWidget {
   final double? width;
@@ -12,8 +12,11 @@ class TextFieldView extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
   final bool? obscureText;
-  final List<TextInputFormatter>? textInputFormatter;
   final TextEditingController textEditingController;
+  final bool needValidator;
+  final bool emailValidator;
+  final bool phoneNoValidator;
+  final bool passwordValidator;
 
   const TextFieldView({
     super.key,
@@ -23,8 +26,11 @@ class TextFieldView extends StatelessWidget {
     this.suffixIcon,
     this.keyboardType,
     this.obscureText = false,
-    this.textInputFormatter,
     required this.textEditingController,
+    this.needValidator = false,
+    this.emailValidator = false,
+    this.phoneNoValidator = false,
+    this.passwordValidator = false,
   });
 
   @override
@@ -38,30 +44,45 @@ class TextFieldView extends StatelessWidget {
               ? AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
               : AppTextStyle.regularTextStyle,
         ),
-        TextField(
-          controller: textEditingController,
-          obscureText: obscureText!,
-          inputFormatters: textInputFormatter,
-          cursorColor: AppColors.greyColor,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 12,
-              horizontal: 8,
+        TextFormField(
+            controller: textEditingController,
+            obscureText: obscureText!,
+            cursorColor: AppColors.greyColor,
+            keyboardType: keyboardType,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 8,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.greyColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.greyColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.redColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.redColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              hintText: hintText,
+              hintStyle: TextStyle(color: AppColors.greyColor),
+              suffixIcon: suffixIcon,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.greyColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.greyColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            hintText: hintText,
-            hintStyle: TextStyle(color: AppColors.greyColor),
-            suffixIcon: suffixIcon,
-          ),
-        ),
+            validator: needValidator
+                ? (value) => TextFieldValidation.validation(
+                      isEmailValidator: emailValidator,
+                      isPasswordValidator: passwordValidator,
+                      isPhoneNumberValidator: phoneNoValidator,
+                      message: title,
+                      value: value,
+                    )
+                : null)
       ],
     );
   }
