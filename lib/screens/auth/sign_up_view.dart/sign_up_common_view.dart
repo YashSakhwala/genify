@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
