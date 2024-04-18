@@ -93,7 +93,6 @@ class _LoginCommonViewState extends State<LoginCommonView> {
           ButtonView(
             onTap: () {
               if (_formkey.currentState!.validate()) {
-                authController.isSignUpScreen.value = false;
                 authController.logIn(
                   email: email.text,
                   password: password.text,

@@ -192,10 +192,13 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                 if (password.text != confirmPassword.text) {
                   toastMessage(
                       msg: "Both passwords are not same", context: context);
+                } else if (authController.imagePath.value.isEmpty) {
+                  toastMessage(
+                      msg: "Please select profile image", context: context);
                 } else {
-                  authController.isSignUpScreen.value = true;
-                  authController.logIn(
+                  authController.signUp(
                     email: email.text,
+                    phoneNo: phoneNo.text,
                     password: password.text,
                     context: context,
                   );
