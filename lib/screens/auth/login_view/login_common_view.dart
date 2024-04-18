@@ -103,7 +103,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
             title: "Login",
           ),
           SizedBox(
-            height: 12,
+            height: 8,
           ),
           RichText(
             text: TextSpan(
