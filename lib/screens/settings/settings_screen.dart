@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
 import 'package:genify/config/app_style.dart';
+import 'package:genify/config/local_storage.dart';
+import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/screens/profile/profile_screen.dart';
+import 'package:genify/widgets/common_widgets/alert_dialog_box.dart';
+import 'package:genify/widgets/common_widgets/indicatior.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,12 +19,40 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  void logOut() {
+    showAlertDialogBox(
+        context: context,
+        yesOnTap: () async {
+          showIndicator(context);
+
+          LocalStorage.sharedPreferences.clear();
+
+          FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+          await firebaseAuth.signOut();
+
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => LoginScreen(),
+              ),
+              (route) => false);
+        },
+        noOnTap: () {
+          Navigator.of(context).pop();
+        },
+        title: "Log Out",
+        subTitle: "Are you sure you want to log out?");
+  }
+
   List settingTools = [
     {"icons": AppImages.aboutUs, "name": "About Us"},
     {"icons": AppImages.privacyPolicy, "name": "Privacy Policy"},
     {"icons": AppImages.terms, "name": "Terms & Condition"},
     {"icons": AppImages.contact, "name": "Contact Us"},
-    {"icons": AppImages.logout, "name": "Logout"},
+    {
+      "icons": AppImages.logout,
+      "name": "Logout",
+    },
   ];
 
   @override
@@ -103,35 +136,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   shrinkWrap: true,
                   itemCount: settingTools.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        border: Border.all(
-                          width: 0.1,
-                          color: AppColors.primaryColor.withOpacity(0.5),
+                    return InkWell(
+                      onTap: () {
+                        if (index == 4) {
+                          logOut();
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          border: Border.all(
+                            width: 0.1,
+                            color: AppColors.primaryColor.withOpacity(0.5),
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(13),
-                        child: Row(
-                          children: [
-                            Image(
-                              image: Image.asset(settingTools[index]["icons"])
-                                  .image,
-                              color: AppColors.primaryColor,
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 17,
-                            ),
-                            Text(settingTools[index]["name"]),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 15,
-                              color: AppColors.primaryColor,
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            children: [
+                              Image(
+                                image: Image.asset(settingTools[index]["icons"])
+                                    .image,
+                                color: AppColors.primaryColor,
+                                height: 20,
+                              ),
+                              SizedBox(
+                                width: 17,
+                              ),
+                              Text(settingTools[index]["name"]),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 15,
+                                color: AppColors.primaryColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

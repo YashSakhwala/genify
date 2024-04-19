@@ -12,8 +12,13 @@ void showIndicator(BuildContext context) {
         return false;
       },
       child: Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primaryColor,
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            color: AppColors.whiteColor,
+            strokeWidth: 2,
+          ),
         ),
       ),
     ),
