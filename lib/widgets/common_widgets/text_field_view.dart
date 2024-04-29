@@ -45,44 +45,45 @@ class TextFieldView extends StatelessWidget {
               : AppTextStyle.regularTextStyle,
         ),
         TextFormField(
-            controller: textEditingController,
-            obscureText: obscureText!,
-            cursorColor: AppColors.greyColor,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.greyColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.greyColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.redColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.redColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              hintText: hintText,
-              hintStyle: TextStyle(color: AppColors.greyColor),
-              suffixIcon: suffixIcon,
+          controller: textEditingController,
+          obscureText: obscureText!,
+          cursorColor: AppColors.greyColor,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: 8,
             ),
-            validator: needValidator
-                ? (value) => TextFieldValidation.validation(
-                      isEmailValidator: emailValidator,
-                      isPasswordValidator: passwordValidator,
-                      isPhoneNumberValidator: phoneNoValidator,
-                      message: title,
-                      value: value,
-                    )
-                : null)
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.redColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.redColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            hintText: hintText,
+            hintStyle: TextStyle(color: AppColors.greyColor),
+            suffixIcon: suffixIcon,
+          ),
+          validator: needValidator
+              ? (value) => TextFieldValidation.validation(
+                    isEmailValidator: emailValidator,
+                    isPasswordValidator: passwordValidator,
+                    isPhoneNumberValidator: phoneNoValidator,
+                    message: title,
+                    value: value,
+                  )
+              : null,
+        )
       ],
     );
   }
