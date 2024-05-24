@@ -7,12 +7,15 @@ class ButtonView extends StatelessWidget {
   final double? width;
   final double? height;
   final Function() onTap;
+  final BorderRadiusGeometry? borderRadius;
+
   const ButtonView({
     super.key,
     required this.title,
     this.width,
     this.height,
     required this.onTap,
+    this.borderRadius,
   });
 
   @override
@@ -23,7 +26,7 @@ class ButtonView extends StatelessWidget {
         height: height ?? 40,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: borderRadius ?? BorderRadius.circular(8),
           color: AppColors.primaryColor,
         ),
         child: Center(

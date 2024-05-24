@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
@@ -9,7 +11,9 @@ import 'package:genify/screens/auth/sign_up_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
 import 'package:get/get.dart';
 import '../../../config/app_image.dart';
+import '../../../widgets/common_widgets/indicatior.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 
 class LoginCommonView extends StatefulWidget {
   const LoginCommonView({super.key});
@@ -44,7 +48,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
           TextFieldView(
             title: "Email",
             hintText: "example@gmail.com",
-            textEditingController: email,
+            controller: email,
             needValidator: true,
             emailValidator: true,
           ),
@@ -55,7 +59,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
             () => TextFieldView(
               title: "Password",
               hintText: "******",
-              textEditingController: password,
+              controller: password,
               obscureText: authController.isLoginPasswordShow.value,
               needValidator: true,
               passwordValidator: true,
@@ -77,13 +81,38 @@ class _LoginCommonViewState extends State<LoginCommonView> {
           SizedBox(
             height: 8,
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Text(
-              "Forget password?",
-              style: AppTextStyle.largeTextStyle.copyWith(
-                fontSize: 13,
-                color: AppColors.primaryColor,
+          GestureDetector(
+            onTap: () async {
+              if (RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(email.text)) {
+                showIndicator(context);
+
+                FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+                await firebaseAuth.sendPasswordResetEmail(email: email.text);
+
+                Navigator.of(context).pop();
+
+                toastView(
+                  msg: "Check your email to reset password",
+                  context: context,
+                );
+              } else {
+                toastView(
+                  msg: "Please enter valid email",
+                  context: context,
+                );
+              }
+            },
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                "Forget password?",
+                style: AppTextStyle.largeTextStyle.copyWith(
+                  fontSize: 13,
+                  color: AppColors.primaryColor,
+                ),
               ),
             ),
           ),

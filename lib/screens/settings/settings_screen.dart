@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +6,14 @@ import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/config/local_storage.dart';
+import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/screens/profile/profile_screen.dart';
 import 'package:genify/widgets/common_widgets/alert_dialog_box.dart';
 import 'package:genify/widgets/common_widgets/indicatior.dart';
+import 'package:genify/widgets/common_widgets/toast_view.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -19,6 +23,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  AuthController authController = Get.put(AuthController());
+
   void logOut() {
     showAlertDialogBox(
         context: context,
@@ -81,44 +87,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(13),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: AppColors.greyColor.shade300,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.add_a_photo_outlined,
-                                size: 25,
-                                color: AppColors.greyColor,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Name",
-                                  style: TextStyle(
-                                    fontSize: 20,
+                        child: Obx(
+                          () => Row(
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CircularProgressIndicator(
                                     color: AppColors.whiteColor,
+                                    strokeWidth: 2,
                                   ),
-                                ),
-                                Text(
-                                  "Email",
-                                  style: TextStyle(
-                                    color: AppColors.whiteColor,
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(150),
+                                    child: Image.network(
+                                      authController.userData["image"],
+                                      height: 70,
+                                      width: 70,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      authController.userData["name"],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: AppColors.whiteColor,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      authController.userData["email"],
+                                      style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -134,8 +150,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   itemCount: settingTools.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
-                        if (index == 4) {
+                      onTap: () async {
+                        if (index == 0) {
+                          toastView(
+                            msg: "Nothing..........",
+                            context: context,
+                          );
+                        } else if (index == 1) {
+                          final Uri _url = Uri.parse(
+                              "https://doc-hosting.flycricket.io/quiz-up-privacy-policy/9b5208c7-80bc-4e74-8d1f-796fd7ae4d4b/privacy");
+
+                          if (!await launchUrl(_url)) {
+                            throw Exception("Could not launch $_url");
+                          }
+                        } else if (index == 2) {
+                          final Uri _url = Uri.parse(
+                              "https://doc-hosting.flycricket.io/quiz-up-terms-of-use/65b0b200-860c-426e-b052-b3336c078a75/terms");
+
+                          if (!await launchUrl(_url)) {
+                            throw Exception("Could not launch $_url");
+                          }
+                        } else if (index == 3) {
+                          final Uri emailLaunchUri = Uri(
+                            scheme: "mailto",
+                            path: "yashsakhwala@gmail.com",
+                          );
+
+                          await launchUrl(emailLaunchUri);
+                        } else if (index == 4) {
                           logOut();
                         }
                       },

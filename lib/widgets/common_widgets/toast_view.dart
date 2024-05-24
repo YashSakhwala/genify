@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:genify/config/app_colors.dart';
-import 'package:genify/config/app_style.dart';
+import '../../config/app_colors.dart';
+import '../../config/app_style.dart';
 
-void toastMessage({required String msg, required BuildContext context}) {
+void toastView({
+  required String msg,
+  required BuildContext context,
+}) {
   var snackBar = SnackBar(
     content: Center(
       child: Text(

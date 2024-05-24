@@ -6,7 +6,8 @@ import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
 import 'package:genify/config/local_storage.dart';
 import 'package:genify/screens/auth/login_screen.dart';
-import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
+import 'package:get/get.dart';
+import '../controller/auth_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,22 +17,29 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool? islogIn;
+  AuthController authController = Get.put(AuthController());
+  bool? isLogIn;
 
   @override
   void initState() {
-    islogIn = LocalStorage.sharedPreferences.getBool(LocalStorage.logIn);
+    isLogIn = LocalStorage.sharedPreferences.getBool(LocalStorage.logIn);
 
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              islogIn == true ? BottomBarScreen() : LoginScreen(),
-        ),
-        (route) => false,
+    if (isLogIn == true) {
+      authController.getProfile(context: context);
+    } else {
+      Future.delayed(
+        Duration(seconds: 3),
+        () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+            (route) => false,
+          );
+        },
       );
-    });
+    }
     super.initState();
   }
 

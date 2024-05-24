@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import '../../widgets/layout_builder_view.dart';
-import 'sign_up_view.dart/mobile_sign_up_view.dart';
-import 'sign_up_view.dart/tablet_sign_up_view.dart';
-import 'sign_up_view.dart/web_sign_up_view.dart';
+import 'sign_up_view/mobile_sign_up_view.dart';
+import 'sign_up_view/tablet_sign_up_view.dart';
+import 'sign_up_view/web_sign_up_view.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

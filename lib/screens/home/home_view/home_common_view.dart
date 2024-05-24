@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import '../../../config/app_image.dart';
-import '../../../widgets/common_widgets/appbar_view.dart';
 
 class HomeCommonViewScreen extends StatefulWidget {
   const HomeCommonViewScreen({Key? key}) : super(key: key);
@@ -29,7 +28,15 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
       builder: (context, constraints) {
         return Scaffold(
           backgroundColor: AppColors.backgroundColor,
-          appBar: appBarView(title: "Genify"),
+          appBar: AppBar(
+            title: Text(
+              "Genify",
+              style: AppTextStyle.largeTextStyle.copyWith(
+                color: AppColors.whiteColor,
+              ),
+            ),
+            backgroundColor: AppColors.primaryColor,
+          ),
           body: ListView(
             children: [
               Padding(
