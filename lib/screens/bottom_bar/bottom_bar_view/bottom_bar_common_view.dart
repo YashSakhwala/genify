@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/controller/bottom_bar_controller.dart';
+import 'package:genify/screens/calculator/calculator_screen.dart';
+import 'package:genify/screens/expenses/expenses_screen.dart';
 import 'package:genify/screens/home/home_screen.dart';
 import 'package:genify/screens/settings/settings_screen.dart';
 import 'package:get/get.dart';
@@ -18,8 +20,8 @@ class BottomBarCommonView extends StatefulWidget {
 class _BottomBarCommonViewState extends State<BottomBarCommonView> {
   List bottomScreen = [
     HomeScreen(),
-    Center(child: Text("For you")),
-    Center(child: Image.asset(AppImages.blueLogo)),
+    ExpensesScreen(),
+    CalculatorScreen(),
     SettingsScreen(),
   ];
 
@@ -50,7 +52,7 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                         height: 18,
                         color: bottomBarController.index.value == 0
                             ? AppColors.primaryColor
-                            : Colors.black,
+                            : AppColors.blackColor,
                       ),
                     ),
                     Obx(
@@ -60,7 +62,7 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                           fontSize: 12,
                           color: bottomBarController.index.value == 0
                               ? AppColors.primaryColor
-                              : Colors.black,
+                              : AppColors.blackColor,
                         ),
                       ),
                     ),
@@ -82,17 +84,17 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                         height: 18,
                         color: bottomBarController.index.value == 1
                             ? AppColors.primaryColor
-                            : Colors.black,
+                            : AppColors.blackColor,
                       ),
                     ),
                     Obx(
                       () => Text(
-                        "For you",
+                        "Expenses",
                         style: TextStyle(
                           fontSize: 12,
                           color: bottomBarController.index.value == 1
                               ? AppColors.primaryColor
-                              : Colors.black,
+                              : AppColors.blackColor,
                         ),
                       ),
                     ),
@@ -114,17 +116,17 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                         height: 18,
                         color: bottomBarController.index.value == 2
                             ? AppColors.primaryColor
-                            : Colors.black,
+                            : AppColors.blackColor,
                       ),
                     ),
                     Obx(
                       () => Text(
-                        "Calculator",
+                        "Calculators",
                         style: TextStyle(
                           fontSize: 12,
                           color: bottomBarController.index.value == 2
                               ? AppColors.primaryColor
-                              : Colors.black,
+                              : AppColors.blackColor,
                         ),
                       ),
                     ),
@@ -146,7 +148,7 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                         height: 18,
                         color: bottomBarController.index.value == 3
                             ? AppColors.primaryColor
-                            : Colors.black,
+                            : AppColors.blackColor,
                       ),
                     ),
                     Obx(
@@ -156,7 +158,7 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                           fontSize: 12,
                           color: bottomBarController.index.value == 3
                               ? AppColors.primaryColor
-                              : Colors.black,
+                              : AppColors.blackColor,
                         ),
                       ),
                     ),

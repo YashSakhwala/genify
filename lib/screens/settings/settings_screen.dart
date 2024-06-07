@@ -11,7 +11,6 @@ import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/screens/profile/profile_screen.dart';
 import 'package:genify/widgets/common_widgets/alert_dialog_box.dart';
 import 'package:genify/widgets/common_widgets/indicatior.dart';
-import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -129,6 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       style: TextStyle(
                                         color: AppColors.whiteColor,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
                                 ),
@@ -152,20 +152,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     return InkWell(
                       onTap: () async {
                         if (index == 0) {
-                          toastView(
-                            msg: "Nothing..........",
-                            context: context,
-                          );
+                          final Uri _url = Uri.parse(
+                              "https://doc-hosting.flycricket.io/about-us/4b8bf7f0-0c19-438c-9080-182a6ae68b8f/other");
+
+                          if (!await launchUrl(_url)) {
+                            throw Exception("Could not launch $_url");
+                          }
                         } else if (index == 1) {
                           final Uri _url = Uri.parse(
-                              "https://doc-hosting.flycricket.io/quiz-up-privacy-policy/9b5208c7-80bc-4e74-8d1f-796fd7ae4d4b/privacy");
+                              "https://doc-hosting.flycricket.io/genify-privacy-policy/7fc983ea-570d-437c-938d-bf558fcdeff1/privacy");
 
                           if (!await launchUrl(_url)) {
                             throw Exception("Could not launch $_url");
                           }
                         } else if (index == 2) {
                           final Uri _url = Uri.parse(
-                              "https://doc-hosting.flycricket.io/quiz-up-terms-of-use/65b0b200-860c-426e-b052-b3336c078a75/terms");
+                              "https://doc-hosting.flycricket.io/genify-terms-conditions/30c06fca-c5be-4252-9fa6-c76d1e54bbe6/terms");
 
                           if (!await launchUrl(_url)) {
                             throw Exception("Could not launch $_url");

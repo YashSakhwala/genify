@@ -7,6 +7,7 @@ class TextFieldValidation {
     bool isEmailValidator = false,
     bool isPasswordValidator = false,
     bool isPhoneNumberValidator = false,
+    bool isAddressValidator = false,
   }) {
     if (isPhoneNumberValidator == true) {
       if (value!.isEmpty) {
@@ -19,6 +20,8 @@ class TextFieldValidation {
     } else if (value!.isEmpty || !RegExp(r'[A-Za-z0-9]').hasMatch(value)) {
       return "$message is required!";
     } else if (isNameValidator == true) {
+      return "$message is required!";
+    } else if (isAddressValidator == true) {
       return "$message is required!";
     } else if (isEmailValidator == true) {
       if (value.isEmpty) {

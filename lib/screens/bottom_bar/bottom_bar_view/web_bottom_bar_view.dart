@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_image.dart';
+import 'package:genify/screens/expenses/expenses_screen.dart';
 import 'package:genify/screens/home/home_screen.dart';
 import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/bottom_bar_controller.dart';
+import '../../calculator/calculator_screen.dart';
 import '../../settings/settings_screen.dart';
 
 class WebBottomBarScreen extends StatefulWidget {
@@ -28,12 +30,12 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
     {
       "fillIcons": AppImages.blankHand,
       "blankIcons": AppImages.fillHand,
-      "name": "For you"
+      "name": "Expenses"
     },
     {
       "fillIcons": AppImages.blankCalculator,
       "blankIcons": AppImages.fillCalculator,
-      "name": "Calculator"
+      "name": "Calculators"
     },
     {
       "fillIcons": AppImages.blankSettings,
@@ -44,8 +46,8 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
 
   List bottomScreen = [
     HomeScreen(),
-    Center(child: Text("For you")),
-    Center(child: Text("Calculator")),
+    ExpensesScreen(),
+    CalculatorScreen(),
     SettingsScreen(),
   ];
 

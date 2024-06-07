@@ -7,7 +7,6 @@ import 'package:genify/config/app_style.dart';
 import '../../utils/validation.dart';
 
 class TextFieldView extends StatelessWidget {
-  final double? width;
   final String title;
   final TextInputType? keyboardType;
   final String? hintText;
@@ -19,15 +18,21 @@ class TextFieldView extends StatelessWidget {
   final bool emailValidator;
   final bool phoneNoValidator;
   final bool passwordValidator;
+  final bool addressValidator;
   final List<TextInputFormatter>? inputFormatters;
   final InputDecoration? decoration;
   final bool? enabled;
-  
+  final TextAlign? textAlign;
+  final TextStyle? style;
+  final Function(String)? onChanged;
+  final String? labelText;
+  final double? vertical;
+  final double? cursorHeight;
+
   const TextFieldView({
     super.key,
     this.hintText,
     required this.title,
-    this.width,
     this.suffixIcon,
     this.keyboardType,
     this.obscureText = false,
@@ -37,9 +42,16 @@ class TextFieldView extends StatelessWidget {
     this.emailValidator = false,
     this.phoneNoValidator = false,
     this.passwordValidator = false,
+    this.addressValidator = false,
     this.inputFormatters,
     this.decoration,
     this.enabled,
+    this.textAlign,
+    this.style,
+    this.onChanged,
+    this.labelText,
+    this.vertical,
+    this.cursorHeight,
   });
 
   @override
@@ -57,18 +69,22 @@ class TextFieldView extends StatelessWidget {
               ),
         TextFormField(
           controller: controller,
+          onChanged: onChanged,
           obscureText: obscureText!,
           enabled: enabled,
           inputFormatters: inputFormatters,
+          cursorHeight: cursorHeight,
           cursorColor: AppColors.greyColor,
           keyboardType: keyboardType,
           style: enabled == false
-              ? AppTextStyle.regularTextStyle.copyWith(color: AppColors.blackColor)
-              : AppTextStyle.regularTextStyle,
+              ? AppTextStyle.regularTextStyle
+                  .copyWith(color: AppColors.blackColor)
+              : style ?? AppTextStyle.regularTextStyle,
+          textAlign: textAlign ?? TextAlign.justify,
           decoration: decoration?.copyWith(hintText: hintText) ??
               InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                  vertical: 0,
+                  vertical: vertical ?? 0,
                   horizontal: 8,
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -90,6 +106,8 @@ class TextFieldView extends StatelessWidget {
                 hintText: hintText,
                 hintStyle: TextStyle(color: AppColors.greyColor),
                 suffixIcon: suffixIcon,
+                labelText: labelText,
+                labelStyle: TextStyle(color: AppColors.greyColor),
               ),
           validator: needValidator
               ? (value) => TextFieldValidation.validation(
@@ -100,7 +118,7 @@ class TextFieldView extends StatelessWidget {
                     value: value,
                   )
               : null,
-        )
+        ),
       ],
     );
   }

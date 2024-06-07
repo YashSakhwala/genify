@@ -121,7 +121,7 @@ class AuthController extends GetxController {
 
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-      await firebaseFirestore.collection("user").doc(userId).set({
+      await firebaseFirestore.collection("User").doc(userId).set({
         "name": name,
         "email": email,
         "phoneNo": phoneNo,
@@ -153,7 +153,7 @@ class AuthController extends GetxController {
     String? userId =
         LocalStorage.sharedPreferences.getString(LocalStorage.userId);
 
-    var data = await firebaseFirestore.collection("user").doc(userId).get();
+    var data = await firebaseFirestore.collection("User").doc(userId).get();
 
     userData.value = data.data() ?? {};
 
@@ -185,7 +185,7 @@ class AuthController extends GetxController {
       String? userId =
           LocalStorage.sharedPreferences.getString(LocalStorage.userId);
 
-      await firebaseFirestore.collection("user").doc(userId).update({
+      await firebaseFirestore.collection("User").doc(userId).update({
         "name": name,
         "email": email,
         "phoneNo": phoneNo,
@@ -218,7 +218,7 @@ class AuthController extends GetxController {
           if (taskSnapshot.state == TaskState.success) {
             url = await reference.getDownloadURL();
 
-            await firebaseFirestore.collection("user").doc(userId).update({
+            await firebaseFirestore.collection("User").doc(userId).update({
               "image": url,
             });
 
@@ -243,7 +243,7 @@ class AuthController extends GetxController {
         if (taskSnapshot.state == TaskState.success) {
           url = await reference.getDownloadURL();
 
-          await firebaseFirestore.collection("user").doc(userId).update({
+          await firebaseFirestore.collection("User").doc(userId).update({
             "image": url,
           });
 
