@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:genify/widgets/common_widgets/appbar.dart';
 
 import '../../../../config/app_colors.dart';
@@ -116,6 +117,9 @@ class _BMICalculationScreenState extends State<BMICalculationScreen> {
               title: "",
               controller: controller,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+              ],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Enter value",

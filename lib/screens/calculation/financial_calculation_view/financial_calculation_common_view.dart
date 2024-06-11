@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_string_interpolations, sized_box_for_whitespace
 
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "../../../config/app_colors.dart";
 import "../../../config/app_style.dart";
 import "../../../widgets/common_widgets/appbar.dart";
@@ -68,6 +69,9 @@ class _FinancialCalculationCommonViewScreenState
               title: "",
               controller: controller,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+              ],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Enter value",
@@ -351,6 +355,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: investmentController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -382,6 +390,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: investmentInterestController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -514,6 +526,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: principalController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -545,6 +561,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: loanInterestController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -676,6 +696,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: sharePriceController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -707,6 +731,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: annualDividendController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -738,6 +766,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: dividendYieldController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -784,6 +816,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: boughtPriceController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -815,6 +851,10 @@ class _FinancialCalculationCommonViewScreenState
                                 title: "",
                                 controller: currentPriceController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter value",
@@ -847,6 +887,10 @@ class _FinancialCalculationCommonViewScreenState
                                 controller: capitalGainsController,
                                 enabled: false,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                 ),
@@ -874,6 +918,10 @@ class _FinancialCalculationCommonViewScreenState
                                 controller: capitalGainsYieldController,
                                 enabled: false,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                 ),

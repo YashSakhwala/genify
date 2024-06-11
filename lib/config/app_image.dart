@@ -4,6 +4,9 @@ class AppImages {
   static const String whiteLogo = "assets/images/white_logo.png";
   static const String logoBackground = "assets/images/logo_with_background.png";
 
+  static const String empty = "assets/images/empty.png";
+  static const String noInternet = "assets/images/no_wifi.png";
+
   // Auth screen icons
   static const String addImage = "assets/icons/add_image.png";
   static const String openEye = "assets/icons/open_eye.png";
@@ -30,13 +33,8 @@ class AppImages {
   static const String resumeImage = "assets/images/resume_image.png";
 
   // Expenses screen icons
-  static const String empty = "assets/icons/empty.png";
-
-
   static const String income = "assets/icons/income.png";
   static const String expenses = "assets/icons/expense.png";
-
-  static const String attachment = "assets/icons/attachment.png";
 
   // Calculator screen icon
   static const String blankEqual = "assets/icons/blank_equal.png";

@@ -1,43 +1,35 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:genify/config/app_colors.dart';
-import 'package:get/get.dart';
-import '../../../config/app_image.dart';
+import 'package:get/get.dart'; 
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import '../../../config/app_colors.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
+import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/empty_view.dart';
-import '../../add_expenses/add_expenses_screen.dart';
-import '../../add_income/add_income_screen.dart';
-import '../../all_transaction/all_transaction_screen.dart';
 import '../../edit_details/edit_details_screen.dart';
-import '../../show_expenses/show_expenses_screen.dart';
-import '../../show_income/show_income_screen.dart';
 
-class WebExpenesScreen extends StatefulWidget {
-  const WebExpenesScreen({super.key});
+class WebShowExpensesScreen extends StatefulWidget {
+  const WebShowExpensesScreen({super.key});
 
   @override
-  State<WebExpenesScreen> createState() => _WebExpenesScreenState();
+  State<WebShowExpensesScreen> createState() => _WebShowExpensesScreenState();
 }
 
-class _WebExpenesScreenState extends State<WebExpenesScreen> {
+class _WebShowExpensesScreenState extends State<WebShowExpensesScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
 
   String? hoveredIndex;
 
   @override
-  void initState() {
-    Future.microtask(() => transactionController.getTransactionData());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBarView(
+        title: "",
+        automaticallyImplyLeading: false,
+      ),
       body: Obx(
         () => transactionController.isLoader.value == true
             ? Center(
@@ -47,224 +39,86 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.all(30),
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Accont Balance",
-                          style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            color: AppColors.greyColor,
+                padding: const EdgeInsets.all(13),
+                child: transactionController.combinedList.isEmpty
+                    ? Center(child: EmptyView())
+                    : ListView(
+                        children: [
+                          Text(
+                            transactionController.todayExpensesList.isEmpty
+                                ? ""
+                                : "Spend Frequency",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "₹${transactionController.totalAmount.value.toString()}",
-                          style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 33,
-                            fontWeight: FontWeight.w600,
+                          SizedBox(
+                            height:
+                                transactionController.todayExpensesList.isEmpty
+                                    ? 0
+                                    : 13,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ShowIncomeScreen(),
-                                ));
-                              },
-                              child: Container(
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.backgroundColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: Image.asset(AppImages.income),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Income",
-                                              style: AppTextStyle
-                                                  .regularTextStyle
-                                                  .copyWith(
-                                                fontSize: 13,
-                                                color: AppColors.whiteColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              "₹${transactionController.totalIncome.value.toString()}",
-                                              style: AppTextStyle
-                                                  .regularTextStyle
-                                                  .copyWith(
-                                                fontSize: 22,
-                                                color: AppColors.whiteColor,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                          transactionController.todayExpensesList.isEmpty
+                              ? Container()
+                              : Container(
+                                  height: 170,
+                                  child: SfSparkLineChart(
+                                    color: AppColors.primaryColor,
+                                    axisLineColor: AppColors.greyColor,
+                                    axisLineDashArray: [1.5, 7],
+                                    trackball: SparkChartTrackball(
+                                      activationMode:
+                                          SparkChartActivationMode.tap,
+                                      color: AppColors.greyColor,
+                                    ),
+                                    labelDisplayMode:
+                                        SparkChartLabelDisplayMode.all,
+                                    labelStyle: AppTextStyle.smallTextStyle
+                                        .copyWith(fontSize: 10),
+                                    marker: SparkChartMarker(
+                                        displayMode:
+                                            SparkChartMarkerDisplayMode.all),
+                                    data: transactionController
+                                        .expensesAmountsList,
                                   ),
                                 ),
-                              ),
+                          SizedBox(
+                            height:
+                                transactionController.todayExpensesList.isEmpty
+                                    ? 0
+                                    : 20,
+                          ),
+                          Text(
+                            "All expenses",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ShowExpensesScreen(),
-                                ));
-                              },
-                              child: Container(
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.backgroundColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child:
-                                              Image.asset(AppImages.expenses),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Expenses",
-                                              style: AppTextStyle
-                                                  .regularTextStyle
-                                                  .copyWith(
-                                                fontSize: 13,
-                                                color: AppColors.whiteColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              "₹${transactionController.totalExpenses.value.toString()}",
-                                              style: AppTextStyle
-                                                  .regularTextStyle
-                                                  .copyWith(
-                                                fontSize: 22,
-                                                color: AppColors.whiteColor,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Recent Transaction",
-                              style: AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => AllTransactionScreen(),
-                                ));
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                transactionController.expensesEntries.length,
+                            itemBuilder: (context, index) {
+                              List allData = transactionController
+                                  .expensesEntries[index].value;
 
-                                // transactionController.getTransactionData();
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 78,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "See All",
-                                    style:
-                                        AppTextStyle.regularTextStyle.copyWith(
-                                      fontSize: 15,
-                                      color: AppColors.whiteColor,
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text(
+                                      transactionController
+                                          .expensesEntries[index].key,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        transactionController.todayTransactions.isEmpty
-                            ? Center(child: EmptyView())
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: 1,
-                                itemBuilder: (context, index) {
-                                  List allData = transactionController
-                                      .dataEntries[index].value;
-
-                                  return GridView.builder(
+                                  GridView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     gridDelegate:
@@ -564,7 +418,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                 );
                                               },
                                               child: Container(
-                                                margin: EdgeInsets.all(10),
+                                                margin: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   color: AppColors.primaryColor
                                                       .withOpacity(0.06),
@@ -832,83 +686,14 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                         ),
                                       );
                                     },
-                                  );
-                                },
-                              ),
-                      ],
-                    ),
-                  ),
-                ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
               ),
-      ),
-      floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: ExpandableFab(
-        openButtonBuilder: RotateFloatingActionButtonBuilder(
-          child: Icon(
-            Icons.add,
-            size: 37,
-          ),
-          foregroundColor: AppColors.whiteColor,
-          backgroundColor: AppColors.primaryColor,
-          shape: CircleBorder(),
-        ),
-        closeButtonBuilder: RotateFloatingActionButtonBuilder(
-          child: Icon(
-            Icons.add,
-            size: 37,
-          ),
-          foregroundColor: AppColors.whiteColor,
-          backgroundColor: AppColors.primaryColor,
-          shape: CircleBorder(),
-        ),
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddExpensesScreen(),
-              ));
-            },
-            child: Container(
-              height: 55,
-              width: 55,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.redColor,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(13),
-                child: Image.asset(
-                  AppImages.expenses,
-                  color: AppColors.whiteColor,
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => AddIncomeScreen(),
-              );
-            },
-            child: Container(
-              height: 55,
-              width: 55,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.greenColor,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(13),
-                child: Image.asset(
-                  AppImages.income,
-                  color: AppColors.whiteColor,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

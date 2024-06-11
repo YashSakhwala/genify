@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,15 @@ import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
+import 'package:genify/widgets/common_widgets/indicatior.dart';
 import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import "package:universal_html/html.dart" as html;
+
+import '../otp_screen.dart';
 
 class SignUpCommomView extends StatefulWidget {
   const SignUpCommomView({super.key});
@@ -161,6 +165,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             needValidator: true,
             phoneNoValidator: true,
             inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               LengthLimitingTextInputFormatter(10),
             ],
           ),
@@ -220,7 +225,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             height: 55,
           ),
           ButtonView(
-            onTap: () {
+            onTap: () async {
               if (_formKey.currentState!.validate()) {
                 if (password.text != confirmPassword.text) {
                   toastView(
@@ -233,16 +238,37 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     context: context,
                   );
                 } else {
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) => OTPScreen(),
-                  // ));
-                  authController.signUp(
-                    name: name.text,
-                    email: email.text,
-                    phoneNo: phoneNo.text,
-                    password: password.text,
-                    context: context,
+                  showIndicator(context);
+
+                  EmailOTP MyAuth = EmailOTP();
+
+                  MyAuth.setConfig(
+                    appEmail: "yashsakhwala@gmail.com",
+                    appName: "Genify",
+                    userEmail: email.text,
+                    otpLength: 6,
+                    otpType: OTPType.digitsOnly,
                   );
+
+                  await MyAuth.sendOTP();
+
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => OTPScreen(
+                      name: name.text,
+                      email: email.text,
+                      password: password.text,
+                      phoneNo: phoneNo.text,
+                      myAuth: MyAuth,
+                    ),
+                  ));
+
+                  // authController.signUp(
+                  //   name: name.text,
+                  //   email: email.text,
+                  //   phoneNo: phoneNo.text,
+                  //   password: password.text,
+                  //   context: context,
+                  // );
                 }
               }
             },

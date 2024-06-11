@@ -197,22 +197,48 @@ class AuthController extends GetxController {
 
       String url = "";
 
-      if (kIsWeb) {
-        final file = webImageFile.value;
-        if (file != null) {
-          final reader = html.FileReader();
-          reader.readAsDataUrl(file);
+      if (imagePath.value.isNotEmpty) {
+        if (kIsWeb) {
+          final file = webImageFile.value;
+          if (file != null) {
+            final reader = html.FileReader();
+            reader.readAsDataUrl(file);
 
-          await reader.onLoad.first;
-          final encoded = reader.result as String;
-          final data = base64Decode(encoded.split(',').last);
+            await reader.onLoad.first;
+            final encoded = reader.result as String;
+            final data = base64Decode(encoded.split(',').last);
 
+            String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
+            String ext = file.name.split('.').last;
+
+            Reference reference = firebaseStorage.ref("$dateTime.$ext");
+
+            UploadTask uploadTask = reference.putData(data);
+
+            TaskSnapshot taskSnapshot = await uploadTask;
+            if (taskSnapshot.state == TaskState.success) {
+              url = await reference.getDownloadURL();
+
+              await firebaseFirestore.collection("User").doc(userId).update({
+                "image": url,
+              });
+
+              userData["image"] = url;
+            } else {
+              toastView(
+                msg: "File upload failed",
+                context: context,
+              );
+            }
+          }
+        } else {
+          io.File file = io.File(imagePath.value);
           String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
-          String ext = file.name.split('.').last;
+          String ext = imagePath.value.split("/").last.split(".").last;
 
           Reference reference = firebaseStorage.ref("$dateTime.$ext");
 
-          UploadTask uploadTask = reference.putData(data);
+          UploadTask uploadTask = reference.putFile(file);
 
           TaskSnapshot taskSnapshot = await uploadTask;
           if (taskSnapshot.state == TaskState.success) {
@@ -229,30 +255,6 @@ class AuthController extends GetxController {
               context: context,
             );
           }
-        }
-      } else {
-        io.File file = io.File(imagePath.value);
-        String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
-        String ext = imagePath.value.split("/").last.split(".").last;
-
-        Reference reference = firebaseStorage.ref("$dateTime.$ext");
-
-        UploadTask uploadTask = reference.putFile(file);
-
-        TaskSnapshot taskSnapshot = await uploadTask;
-        if (taskSnapshot.state == TaskState.success) {
-          url = await reference.getDownloadURL();
-
-          await firebaseFirestore.collection("User").doc(userId).update({
-            "image": url,
-          });
-
-          userData["image"] = url;
-        } else {
-          toastView(
-            msg: "File upload failed",
-            context: context,
-          );
         }
       }
 

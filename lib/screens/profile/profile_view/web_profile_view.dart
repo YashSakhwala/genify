@@ -359,6 +359,8 @@ class _WebProfileScreenState extends State<WebProfileScreen> {
                               border: InputBorder.none,
                             ),
                             inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             title: "",

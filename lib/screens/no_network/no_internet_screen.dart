@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
 import '../../config/app_colors.dart';
+import '../../config/app_image.dart';
 import '../../config/app_style.dart';
 
 class NoInternetScreen extends StatefulWidget {
@@ -45,10 +45,13 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Lottie.asset(
-                      "assets/lottie/no_internet.json",
-                      height: MediaQuery.of(context).size.height / 5,
+                    child: Image.asset(
+                      AppImages.noInternet,
+                      scale: 4,
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Center(
                     child: Text(

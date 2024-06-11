@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/layout_builder_view.dart';
 import 'show_expenses_view/show_expenses_common_view.dart';
+import 'show_expenses_view/web_show_expenses_view.dart';
 
 class ShowExpensesScreen extends StatefulWidget {
   const ShowExpensesScreen({super.key});
@@ -15,7 +16,7 @@ class _ShowExpensesScreenState extends State<ShowExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilderView(
-      webView: ShowExpensesCommonViewScreen(),
+      webView: WebShowExpensesScreen(),
       tabletView: ShowExpensesCommonViewScreen(),
       mobileView: ShowExpensesCommonViewScreen(),
     );

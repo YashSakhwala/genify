@@ -11,6 +11,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final bool? centerTitle;
   final IconThemeData? iconThemeData;
+  final bool? isAppBar;
 
   const AppBarView({
     super.key,
@@ -20,21 +21,27 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.centerTitle,
     this.iconThemeData,
+    this.isAppBar = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      backgroundColor: backgroundColor ?? AppColors.whiteColor,
-      centerTitle: centerTitle,
-      title: Text(
-        title,
-        style: style ?? AppTextStyle.regularTextStyle,
-      ),
-      iconTheme: iconThemeData ?? IconThemeData(color: AppColors.blackColor),
-    );
+    return title == ""
+        ? Container(
+            height: 0.1,
+          )
+        : AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            backgroundColor: backgroundColor ?? AppColors.whiteColor,
+            centerTitle: centerTitle,
+            title: Text(
+              title,
+              style: style ?? AppTextStyle.regularTextStyle,
+            ),
+            iconTheme:
+                iconThemeData ?? IconThemeData(color: AppColors.blackColor),
+          );
   }
 
   @override

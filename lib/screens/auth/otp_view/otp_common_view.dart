@@ -1,20 +1,40 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_style.dart';
+import '../../../controller/auth_controller.dart';
+import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import 'package:pinput/pinput.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 
 class OTPCommonView extends StatefulWidget {
-  const OTPCommonView({super.key});
+  final String name;
+  final String email;
+  final String phoneNo;
+  final String password;
+  final EmailOTP myAuth;
+
+  const OTPCommonView({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.phoneNo,
+    required this.password,
+    required this.myAuth,
+  });
 
   @override
   State<OTPCommonView> createState() => _OTPCommonViewState();
 }
 
 class _OTPCommonViewState extends State<OTPCommonView> {
+  AuthController authController = Get.put(AuthController());
+
   final TextEditingController pinPutController = TextEditingController();
   final FocusNode pinPutFocusNode = FocusNode();
 
@@ -23,23 +43,13 @@ class _OTPCommonViewState extends State<OTPCommonView> {
     return Scaffold(
       appBar: kIsWeb
           ? null
-          : AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.whiteColor,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              title: Text(
-                "Verification",
-                style: AppTextStyle.largeTextStyle.copyWith(
-                  color: AppColors.whiteColor,
-                ),
+          : AppBarView(
+              title: "Genify",
+              style: AppTextStyle.largeTextStyle.copyWith(
+                color: AppColors.whiteColor,
               ),
               backgroundColor: AppColors.primaryColor,
+              automaticallyImplyLeading: true,
             ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -72,24 +82,27 @@ class _OTPCommonViewState extends State<OTPCommonView> {
             ButtonView(
               height: 50,
               title: "Continue",
-              onTap: () {
-                // var inputOTP = pinPutController.text;
+              onTap: () async {
+                var inputOTP = pinPutController.text;
 
-                // var temp = await widget.myAuth.verifyOTP(
-                //   otp: inputOTP,
-                // );
+                var temp = await widget.myAuth.verifyOTP(
+                  otp: inputOTP,
+                );
 
-                // if (temp == true) {
-                //   authController.signUp(
-                //     name: widget.name,
-                //     email: widget.email,
-                //     password: widget.password,
-                //     phoneNo: widget.phoneNo,
-                //     context: context,
-                //   );
-                // } else {
-                //   toastView(msg: "Please enter valid OTP", context: context,);
-                // }
+                if (temp == true) {
+                  authController.signUp(
+                    name: widget.name,
+                    email: widget.email,
+                    password: widget.password,
+                    phoneNo: widget.phoneNo,
+                    context: context,
+                  );
+                } else {
+                  toastView(
+                    msg: "Please enter valid OTP",
+                    context: context,
+                  );
+                }
               },
             ),
           ],

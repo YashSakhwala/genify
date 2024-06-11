@@ -56,7 +56,7 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
     return Scaffold(
       body: Row(
         children: [
-          Container(
+          Container( 
             width: 240,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -67,7 +67,7 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(13),
-              child: Column(
+              child: ListView(
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

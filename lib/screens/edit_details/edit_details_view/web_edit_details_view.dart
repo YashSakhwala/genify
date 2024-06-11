@@ -1,25 +1,44 @@
-// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../config/app_colors.dart';
-import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
-import '../../../widgets/common_widgets/toast_view.dart';
 import "package:universal_html/html.dart" as html;
 
-class WebAddIncomeScreen extends StatefulWidget {
-  const WebAddIncomeScreen({super.key});
+import '../../../widgets/common_widgets/toast_view.dart';
+
+class WebEditDetailsScreen extends StatefulWidget {
+  final String type;
+  final String amount;
+  final String title;
+  final String subtitle;
+  final String wallet;
+  final String image;
+  final String uniqueTime;
+  const WebEditDetailsScreen({
+    super.key,
+    required this.type,
+    required this.amount,
+    required this.title,
+    required this.subtitle,
+    required this.wallet,
+    required this.image,
+    required this.uniqueTime,
+  });
 
   @override
-  State<WebAddIncomeScreen> createState() => _WebAddIncomeScreenState();
+  State<WebEditDetailsScreen> createState() => _WebEditDetailsScreenState();
 }
 
-class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
+class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
 
@@ -27,7 +46,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
   final TextEditingController title = TextEditingController();
   final TextEditingController subTitle = TextEditingController();
 
-  String wallet = "Google pay";
+  String wallet = "";
   List walletList = [
     "Cash",
     "Google pay",
@@ -42,6 +61,10 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
 
   @override
   void initState() {
+    amount.text = widget.amount;
+    title.text = widget.title;
+    subTitle.text = widget.subtitle;
+    wallet = widget.wallet;
     transactionController.imagePath.value = "";
     super.initState();
   }
@@ -51,7 +74,8 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: Container(
-        color: AppColors.greenColor,
+        color:
+            widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -61,7 +85,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Income",
+                      widget.type == "Income" ? "Income" : "Expenses",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 30,
                         color: AppColors.whiteColor,
@@ -133,52 +157,81 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                html.FileUploadInputElement uploadInput =
-                                    html.FileUploadInputElement();
-                                uploadInput.accept = 'image/*';
-                                uploadInput.click();
+                                if (kIsWeb) {
+                                  html.FileUploadInputElement uploadInput =
+                                      html.FileUploadInputElement();
+                                  uploadInput.accept = 'image/*';
+                                  uploadInput.click();
 
-                                uploadInput.onChange.listen((event) {
-                                  final file = uploadInput.files!.first;
-                                  final reader = html.FileReader();
+                                  uploadInput.onChange.listen((event) {
+                                    final file = uploadInput.files!.first;
+                                    final reader = html.FileReader();
 
-                                  reader.readAsDataUrl(file);
-                                  reader.onLoadEnd.listen((event) {
-                                    transactionController.webImageFile.value =
-                                        file;
-                                    transactionController.imagePath.value =
-                                        reader.result as String;
+                                    reader.readAsDataUrl(file);
+                                    reader.onLoadEnd.listen((event) {
+                                      transactionController.webImageFile.value =
+                                          file;
+                                      transactionController.imagePath.value =
+                                          reader.result as String;
+                                    });
                                   });
-                                });
+                                } else {
+                                  ImagePicker imagePicker = ImagePicker();
+
+                                  XFile? xFile = await imagePicker.pickImage(
+                                      source: ImageSource.gallery);
+
+                                  if (xFile != null && xFile.path.isNotEmpty) {
+                                    transactionController.imagePath.value =
+                                        xFile.path;
+                                  }
+                                }
                               },
                               child: Obx(
-                                () => Container(
-                                  height: 370,
-                                  width: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border:
-                                        Border.all(color: AppColors.greyColor),
-                                    color: AppColors.greyColor.shade300,
-                                    image: DecorationImage(
-                                      image: transactionController
-                                              .imagePath.value.isEmpty
-                                          ? Image.asset(
-                                              AppImages.addImage,
-                                              color:
-                                                  AppColors.greyColor.shade300,
-                                              scale: 15,
-                                            ).image
-                                          : Image.network(
-                                              transactionController
-                                                  .imagePath.value,
-                                            ).image,
-                                      fit: transactionController
-                                              .imagePath.value.isEmpty
-                                          ? BoxFit.scaleDown
-                                          : BoxFit.cover,
+                                () => Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                      strokeWidth: 2,
                                     ),
-                                  ),
+                                    Container(
+                                      height: 370,
+                                      width: 300,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                            color: AppColors.greyColor),
+                                        color: AppColors.greyColor.shade300,
+                                        image: DecorationImage(
+                                          image: transactionController
+                                                  .imagePath.value.isNotEmpty
+                                              ? kIsWeb
+                                                  ? Image.network(
+                                                      transactionController
+                                                          .imagePath.value,
+                                                      height: 160,
+                                                      width: 160,
+                                                      fit: BoxFit.cover,
+                                                    ).image
+                                                  : Image.file(
+                                                      File(transactionController
+                                                          .imagePath.value),
+                                                      height: 160,
+                                                      width: 160,
+                                                      fit: BoxFit.cover,
+                                                    ).image
+                                              : Image.network(
+                                                  widget.image,
+                                                  height: 160,
+                                                  width: 160,
+                                                  fit: BoxFit.cover,
+                                                ).image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -251,7 +304,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                             ),
                             ButtonView(
                               height: 50,
-                              title: "Continue",
+                              title: "Save changes",
                               borderRadius: BorderRadius.circular(16),
                               onTap: () {
                                 if (amount.text.isEmpty ||
@@ -261,14 +314,15 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     msg: "Please enter details",
                                     context: context,
                                   );
-                                } else {
-                                  transactionController.AllTransaction(
+                                }   else {
+                                  transactionController.updateTransactionData(
                                     amount: amount.text,
                                     title: title.text,
                                     subTitle: subTitle.text,
                                     payment: wallet,
+                                    uniqueTime: widget.uniqueTime,
+                                    image: widget.image,
                                     context: context,
-                                    type: "Income",
                                   );
                                 }
                               },

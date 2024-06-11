@@ -1,13 +1,10 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:genify/config/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../config/app_colors.dart';
-import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
 import '../../../widgets/common_widgets/appbar.dart';
@@ -15,15 +12,33 @@ import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import '../../../widgets/common_widgets/toast_view.dart';
 
-class AddIncomeCommonViewScreen extends StatefulWidget {
-  const AddIncomeCommonViewScreen({super.key});
+class EditDetailsCommonViewScreen extends StatefulWidget {
+  final String type;
+  final String amount;
+  final String title;
+  final String subtitle;
+  final String wallet;
+  final String image;
+  final String uniqueTime;
+
+  const EditDetailsCommonViewScreen({
+    super.key,
+    required this.type,
+    required this.amount,
+    required this.title,
+    required this.subtitle,
+    required this.wallet,
+    required this.image,
+    required this.uniqueTime,
+  });
 
   @override
-  State<AddIncomeCommonViewScreen> createState() =>
-      _AddIncomeCommonViewScreenState();
+  State<EditDetailsCommonViewScreen> createState() =>
+      _EditDetailsCommonViewScreenState();
 }
 
-class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
+class _EditDetailsCommonViewScreenState
+    extends State<EditDetailsCommonViewScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
 
@@ -31,7 +46,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
   final TextEditingController title = TextEditingController();
   final TextEditingController subTitle = TextEditingController();
 
-  String wallet = "Google pay";
+  String wallet = "";
   List walletList = [
     "Cash",
     "Google pay",
@@ -46,6 +61,10 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
 
   @override
   void initState() {
+    amount.text = widget.amount;
+    title.text = widget.title;
+    subTitle.text = widget.subtitle;
+    wallet = widget.wallet;
     transactionController.imagePath.value = "";
     super.initState();
   }
@@ -53,9 +72,10 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.greenColor,
+      backgroundColor:
+          widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
       appBar: AppBarView(
-        title: "Income",
+        title: widget.type,
         style: AppTextStyle.regularTextStyle.copyWith(
           fontSize: 17,
           fontWeight: FontWeight.w600,
@@ -63,12 +83,15 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
         ),
         automaticallyImplyLeading: true,
         iconThemeData: IconThemeData(color: AppColors.whiteColor),
-        backgroundColor: AppColors.greenColor,
+        backgroundColor:
+            widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
       ),
       body: ListView(
         children: [
           Container(
-            color: AppColors.greenColor,
+            color: widget.type == "Income"
+                ? AppColors.greenColor
+                : AppColors.redColor,
             height: Get.height / 4,
             child: Padding(
               padding: const EdgeInsets.only(top: 80, left: 30),
@@ -138,33 +161,43 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                       XFile? xFile = await imagePicker.pickImage(
                           source: ImageSource.gallery);
 
-                      if (xFile != null && xFile.path.isNotEmpty) {
-                        transactionController.imagePath.value = xFile.path;
-                      }
+                      transactionController.imagePath.value = xFile!.path;
                     },
                     child: Obx(
-                      () => Container(
-                        height: 120,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.greyColor),
-                          color: AppColors.greyColor.shade300,
-                          image: DecorationImage(
-                            image: transactionController.imagePath.value.isEmpty
-                                ? Image.asset(
-                                    AppImages.addImage,
-                                    color: AppColors.greyColor.shade300,
-                                    scale: 15,
-                                  ).image
-                                : Image.file(
-                                    File(transactionController.imagePath.value),
-                                  ).image,
-                            fit: transactionController.imagePath.value.isEmpty
-                                ? BoxFit.scaleDown
-                                : BoxFit.cover,
+                      () => Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                            strokeWidth: 2,
                           ),
-                        ),
+                          Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppColors.greyColor),
+                              image: DecorationImage(
+                                image: transactionController
+                                        .imagePath.value.isNotEmpty
+                                    ? Image.file(
+                                        File(transactionController
+                                            .imagePath.value),
+                                        height: 120,
+                                        width: 120,
+                                        fit: BoxFit.cover,
+                                      ).image
+                                    : Image.network(
+                                        widget.image,
+                                        height: 120,
+                                        width: 120,
+                                        fit: BoxFit.cover,
+                                      ).image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -226,7 +259,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                   Spacer(),
                   ButtonView(
                     height: 50,
-                    title: "Continue",
+                    title: "Save changes",
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
                       if (amount.text.isEmpty ||
@@ -236,20 +269,15 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                           msg: "Please enter details",
                           context: context,
                         );
-                      } else if (transactionController
-                          .imagePath.value.isEmpty) {
-                        toastView(
-                          msg: "Please select profile image",
-                          context: context,
-                        );
                       } else {
-                        transactionController.AllTransaction(
+                        transactionController.updateTransactionData(
                           amount: amount.text,
                           title: title.text,
                           subTitle: subTitle.text,
                           payment: wallet,
                           context: context,
-                          type: "Income",
+                          image: widget.image,
+                          uniqueTime: widget.uniqueTime,
                         );
                       }
                     },

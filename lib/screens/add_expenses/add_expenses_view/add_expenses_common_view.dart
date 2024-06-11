@@ -63,7 +63,6 @@ class _AddExpensesCommonViewScreenState
         automaticallyImplyLeading: true,
         iconThemeData: IconThemeData(color: AppColors.whiteColor),
         backgroundColor: AppColors.redColor,
-        centerTitle: true,
       ),
       body: ListView(
         children: [
@@ -236,6 +235,12 @@ class _AddExpensesCommonViewScreenState
                           msg: "Please enter details",
                           context: context,
                         );
+                      } else if (transactionController
+                          .imagePath.value.isEmpty) {
+                        toastView(
+                          msg: "Please select profile image",
+                          context: context,
+                        );
                       } else {
                         transactionController.AllTransaction(
                           amount: amount.text,
@@ -243,7 +248,7 @@ class _AddExpensesCommonViewScreenState
                           subTitle: subTitle.text,
                           payment: wallet,
                           context: context,
-                          type: "expenses",
+                          type: "Expenses",
                         );
                       }
                     },

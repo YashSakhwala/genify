@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_style.dart';
@@ -50,6 +51,9 @@ class _DiscountCalculationScreenState extends State<DiscountCalculationScreen> {
               title: "",
               controller: controller,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+              ],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Enter value",
