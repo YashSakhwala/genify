@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_interpolation_to_compose_strings
 
 import 'dart:io';
-import 'package:email_otp/email_otp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +11,13 @@ import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/auth_controller.dart';
 import 'package:genify/screens/auth/login_screen.dart';
 import 'package:genify/widgets/common_widgets/button_view.dart';
-import 'package:genify/widgets/common_widgets/indicatior.dart';
 import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../config/app_image.dart';
+import '../../../widgets/common_widgets/indicatior.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import "package:universal_html/html.dart" as html;
-
-import '../otp_screen.dart';
 
 class SignUpCommomView extends StatefulWidget {
   const SignUpCommomView({super.key});
@@ -37,10 +35,20 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String verificationId = "";
+  bool isLoading = false;
+
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isLoading) {
+        showIndicator(context);
+      }
+    });
+
     return Form(
       key: _formKey,
       child: Column(
@@ -238,36 +246,103 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     context: context,
                   );
                 } else {
-                  showIndicator(context);
+                  // showIndicator(context);
 
-                  EmailOTP MyAuth = EmailOTP();
+                  // EmailOTP MyAuth = EmailOTP();
 
-                  MyAuth.setConfig(
-                    appEmail: "yashsakhwala@gmail.com",
-                    appName: "Genify",
-                    userEmail: email.text,
-                    otpLength: 6,
-                    otpType: OTPType.digitsOnly,
+                  // MyAuth.setConfig(
+                  //   appEmail: "yashsakhwala@gmail.com",
+                  //   appName: "Genify",
+                  //   userEmail: email.text,
+                  //   otpLength: 6,
+                  //   otpType: OTPType.digitsOnly,
+                  // );
+
+                  // bool otpSent = await MyAuth.sendOTP();
+                  // print("OTP sent status: $otpSent");
+
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) => OTPScreen(
+                  // name: name.text,
+                  // email: email.text,
+                  // password: password.text,
+                  // phoneNo: phoneNo.text,
+                  // myAuth: MyAuth,
+                  //   ),
+                  // ));
+
+                  authController.signUp(
+                    name: name.text,
+                    email: email.text,
+                    phoneNo: phoneNo.text,
+                    password: password.text,
+                    context: context,
                   );
 
-                  await MyAuth.sendOTP();
+                  // setState(() {
+                  //   isLoading = true;
+                  // });
 
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => OTPScreen(
-                      name: name.text,
-                      email: email.text,
-                      password: password.text,
-                      phoneNo: phoneNo.text,
-                      myAuth: MyAuth,
-                    ),
-                  ));
+                  // String phoneNumber = phoneNo.text.trim();
+                  // if (!phoneNumber.startsWith("+91")) {
+                  //   phoneNumber = "+91" + phoneNumber;
+                  // }
 
-                  // authController.signUp(
-                  //   name: name.text,
-                  //   email: email.text,
-                  //   phoneNo: phoneNo.text,
-                  //   password: password.text,
-                  //   context: context,
+                  // final PhoneVerificationCompleted verificationCompleted =
+                  //     (PhoneAuthCredential credential) async {
+                  //   await firebaseAuth.signInWithCredential(credential);
+
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // };
+
+                  // final PhoneVerificationFailed verificationFailed =
+                  //     (FirebaseAuthException authException) {
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // };
+
+                  // final PhoneCodeSent codeSent = (String verificationId,
+                  //     [int? forceResendingToken]) async {
+                  //   toastView(
+                  //     msg: "OTP is successfully sent to your mobile number",
+                  //     context: context,
+                  //   );
+
+                  //   setState(() {
+                  //     verificationId = verificationId;
+                  //     isLoading = false;
+                  //   });
+
+                  //   Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => OTPScreen(
+                  //       name: name.text,
+                  //       email: email.text,
+                  //       password: password.text,
+                  //       phoneNo: phoneNo.text,
+                  //       // myAuth: MyAuth,
+                  //       verificationId: verificationId,
+                  //     ),
+                  //   ));
+                  // };
+
+                  // final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+                  //     (String verificationId) {
+                  //   setState(() {
+                  //     verificationId = verificationId;
+                  //     isLoading = false;
+                  //   });
+                  // };
+
+                  // await firebaseAuth.verifyPhoneNumber(
+                  //   phoneNumber: phoneNumber,
+                  //   timeout: Duration(seconds: 60),
+                  //   verificationCompleted: verificationCompleted,
+                  //   verificationFailed: verificationFailed,
+                  //   codeSent: codeSent,
+                  //   codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
                   // );
                 }
               }

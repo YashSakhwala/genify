@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_image.dart';
@@ -12,15 +11,18 @@ class WebOTPScreen extends StatefulWidget {
   final String email;
   final String phoneNo;
   final String password;
-  final EmailOTP myAuth;
+  final String verificationId;
+  // final EmailOTP myAuth;
 
-  const WebOTPScreen(
-      {super.key,
-      required this.name,
-      required this.email,
-      required this.phoneNo,
-      required this.password,
-      required this.myAuth});
+  const WebOTPScreen({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.phoneNo,
+    required this.password,
+    required this.verificationId,
+    // required this.myAuth,
+  });
 
   @override
   State<WebOTPScreen> createState() => _WebOTPScreenState();
@@ -82,7 +84,8 @@ class _WebOTPScreenState extends State<WebOTPScreen> {
                     email: widget.email,
                     password: widget.password,
                     phoneNo: widget.phoneNo,
-                    myAuth: widget.myAuth,
+                    verificationId: widget.verificationId,
+                    // myAuth: widget.myAuth,
                   ),
                 ),
               ),

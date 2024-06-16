@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
-import 'package:genify/screens/home_screen_option/inovice/invoice_screen.dart';
-import 'package:genify/screens/pdf/pdf2_screen.dart';
+import 'package:genify/screens/home_screen_option/banner_screen.dart';
+import 'package:genify/screens/home_screen_option/card_screen.dart';
+import 'package:genify/screens/home_screen_option/resume_screen.dart';
+import 'package:genify/screens/home_screen_option/salary_slip_screen.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/appbar.dart';
+import '../../home_screen_option/invoice_screen.dart';
 
 class HomeCommonViewScreen extends StatefulWidget {
   const HomeCommonViewScreen({Key? key}) : super(key: key);
@@ -17,12 +20,36 @@ class HomeCommonViewScreen extends StatefulWidget {
 
 class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
   List homeTools = [
-    {"name": "Resume", "image": AppImages.resume},
-    {"name": "Invoice", "image": AppImages.invoice},
-    {"name": "Card", "image": AppImages.card},
-    {"name": "Barcode", "image": AppImages.barcode},
-    {"name": "Banner", "image": AppImages.banner},
-    {"name": "Salary slip", "image": AppImages.salary}
+    {
+      "name": "Resume",
+      "image": AppImages.resume,
+      "navigation": ResumeScreen(),
+    },
+    {
+      "name": "Invoice",
+      "image": AppImages.invoice,
+      "navigation": InvoiceScreen(),
+    },
+    {
+      "name": "Card",
+      "image": AppImages.card,
+      "navigation": CardScreen(),
+    },
+    {
+      "name": "Barcode",
+      "image": AppImages.barcode,
+      "navigation": ResumeScreen(),
+    },
+    {
+      "name": "Banner",
+      "image": AppImages.banner,
+      "navigation": BannerScreen(),
+    },
+    {
+      "name": "Salary slip",
+      "image": AppImages.salary,
+      "navigation": SalarySlipScreen(),
+    }
   ];
 
   @override
@@ -54,7 +81,7 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => InvoiceScreen(),
+                          builder: (context) => homeTools[index]["navigation"],
                         ));
                       },
                       child: AnimatedContainer(
@@ -95,27 +122,6 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
                 ),
               ),
             ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PDFSecondScreen(),
-              ));
-
-              // final pdf = pw.Document();
-
-              // pdf.addPage(
-              //   pw.Page(
-              //     pageFormat: PdfPageFormat.a4,
-              //     build: (pw.Context context) {
-              //       return pw.Center(
-              //         child: pw.Text("Hello World"),
-              //       );
-              //     },
-              //   ),
-              // );
-            },
-            child: Icon(Icons.add),
           ),
         );
       },

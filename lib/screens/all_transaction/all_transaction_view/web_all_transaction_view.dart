@@ -591,7 +591,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                       InkWell(
                                                         onTap: () {
                                                           Navigator.of(context)
-                                                              .push(
+                                                              .pushReplacement(
                                                                   MaterialPageRoute(
                                                             builder: (context) =>
                                                                 EditDetailsScreen(

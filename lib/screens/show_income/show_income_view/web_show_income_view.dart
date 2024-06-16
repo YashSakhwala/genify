@@ -592,7 +592,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                       InkWell(
                                                         onTap: () {
                                                           Navigator.of(context)
-                                                              .push(
+                                                              .pushReplacement(
                                                                   MaterialPageRoute(
                                                             builder: (context) =>
                                                                 EditDetailsScreen(

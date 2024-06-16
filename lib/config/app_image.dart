@@ -32,6 +32,11 @@ class AppImages {
 
   static const String resumeImage = "assets/images/resume_image.png";
 
+  // PDF icons
+  static const String location = "assets/icons/location.png";
+  static const String phone = "assets/icons/phone.png";
+  static const String mail = "assets/icons/email.png";
+
   // Expenses screen icons
   static const String income = "assets/icons/income.png";
   static const String expenses = "assets/icons/expense.png";

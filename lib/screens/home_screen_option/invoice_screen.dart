@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:genify/screens/home_screen_option/inovice/invoice_view/invoice_common_view.dart';
-import '../../../widgets/layout_builder_view.dart';
+import '../../widgets/layout_builder_view.dart';
+import 'invoice_view/invoice_common_view.dart';
 
 class InvoiceScreen extends StatefulWidget {
   const InvoiceScreen({super.key});

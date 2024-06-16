@@ -589,7 +589,7 @@ class _WebShowExpensesScreenState extends State<WebShowExpensesScreen> {
                                                       InkWell(
                                                         onTap: () {
                                                           Navigator.of(context)
-                                                              .push(
+                                                              .pushReplacement(
                                                                   MaterialPageRoute(
                                                             builder: (context) =>
                                                                 EditDetailsScreen(

@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import '../../../config/app_image.dart';
+import '../../home_screen_option/banner_screen.dart';
+import '../../home_screen_option/card_screen.dart';
+import '../../home_screen_option/invoice_screen.dart';
+import '../../home_screen_option/resume_screen.dart';
+import '../../home_screen_option/salary_slip_screen.dart';
 
 class WebHomeScreen extends StatefulWidget {
   const WebHomeScreen({Key? key}) : super(key: key);
@@ -14,12 +19,36 @@ class WebHomeScreen extends StatefulWidget {
 
 class _WebHomeScreenState extends State<WebHomeScreen> {
   List homeTools = [
-    {"name": "Resume", "image": AppImages.resume},
-    {"name": "Invoice", "image": AppImages.invoice},
-    {"name": "Card", "image": AppImages.card},
-    {"name": "Barcode", "image": AppImages.barcode},
-    {"name": "Banner", "image": AppImages.banner},
-    {"name": "Salary slip", "image": AppImages.salary}
+    {
+      "name": "Resume",
+      "image": AppImages.resume,
+      "navigation": ResumeScreen(),
+    },
+    {
+      "name": "Invoice",
+      "image": AppImages.invoice,
+      "navigation": InvoiceScreen(),
+    },
+    {
+      "name": "Card",
+      "image": AppImages.card,
+      "navigation": CardScreen(),
+    },
+    {
+      "name": "Barcode",
+      "image": AppImages.barcode,
+      "navigation": ResumeScreen(),
+    },
+    {
+      "name": "Banner",
+      "image": AppImages.banner,
+      "navigation": BannerScreen(),
+    },
+    {
+      "name": "Salary slip",
+      "image": AppImages.salary,
+      "navigation": SalarySlipScreen(),
+    }
   ];
 
   @override
@@ -38,35 +67,42 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
               ),
               itemCount: homeTools.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: AppColors.whiteColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.blackColor.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        homeTools[index]["image"],
-                        height: 70,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Text(
-                          homeTools[index]["name"],
-                          style: AppTextStyle.regularTextStyle,
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => homeTools[index]["navigation"],
+                    ));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppColors.whiteColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.blackColor.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: Offset(0, 3),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          homeTools[index]["image"],
+                          height: 70,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            homeTools[index]["name"],
+                            style: AppTextStyle.regularTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

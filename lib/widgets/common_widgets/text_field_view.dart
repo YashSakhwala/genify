@@ -28,6 +28,8 @@ class TextFieldView extends StatelessWidget {
   final String? labelText;
   final double? vertical;
   final double? cursorHeight;
+  final int? maxLines;
+  final TextStyle? titleStyle;
 
   const TextFieldView({
     super.key,
@@ -52,6 +54,8 @@ class TextFieldView extends StatelessWidget {
     this.labelText,
     this.vertical,
     this.cursorHeight,
+    this.maxLines,
+    this.titleStyle,
   });
 
   @override
@@ -64,12 +68,14 @@ class TextFieldView extends StatelessWidget {
             : Text(
                 title,
                 style: MediaQuery.of(context).size.width >= 900
-                    ? AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
-                    : AppTextStyle.regularTextStyle,
+                    ? titleStyle ??
+                        AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
+                    : titleStyle ?? AppTextStyle.regularTextStyle,
               ),
         TextFormField(
           controller: controller,
           onChanged: onChanged,
+          maxLines: maxLines ?? 1,
           obscureText: obscureText!,
           enabled: enabled,
           inputFormatters: inputFormatters,

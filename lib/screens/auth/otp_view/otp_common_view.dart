@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'package:email_otp/email_otp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +10,7 @@ import '../../../controller/auth_controller.dart';
 import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import 'package:pinput/pinput.dart';
+import '../../../widgets/common_widgets/indicatior.dart';
 import '../../../widgets/common_widgets/toast_view.dart';
 
 class OTPCommonView extends StatefulWidget {
@@ -17,7 +18,8 @@ class OTPCommonView extends StatefulWidget {
   final String email;
   final String phoneNo;
   final String password;
-  final EmailOTP myAuth;
+  final String verificationId;
+  // final EmailOTP myAuth;
 
   const OTPCommonView({
     super.key,
@@ -25,7 +27,8 @@ class OTPCommonView extends StatefulWidget {
     required this.email,
     required this.phoneNo,
     required this.password,
-    required this.myAuth,
+    required this.verificationId,
+    // required this.myAuth,
   });
 
   @override
@@ -38,8 +41,17 @@ class _OTPCommonViewState extends State<OTPCommonView> {
   final TextEditingController pinPutController = TextEditingController();
   final FocusNode pinPutFocusNode = FocusNode();
 
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isLoading) {
+        showIndicator(context);
+      }
+    });
+
     return Scaffold(
       appBar: kIsWeb
           ? null
@@ -50,6 +62,7 @@ class _OTPCommonViewState extends State<OTPCommonView> {
               ),
               backgroundColor: AppColors.primaryColor,
               automaticallyImplyLeading: true,
+              iconThemeData: IconThemeData(color: AppColors.whiteColor),
             ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -58,7 +71,7 @@ class _OTPCommonViewState extends State<OTPCommonView> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                "Please enter the 6-digit OTP sent to your registered email address",
+                "Please enter the 6-digit OTP sent to your registered phone number",
                 style: AppTextStyle.regularTextStyle,
                 textAlign: TextAlign.center,
               ),
@@ -83,13 +96,41 @@ class _OTPCommonViewState extends State<OTPCommonView> {
               height: 50,
               title: "Continue",
               onTap: () async {
-                var inputOTP = pinPutController.text;
+                // var inputOTP = pinPutController.text;
 
-                var temp = await widget.myAuth.verifyOTP(
-                  otp: inputOTP,
+                // var temp = await widget.myAuth.verifyOTP(
+                //   otp: inputOTP,
+                // );
+
+                // if (temp == true) {
+                // authController.signUp(
+                //   name: widget.name,
+                //   email: widget.email,
+                //   password: widget.password,
+                //   phoneNo: widget.phoneNo,
+                //   context: context,
+                // );
+                // } else {
+                //   toastView(
+                //     msg: "Please enter valid OTP",
+                //     context: context,
+                //   );
+                // }
+
+                setState(() {
+                  isLoading = true;
+                });
+
+                String smsCode = pinPutController.text.trim();
+
+                PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                  verificationId: widget.verificationId,
+                  smsCode: smsCode,
                 );
 
-                if (temp == true) {
+                try {
+                  await firebaseAuth.signInWithCredential(credential);
+
                   authController.signUp(
                     name: widget.name,
                     email: widget.email,
@@ -97,11 +138,15 @@ class _OTPCommonViewState extends State<OTPCommonView> {
                     phoneNo: widget.phoneNo,
                     context: context,
                   );
-                } else {
+                } catch (e) {
                   toastView(
-                    msg: "Please enter valid OTP",
+                    msg: "Failed to sign in: $e",
                     context: context,
                   );
+                } finally {
+                  setState(() {
+                    isLoading = false;
+                  });
                 }
               },
             ),

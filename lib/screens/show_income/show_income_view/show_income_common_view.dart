@@ -432,7 +432,7 @@ class _ShowIncomeCommonViewScreenState
                                                   onPressed:
                                                       (BuildContext con) {
                                                     Navigator.of(context)
-                                                        .push(MaterialPageRoute(
+                                                        .pushReplacement(MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditDetailsScreen(
                                                         type: allData[
