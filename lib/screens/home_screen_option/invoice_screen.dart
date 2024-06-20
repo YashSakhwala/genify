@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:genify/screens/home_screen_option/invoice_view/web_invoice_view.dart';
 import '../../widgets/layout_builder_view.dart';
 import 'invoice_view/invoice_common_view.dart';
 
@@ -15,7 +16,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilderView(
-      webView: InvoiceCommonViewScreen(),
+      webView: WebInvoiceScreen(),
       tabletView: InvoiceCommonViewScreen(),
       mobileView: InvoiceCommonViewScreen(),
     );

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/screens/home_screen_option/card_view/card_common_view.dart';
+import 'package:genify/screens/home_screen_option/card_view/web_card_view.dart';
 import '../../widgets/layout_builder_view.dart';
 
 class CardScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _CardScreenState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilderView(
-      webView: CardCommonViewScreen(),
+      webView: WebCardScreen(),
       tabletView: CardCommonViewScreen(),
       mobileView: CardCommonViewScreen(),
     );

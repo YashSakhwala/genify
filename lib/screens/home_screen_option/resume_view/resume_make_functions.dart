@@ -1,8 +1,7 @@
-// ignore_for_file: avoid_init_to_null, use_build_context_synchronously, prefer_const_constructors
+// ignore_for_file: avoid_init_to_null, use_build_context_synchronously, prefer_const_constructors, unused_local_variable
 
 import "dart:convert";
 import "dart:io" as io;
-import "dart:io";
 import "package:external_path/external_path.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -34,6 +33,9 @@ class ResumeMake {
   }) async {
     final pdf = pw.Document();
     pw.MemoryImage? image;
+    pw.MemoryImage? addressIcon;
+    pw.MemoryImage? phoneIcon;
+    pw.MemoryImage? emailIcon;
 
     if (kIsWeb && webImageFile != null) {
       final file = webImageFile!;
@@ -53,446 +55,490 @@ class ResumeMake {
       } catch (e) {
         image = null;
       }
-    } else {
-      image = null;
+    }
+
+    try {
+      addressIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_location.png"))
+            .buffer
+            .asUint8List(),
+      );
+      phoneIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
+      );
+      emailIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
+      );
+    } catch (e) {
+      addressIcon = null;
+      phoneIcon = null;
+      emailIcon = null;
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Expanded(
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Container(
-                  padding: pw.EdgeInsets.all(10),
-                  color: PdfColor.fromHex("#283c5f"),
-                  child: pw.Row(
-                    crossAxisAlignment: pw.CrossAxisAlignment.center,
-                    children: [
-                      pw.Expanded(
-                        child: pw.Column(
-                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Container(
+            color: PdfColor.fromHex("#03335e"),
+            child: pw.Padding(
+              padding: pw.EdgeInsets.all(15),
+              child: pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.center,
+                children: [
+                  pw.Expanded(
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          name,
+                          style: pw.TextStyle(
+                            fontSize: 24,
+                            fontWeight: pw.FontWeight.bold,
+                            color: PdfColor.fromHex("#ffffff"),
+                          ),
+                        ),
+                        pw.SizedBox(
+                          height: 8,
+                        ),
+                        pw.Text(
+                          profession,
+                          style: pw.TextStyle(
+                            fontSize: 16,
+                            color: PdfColor.fromHex("#ffffff"),
+                          ),
+                        ),
+                        pw.SizedBox(
+                          height: 20,
+                        ),
+                        pw.Row(
                           children: [
-                            pw.Text(
-                              name,
-                              style: pw.TextStyle(
-                                fontSize: 24,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#ffffff"),
-                              ),
+                            pw.Image(
+                              addressIcon!,
+                              width: 10,
+                              height: 10,
                             ),
                             pw.SizedBox(
-                              height: 8,
+                              width: 8,
                             ),
-                            pw.Text(
-                              profession,
-                              style: pw.TextStyle(
-                                fontSize: 16,
-                                color: PdfColor.fromHex("#ffffff"),
-                              ),
-                            ),
-                            pw.SizedBox(
-                              height: 20,
-                            ),
-                            pw.RichText(
-                              text: pw.TextSpan(
-                                children: [
-                                  pw.TextSpan(
-                                    text: "Address  ",
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                      fontWeight: pw.FontWeight.bold,
-                                    ),
-                                  ),
-                                  pw.TextSpan(
-                                    text: address,
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            pw.SizedBox(
-                              height: 4,
-                            ),
-                            pw.RichText(
-                              text: pw.TextSpan(
-                                children: [
-                                  pw.TextSpan(
-                                    text: "Phone  ",
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                      fontWeight: pw.FontWeight.bold,
-                                    ),
-                                  ),
-                                  pw.TextSpan(
-                                    text: "+91 $phoneNo",
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            pw.SizedBox(
-                              height: 4,
-                            ),
-                            pw.RichText(
-                              text: pw.TextSpan(
-                                children: [
-                                  pw.TextSpan(
-                                    text: "Email  ",
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                      fontWeight: pw.FontWeight.bold,
-                                    ),
-                                  ),
-                                  pw.TextSpan(
-                                    text: email,
-                                    style: pw.TextStyle(
-                                      color: PdfColor.fromHex("#ffffff"),
-                                    ),
-                                  ),
-                                ],
+                            pw.Expanded(
+                              child: pw.Text(
+                                address,
+                                style: pw.TextStyle(
+                                  fontSize: 10,
+                                  color: PdfColor.fromHex("#ffffff"),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      if (imagePath.isNotEmpty)
-                        pw.Container(
-                          child: pw.Image(
-                            image!,
-                            width: 100,
-                            height: 100,
-                          ),
+                        pw.SizedBox(
+                          height: 4,
                         ),
-                    ],
+                        pw.Row(
+                          children: [
+                            pw.Image(
+                              phoneIcon!,
+                              width: 10,
+                              height: 10,
+                            ),
+                            pw.SizedBox(
+                              width: 8,
+                            ),
+                            pw.Text(
+                              "+91 $phoneNo",
+                              style: pw.TextStyle(
+                                fontSize: 10,
+                                color: PdfColor.fromHex("#ffffff"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        pw.SizedBox(
+                          height: 4,
+                        ),
+                        pw.Row(
+                          children: [
+                            pw.Image(
+                              emailIcon!,
+                              width: 10,
+                              height: 10,
+                            ),
+                            pw.SizedBox(
+                              width: 8,
+                            ),
+                            pw.Text(
+                              email,
+                              style: pw.TextStyle(
+                                fontSize: 10,
+                                color: PdfColor.fromHex("#ffffff"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                pw.SizedBox(
-                  height: 20,
-                ),
-                pw.Row(
+                  if (imagePath.isNotEmpty)
+                    pw.Container(
+                      child: pw.Image(
+                        image!,
+                        width: 120,
+                        height: 120,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          pw.SizedBox(
+            height: 15,
+          ),
+          pw.Row(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Expanded(
+                child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Expanded(
-                      child: pw.Column(
+                    pw.Text(
+                      "Summary",
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
+                    ),
+                    pw.SizedBox(
+                      height: 8,
+                    ),
+                    pw.Text(
+                      aboutMe,
+                      style: pw.TextStyle(
+                        fontSize: 10,
+                      ),
+                      textAlign: pw.TextAlign.justify,
+                    ),
+                    pw.SizedBox(
+                      height: 10,
+                    ),
+                    pw.Container(
+                      height: 1,
+                      color: PdfColor.fromHex("#03335e"),
+                    ),
+                    pw.SizedBox(
+                      height: 10,
+                    ),
+                    if (experience != null && experience.isNotEmpty)
+                      pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
                           pw.Text(
-                            "Summary",
+                            "Experience",
                             style: pw.TextStyle(
                               fontSize: 18,
                               fontWeight: pw.FontWeight.bold,
-                              color: PdfColor.fromHex("#283c5f"),
+                              color: PdfColor.fromHex("#03335e"),
                             ),
                           ),
                           pw.SizedBox(
-                            height: 10,
+                            height: 8,
                           ),
-                          pw.Text(aboutMe),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          pw.Container(
-                            height: 1,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          if (experience != null && experience.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Experience",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...experience.map((exp) {
-                                  final parts = exp.split("\n");
-                                  return pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
-                                        ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
+                          ...experience.map((exp) {
+                            final parts = exp.split("\n");
+                            return pw.Padding(
+                              padding: const pw.EdgeInsets.only(bottom: 8),
+                              child: pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text(
+                                    parts[0],
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
                                     ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          pw.Container(
-                            height: 1,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          if (achivement != null && achivement.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Achivement",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
                                   ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...achivement
-                                    .map((ach) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 6),
-                                          child: pw.Text(ach),
-                                        ))
-                                    .toList(),
-                              ],
-                            ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          pw.Container(
-                            height: 1,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          if (project != null && project.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Projects",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...project.map((proj) {
-                                  final parts = proj.split("\n");
-                                  return pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
-                                        ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
+                                  if (parts.length > 1)
+                                    pw.Text(
+                                      parts[1],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
                                     ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
+                                  if (parts.length > 2)
+                                    pw.Text(
+                                      parts[2],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ],
                       ),
-                    ),
                     pw.SizedBox(
-                      width: 10,
+                      height: 2,
                     ),
-                    pw.Container(
-                      height: 500,
-                      width: 1.5,
-                      color: PdfColor.fromHex("#283c5f"),
-                    ),
+                    if (experience != null && experience.isNotEmpty)
+                      pw.Container(
+                        height: 1,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
                     pw.SizedBox(
-                      width: 10,
+                      height: 10,
                     ),
-                    pw.Expanded(
-                      child: pw.Column(
+                    if (achivement != null && achivement.isNotEmpty)
+                      pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          if (language != null && language.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Languages",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...language
-                                    .map((lang) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 6),
-                                          child: pw.Text(lang),
-                                        ))
-                                    .toList(),
-                              ],
+                          pw.Text(
+                            "Achivement",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
                             ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          pw.Container(
-                            height: 1,
-                            color: PdfColor.fromHex("#283c5f"),
                           ),
                           pw.SizedBox(
-                            height: 15,
+                            height: 8,
                           ),
-                          if (skill != null && skill.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Skills",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...skill
-                                    .map((sk) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 6),
-                                          child: pw.Text(sk),
-                                        ))
-                                    .toList(),
-                              ],
-                            ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          pw.Container(
-                            height: 1,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                          pw.SizedBox(
-                            height: 15,
-                          ),
-                          if (education != null && education.isNotEmpty)
-                            pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Education",
-                                  style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                ...education.map((edu) {
-                                  final parts = edu.split("\n");
-                                  return pw.Padding(
+                          ...achivement
+                              .map((ach) => pw.Padding(
                                     padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
-                                        ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
+                                        const pw.EdgeInsets.only(bottom: 6),
+                                    child: pw.Text(
+                                      ach,
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
                                     ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
+                                  ))
+                              .toList(),
                         ],
                       ),
+                    pw.SizedBox(
+                      height: 14,
                     ),
+                    if (achivement != null && achivement.isNotEmpty)
+                      pw.Container(
+                        height: 1,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
+                    pw.SizedBox(
+                      height: 10,
+                    ),
+                    if (language != null && language.isNotEmpty)
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            "Languages",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 8,
+                          ),
+                          pw.Wrap(
+                            spacing: 20,
+                            children: language
+                                .map((lang) => pw.Container(
+                                      padding:
+                                          const pw.EdgeInsets.only(bottom: 6),
+                                      child: pw.Text(
+                                        lang,
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+              pw.SizedBox(
+                width: 10,
+              ),
+              pw.Container(
+                height: 630,
+                width: 1.5,
+                color: PdfColor.fromHex("#03335e"),
+              ),
+              pw.SizedBox(
+                width: 10,
+              ),
+              pw.Expanded(
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    if (skill != null && skill.isNotEmpty)
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            "Skills",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 8,
+                          ),
+                          pw.Wrap(
+                            spacing: 20,
+                            children: skill
+                                .map((sk) => pw.Container(
+                                      padding:
+                                          const pw.EdgeInsets.only(bottom: 6),
+                                      child: pw.Text(
+                                        sk,
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                    pw.SizedBox(
+                      height: 14,
+                    ),
+                    if (skill != null && skill.isNotEmpty)
+                      pw.Container(
+                        height: 1,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
+                    pw.SizedBox(
+                      height: 10,
+                    ),
+                    if (education != null && education.isNotEmpty)
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            "Education",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 8,
+                          ),
+                          ...education.map((edu) {
+                            final parts = edu.split("\n");
+                            return pw.Padding(
+                              padding: const pw.EdgeInsets.only(bottom: 8),
+                              child: pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text(
+                                    parts[0],
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (parts.length > 1)
+                                    pw.Text(
+                                      parts[1],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  if (parts.length > 2)
+                                    pw.Text(
+                                      parts[2],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    pw.SizedBox(
+                      height: 2,
+                    ),
+                    if (education != null && education.isNotEmpty)
+                      pw.Container(
+                        height: 1,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
+                    pw.SizedBox(
+                      height: 10,
+                    ),
+                    if (project != null && project.isNotEmpty)
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            "Projects",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 8,
+                          ),
+                          ...project.map((proj) {
+                            final parts = proj.split("\n");
+                            return pw.Padding(
+                              padding: const pw.EdgeInsets.only(bottom: 8),
+                              child: pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text(
+                                    parts[0],
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (parts.length > 1)
+                                    pw.Text(
+                                      parts[1],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  if (parts.length > 2)
+                                    pw.Text(
+                                      parts[2],
+                                      style: pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
 
@@ -547,15 +593,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/black_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -564,9 +614,11 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Row(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Row(
             children: [
               pw.Container(
                 width: 200,
@@ -595,7 +647,7 @@ class ResumeMake {
                           child: pw.Container(
                             height: 7,
                             width: 7,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
@@ -604,9 +656,9 @@ class ResumeMake {
                         pw.Text(
                           "Contact",
                           style: pw.TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                       ],
@@ -614,185 +666,209 @@ class ResumeMake {
                     pw.SizedBox(
                       height: 10,
                     ),
-                    if (address.isNotEmpty)
-                      pw.Row(
-                        children: [
-                          pw.SizedBox(
-                            width: 10,
-                          ),
-                          if (addressIcon != null)
-                            pw.Image(
-                              addressIcon,
-                              width: 10,
-                              height: 10,
-                            ),
-                          pw.SizedBox(
-                            width: 8,
-                          ),
-                          pw.Text(
+                    pw.Row(
+                      children: [
+                        pw.SizedBox(
+                          width: 10,
+                        ),
+                        pw.Image(
+                          addressIcon!,
+                          width: 10,
+                          height: 10,
+                        ),
+                        pw.SizedBox(
+                          width: 8,
+                        ),
+                        pw.Expanded(
+                          child: pw.Text(
                             address,
-                          ),
-                        ],
-                      ),
-                    if (phoneNo.isNotEmpty)
-                      pw.SizedBox(
-                        height: 4,
-                      ),
-                    if (phoneNo.isNotEmpty)
-                      pw.Row(
-                        children: [
-                          pw.SizedBox(
-                            width: 10,
-                          ),
-                          if (phoneIcon != null)
-                            pw.Image(
-                              phoneIcon,
-                              width: 10,
-                              height: 10,
-                            ),
-                          pw.SizedBox(
-                            width: 8,
-                          ),
-                          pw.Text(
-                            "+91 $phoneNo",
-                          ),
-                        ],
-                      ),
-                    if (email.isNotEmpty)
-                      pw.SizedBox(
-                        height: 4,
-                      ),
-                    if (email.isNotEmpty)
-                      pw.Row(
-                        children: [
-                          pw.SizedBox(
-                            width: 10,
-                          ),
-                          if (emailIcon != null)
-                            pw.Image(
-                              emailIcon,
-                              width: 10,
-                              height: 10,
-                            ),
-                          pw.SizedBox(
-                            width: 8,
-                          ),
-                          pw.Text(
-                            email,
-                          ),
-                        ],
-                      ),
-                    if (skill != null && skill.isNotEmpty)
-                      pw.SizedBox(
-                        height: 20,
-                      ),
-                    if (skill != null && skill.isNotEmpty)
-                      pw.Row(
-                        children: [
-                          pw.ClipOval(
-                            child: pw.Container(
-                              height: 7,
-                              width: 7,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                          ),
-                          pw.SizedBox(
-                            width: 12,
-                          ),
-                          pw.Text(
-                            "Skills",
                             style: pw.TextStyle(
-                              fontSize: 20,
-                              fontWeight: pw.FontWeight.bold,
-                              color: PdfColor.fromHex("#283c5f"),
+                              fontSize: 10,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
+                    pw.SizedBox(
+                      height: 4,
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.SizedBox(
+                          width: 10,
+                        ),
+                        pw.Image(
+                          phoneIcon!,
+                          width: 10,
+                          height: 10,
+                        ),
+                        pw.SizedBox(
+                          width: 8,
+                        ),
+                        pw.Text(
+                          "+91 $phoneNo",
+                          style: pw.TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.SizedBox(
+                      height: 4,
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.SizedBox(
+                          width: 10,
+                        ),
+                        pw.Image(
+                          emailIcon!,
+                          width: 10,
+                          height: 10,
+                        ),
+                        pw.SizedBox(
+                          width: 8,
+                        ),
+                        pw.Text(
+                          email,
+                          style: pw.TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
                     if (skill != null && skill.isNotEmpty)
-                      pw.SizedBox(
-                        height: 10,
-                      ),
-                    if (skill != null)
-                      ...skill.map((sk) => pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 6),
-                            child: pw.Text(sk),
-                          )),
-                    if (achivement != null && achivement.isNotEmpty)
-                      pw.SizedBox(
-                        height: 20,
-                      ),
-                    if (achivement != null && achivement.isNotEmpty)
-                      pw.Row(
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          pw.ClipOval(
-                            child: pw.Container(
-                              height: 7,
-                              width: 7,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
+                          pw.SizedBox(
+                            height: 20,
+                          ),
+                          pw.Row(
+                            children: [
+                              pw.ClipOval(
+                                child: pw.Container(
+                                  height: 7,
+                                  width: 7,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                width: 12,
+                              ),
+                              pw.Text(
+                                "Skills",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                            ],
                           ),
                           pw.SizedBox(
-                            width: 12,
+                            height: 10,
                           ),
-                          pw.Text(
-                            "Achievements",
-                            style: pw.TextStyle(
-                              fontSize: 20,
-                              fontWeight: pw.FontWeight.bold,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                          ),
+                          ...skill.map((sk) => pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 6),
+                                child: pw.Text(
+                                  sk,
+                                  style: pw.TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )),
                         ],
                       ),
                     if (achivement != null && achivement.isNotEmpty)
-                      pw.SizedBox(
-                        height: 10,
-                      ),
-                    if (achivement != null)
-                      ...achivement.map((ach) => pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 6),
-                            child: pw.Text(ach),
-                          )),
-                    if (language != null && language.isNotEmpty)
-                      pw.SizedBox(
-                        height: 20,
-                      ),
-                    if (language != null && language.isNotEmpty)
-                      pw.Row(
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          pw.ClipOval(
-                            child: pw.Container(
-                              height: 7,
-                              width: 7,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
+                          pw.SizedBox(
+                            height: 14,
+                          ),
+                          pw.Row(
+                            children: [
+                              pw.ClipOval(
+                                child: pw.Container(
+                                  height: 7,
+                                  width: 7,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                width: 12,
+                              ),
+                              pw.Text(
+                                "Achievements",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                            ],
                           ),
                           pw.SizedBox(
-                            width: 12,
+                            height: 10,
                           ),
-                          pw.Text(
-                            "Languages",
-                            style: pw.TextStyle(
-                              fontSize: 20,
-                              fontWeight: pw.FontWeight.bold,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                          ),
+                          ...achivement.map((ach) => pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 6),
+                                child: pw.Text(
+                                  ach,
+                                  style: pw.TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )),
                         ],
                       ),
                     if (language != null && language.isNotEmpty)
-                      pw.SizedBox(
-                        height: 10,
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.SizedBox(
+                            height: 14,
+                          ),
+                          pw.Row(
+                            children: [
+                              pw.ClipOval(
+                                child: pw.Container(
+                                  height: 7,
+                                  width: 7,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                width: 12,
+                              ),
+                              pw.Text(
+                                "Languages",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                            ],
+                          ),
+                          pw.SizedBox(
+                            height: 10,
+                          ),
+                          ...language.map((lang) => pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 6),
+                                child: pw.Text(
+                                  lang,
+                                  style: pw.TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )),
+                        ],
                       ),
-                    if (language != null)
-                      ...language.map((lang) => pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 6),
-                            child: pw.Text(lang),
-                          )),
                   ],
                 ),
               ),
@@ -820,205 +896,221 @@ class ResumeMake {
                       pw.SizedBox(
                         height: 30,
                       ),
-                      pw.Text(aboutMe),
-                      pw.SizedBox(
-                        height: 20,
+                      pw.Text(
+                        aboutMe,
+                        style: pw.TextStyle(
+                          fontSize: 10,
+                        ),
+                        textAlign: pw.TextAlign.justify,
                       ),
                       if (experience != null && experience.isNotEmpty)
-                        pw.Row(
+                        pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.ClipOval(
-                              child: pw.Container(
-                                height: 7,
-                                width: 7,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
                             pw.SizedBox(
-                              width: 12,
+                              height: 20,
                             ),
-                            pw.Text(
-                              "Professional Experience",
-                              style: pw.TextStyle(
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      if (experience != null && experience.isNotEmpty)
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                      if (experience != null)
-                        ...experience.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            pw.Row(
                               children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                                pw.ClipOval(
+                                  child: pw.Container(
+                                    height: 7,
+                                    width: 7,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                                pw.SizedBox(
+                                  width: 12,
+                                ),
+                                pw.Text(
+                                  "Professional Experience",
+                                  style: pw.TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: pw.FontWeight.bold,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
+                                ),
                               ],
                             ),
-                          );
-                        }).toList(),
-                      if (education != null && education.isNotEmpty)
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                      if (education != null && education.isNotEmpty)
-                        pw.Row(
-                          children: [
-                            pw.ClipOval(
-                              child: pw.Container(
-                                height: 7,
-                                width: 7,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
                             pw.SizedBox(
-                              width: 12,
+                              height: 10,
                             ),
-                            pw.Text(
-                              "Education",
-                              style: pw.TextStyle(
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
+                            ...experience.map((exp) {
+                              final parts = exp.split("\n");
+                              return pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 8),
+                                child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text(
+                                      parts[0],
+                                      style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (parts.length > 1)
+                                      pw.Text(
+                                        parts[1],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    if (parts.length > 2)
+                                      pw.Text(
+                                        parts[2],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           ],
                         ),
                       if (education != null && education.isNotEmpty)
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                      if (education != null)
-                        ...education.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.SizedBox(
+                              height: 12,
+                            ),
+                            pw.Row(
                               children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                                pw.ClipOval(
+                                  child: pw.Container(
+                                    height: 7,
+                                    width: 7,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                                pw.SizedBox(
+                                  width: 12,
+                                ),
+                                pw.Text(
+                                  "Education",
+                                  style: pw.TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: pw.FontWeight.bold,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
+                                ),
                               ],
                             ),
-                          );
-                        }).toList(),
-                      if (project != null && project.isNotEmpty)
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                      if (project != null && project.isNotEmpty)
-                        pw.Row(
-                          children: [
-                            pw.ClipOval(
-                              child: pw.Container(
-                                height: 7,
-                                width: 7,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
                             pw.SizedBox(
-                              width: 12,
+                              height: 10,
                             ),
-                            pw.Text(
-                              "Projects",
-                              style: pw.TextStyle(
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
-                              ),
-                            ),
+                            ...education.map((edu) {
+                              final parts = edu.split("\n");
+                              return pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 8),
+                                child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text(
+                                      parts[0],
+                                      style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (parts.length > 1)
+                                      pw.Text(
+                                        parts[1],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    if (parts.length > 2)
+                                      pw.Text(
+                                        parts[2],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           ],
                         ),
                       if (project != null && project.isNotEmpty)
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                      if (project != null)
-                        ...project.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding:
-                                const pw.EdgeInsets.only(left: 10, bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.SizedBox(
+                              height: 12,
+                            ),
+                            pw.Row(
                               children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                                pw.ClipOval(
+                                  child: pw.Container(
+                                    height: 7,
+                                    width: 7,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                                pw.SizedBox(
+                                  width: 12,
+                                ),
+                                pw.Text(
+                                  "Projects",
+                                  style: pw.TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: pw.FontWeight.bold,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
+                                ),
                               ],
                             ),
-                          );
-                        }).toList(),
+                            pw.SizedBox(
+                              height: 10,
+                            ),
+                            ...project.map((proj) {
+                              final parts = proj.split("\n");
+                              return pw.Padding(
+                                padding: const pw.EdgeInsets.only(
+                                    left: 10, bottom: 8),
+                                child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text(
+                                      parts[0],
+                                      style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (parts.length > 1)
+                                      pw.Text(
+                                        parts[1],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    if (parts.length > 2)
+                                      pw.Text(
+                                        parts[2],
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
                     ],
                   ),
                 ),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -1073,15 +1165,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/black_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -1090,20 +1186,22 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Stack(
                 children: [
                   pw.Container(
-                    height: 150,
+                    height: 140,
                     width: 170,
                   ),
                   pw.Container(
                     height: 110,
                     width: double.infinity,
-                    color: PdfColor.fromHex("#283c5f"),
+                    color: PdfColor.fromHex("#03335e"),
                     child: pw.Padding(
                       padding: pw.EdgeInsets.only(left: 185),
                       child: pw.Expanded(
@@ -1136,7 +1234,7 @@ class ResumeMake {
                   ),
                   if (image != null)
                     pw.Positioned(
-                      top: 30,
+                      top: 20,
                       left: 40,
                       child: pw.ClipOval(
                         child: pw.Container(
@@ -1158,27 +1256,24 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.SizedBox(
-                          height: 20,
-                        ),
                         pw.Text(
                           "Contact",
                           style: pw.TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
-                          height: 9,
+                          height: 5,
                         ),
                         pw.Container(
                           height: 1.5,
                           width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
+                          color: PdfColor.fromHex("#03335e"),
                         ),
                         pw.SizedBox(
-                          height: 9,
+                          height: 5,
                         ),
                         pw.Row(
                           children: [
@@ -1192,6 +1287,9 @@ class ResumeMake {
                             ),
                             pw.Text(
                               email,
+                              style: pw.TextStyle(
+                                fontSize: 10,
+                              ),
                             ),
                           ],
                         ),
@@ -1210,6 +1308,9 @@ class ResumeMake {
                             ),
                             pw.Text(
                               "+91 $phoneNo",
+                              style: pw.TextStyle(
+                                fontSize: 10,
+                              ),
                             ),
                           ],
                         ),
@@ -1226,397 +1327,470 @@ class ResumeMake {
                             pw.SizedBox(
                               width: 8,
                             ),
-                            pw.Text(
-                              address,
+                            pw.Expanded(
+                              child: pw.Text(
+                                address,
+                                style: pw.TextStyle(
+                                  fontSize: 10,
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Skills",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...skill!
-                            .map((sk) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#283c5f"),
-                                        ),
-                                      ),
-                                      pw.SizedBox(
-                                        width: 8,
-                                      ),
-                                      pw.Text(sk),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Languages",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...language!
-                            .map((lang) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#283c5f"),
-                                        ),
-                                      ),
-                                      pw.SizedBox(
-                                        width: 8,
-                                      ),
-                                      pw.Text(lang),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Education",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...education!.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 20,
+                              ),
+                              pw.Text(
+                                "Skills",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...skill
+                                  .map((sk) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#03335e"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Text(
+                                              sk,
+                                              style: pw.TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
+                        if (language != null && language.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Languages",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...language
+                                  .map((lang) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#03335e"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Text(
+                                              lang,
+                                              style: pw.TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Education",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...education.map((edu) {
+                                final parts = edu.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
-                                        ),
-                                      ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
                                           ),
-                                        ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                      ],
-                    ),
-                  ),
-                  pw.SizedBox(width: 15),
-                  pw.Expanded(
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Text(
-                          "About Me",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Text(aboutMe),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Experience",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...experience!.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.start,
-                                    children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
-                                        ),
-                                      ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Achievements",
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...achivement!
-                            .map((ach) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#283c5f"),
                                         ),
                                       ),
                                       pw.SizedBox(
                                         width: 8,
                                       ),
                                       pw.Expanded(
-                                        child: pw.Text(ach),
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
+                                );
+                              }).toList(),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+                  pw.SizedBox(
+                    width: 10,
+                  ),
+                  pw.Expanded(
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
                         pw.Text(
-                          "Projects",
+                          "Summary",
                           style: pw.TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
-                          height: 9,
+                          height: 5,
                         ),
                         pw.Container(
                           height: 1.5,
                           width: 70,
-                          color: PdfColor.fromHex("#283c5f"),
+                          color: PdfColor.fromHex("#03335e"),
                         ),
                         pw.SizedBox(
-                          height: 9,
+                          height: 5,
                         ),
-                        ...project!.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        pw.Text(
+                          aboutMe,
+                          style: pw.TextStyle(
+                            fontSize: 10,
+                          ),
+                          textAlign: pw.TextAlign.justify,
+                        ),
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 20,
+                              ),
+                              pw.Text(
+                                "Experience",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...experience.map((exp) {
+                                final parts = exp.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
+                                );
+                              }).toList(),
+                            ],
+                          ),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "Achievements",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...achivement
+                                  .map((ach) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#03335e"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Expanded(
+                                              child: pw.Text(
+                                                ach,
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Projects",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                width: 70,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              ...project.map((proj) {
+                                final parts = proj.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -1671,15 +1845,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/white_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -1688,15 +1866,17 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Container(
-                color: PdfColor.fromHex("#283c5f"),
+                color: PdfColor.fromHex("#03335e"),
                 child: pw.Padding(
                   padding:
-                      pw.EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      pw.EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   child: pw.Row(
                     children: [
                       if (image != null)
@@ -1727,7 +1907,7 @@ class ResumeMake {
                           pw.Text(
                             profession,
                             style: pw.TextStyle(
-                              fontSize: 15,
+                              fontSize: 12,
                               fontWeight: pw.FontWeight.bold,
                               color: PdfColor.fromHex("#ffffff"),
                             ),
@@ -1748,32 +1928,14 @@ class ResumeMake {
                               pw.Text(
                                 email,
                                 style: pw.TextStyle(
-                                  fontSize: 12,
-                                  color: PdfColor.fromHex("#ffffff"),
-                                ),
-                              ),
-                              pw.SizedBox(
-                                width: 20,
-                              ),
-                              pw.Image(
-                                addressIcon!,
-                                width: 10,
-                                height: 10,
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                address,
-                                style: pw.TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 10,
                                   color: PdfColor.fromHex("#ffffff"),
                                 ),
                               ),
                             ],
                           ),
                           pw.SizedBox(
-                            height: 8,
+                            height: 5,
                           ),
                           pw.Row(
                             children: [
@@ -1788,9 +1950,32 @@ class ResumeMake {
                               pw.Text(
                                 "+91 $phoneNo",
                                 style: pw.TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 10,
                                   color: PdfColor.fromHex("#ffffff"),
                                 ),
+                              ),
+                            ],
+                          ),
+                          pw.SizedBox(
+                            height: 5,
+                          ),
+                          pw.Row(
+                            children: [
+                              pw.Image(
+                                addressIcon!,
+                                width: 10,
+                                height: 10,
+                              ),
+                              pw.SizedBox(
+                                width: 7,
+                              ),
+                              pw.Text(
+                                address,
+                                style: pw.TextStyle(
+                                  fontSize: 10,
+                                  color: PdfColor.fromHex("#ffffff"),
+                                ),
+                                textAlign: pw.TextAlign.justify,
                               ),
                             ],
                           ),
@@ -1801,7 +1986,7 @@ class ResumeMake {
                 ),
               ),
               pw.SizedBox(
-                height: 20,
+                height: 10,
               ),
               pw.Row(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -1815,7 +2000,7 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
@@ -1823,116 +2008,136 @@ class ResumeMake {
                         ),
                         pw.Container(
                           height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
+                          color: PdfColor.fromHex("#03335e"),
                         ),
                         pw.SizedBox(
                           height: 9,
-                        ),
-                        pw.Text(aboutMe),
-                        pw.SizedBox(
-                          height: 20,
                         ),
                         pw.Text(
-                          "Education",
+                          aboutMe,
                           style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                            fontSize: 10,
                           ),
+                          textAlign: pw.TextAlign.justify,
                         ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...education!.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 20,
+                              ),
+                              pw.Text(
+                                "Education",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              ...education.map((edu) {
+                                final parts = edu.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Work Experience",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...experience!.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "Work Experience",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              ...experience.map((exp) {
+                                final parts = exp.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -1940,9 +2145,9 @@ class ResumeMake {
                     width: 10,
                   ),
                   pw.Container(
-                    height: 500,
+                    height: 630,
                     width: 1.5,
-                    color: PdfColor.fromHex("#283c5f"),
+                    color: PdfColor.fromHex("#03335e"),
                   ),
                   pw.SizedBox(
                     width: 10,
@@ -1951,154 +2156,194 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Text(
-                          "Languages",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: language!
-                              .map((lang) => pw.Container(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(lang),
-                                  ))
-                              .toList(),
-                        ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Skills",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: skill!
-                              .map((sk) => pw.Container(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(sk),
-                                  ))
-                              .toList(),
-                        ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Achievements",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...achivement!
-                            .map((ach) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Text(ach),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Projects",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#283c5f"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        pw.Container(
-                          height: 1.5,
-                          color: PdfColor.fromHex("#283c5f"),
-                        ),
-                        pw.SizedBox(
-                          height: 9,
-                        ),
-                        ...project!.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
+                        if (language != null && language.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Text(
+                                "Languages",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Wrap(
+                                spacing: 20,
+                                children: language
+                                    .map((lang) => pw.Container(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            lang,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Skills",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Wrap(
+                                spacing: 20,
+                                runSpacing: 10,
+                                children: skill
+                                    .map((sk) => pw.Container(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            sk,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Achievements",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              ...achivement
+                                  .map((ach) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Text(
+                                          ach,
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Projects",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              pw.Container(
+                                height: 1.5,
+                                color: PdfColor.fromHex("#03335e"),
+                              ),
+                              pw.SizedBox(
+                                height: 9,
+                              ),
+                              ...project.map((proj) {
+                                final parts = proj.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -2110,6 +2355,7 @@ class ResumeMake {
     );
   }
 
+// ----------- UI is not properly
   static void function5({
     required String name,
     required String profession,
@@ -2153,15 +2399,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/black_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -2170,9 +2420,11 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Stack(
                 children: [
@@ -2185,7 +2437,7 @@ class ResumeMake {
                     width: 250,
                     decoration: pw.BoxDecoration(
                       borderRadius: pw.BorderRadius.circular(7),
-                      color: PdfColor.fromHex("#283c5f"),
+                      color: PdfColor.fromHex("#03335e"),
                     ),
                     child: pw.Padding(
                       padding: pw.EdgeInsets.all(15),
@@ -2220,6 +2472,7 @@ class ResumeMake {
                                 fontSize: 10,
                                 color: PdfColor.fromHex("#ffffff"),
                               ),
+                              textAlign: pw.TextAlign.justify,
                             ),
                           ),
                         ],
@@ -2233,7 +2486,7 @@ class ResumeMake {
                       child: pw.Container(
                         decoration: pw.BoxDecoration(
                           border: pw.Border.all(
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                             width: 4,
                           ),
                           borderRadius: pw.BorderRadius.circular(7),
@@ -2259,6 +2512,7 @@ class ResumeMake {
                         crossAxisAlignment: pw.CrossAxisAlignment.end,
                         children: [
                           pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.end,
                             children: [
                               pw.Text(
                                 email,
@@ -2280,6 +2534,7 @@ class ResumeMake {
                             height: 10,
                           ),
                           pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.end,
                             children: [
                               pw.Text(
                                 "+91 $phoneNo",
@@ -2301,6 +2556,7 @@ class ResumeMake {
                             height: 10,
                           ),
                           pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.end,
                             children: [
                               pw.Text(
                                 address,
@@ -2340,7 +2596,7 @@ class ResumeMake {
                                 width: 15,
                                 decoration: pw.BoxDecoration(
                                   borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
                               ),
                               pw.SizedBox(
@@ -2351,7 +2607,7 @@ class ResumeMake {
                                 style: pw.TextStyle(
                                   fontSize: 18,
                                   fontWeight: pw.FontWeight.bold,
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
                               ),
                             ],
@@ -2391,7 +2647,7 @@ class ResumeMake {
                             );
                           }).toList(),
                           pw.SizedBox(
-                            height: 20,
+                            height: 12,
                           ),
                           pw.Row(
                             children: [
@@ -2400,7 +2656,7 @@ class ResumeMake {
                                 width: 15,
                                 decoration: pw.BoxDecoration(
                                   borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
                               ),
                               pw.SizedBox(
@@ -2411,7 +2667,7 @@ class ResumeMake {
                                 style: pw.TextStyle(
                                   fontSize: 18,
                                   fontWeight: pw.FontWeight.bold,
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
                               ),
                             ],
@@ -2456,7 +2712,6 @@ class ResumeMake {
                   ),
                   pw.Expanded(
                     child: pw.Container(
-                      height: 500,
                       decoration: pw.BoxDecoration(
                         borderRadius: pw.BorderRadius.circular(8),
                         color: PdfColor.fromHex("#CECECE"),
@@ -2473,7 +2728,7 @@ class ResumeMake {
                                   width: 15,
                                   decoration: pw.BoxDecoration(
                                     borderRadius: pw.BorderRadius.circular(5),
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                                 pw.SizedBox(
@@ -2484,7 +2739,7 @@ class ResumeMake {
                                   style: pw.TextStyle(
                                     fontSize: 18,
                                     fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                               ],
@@ -2499,12 +2754,17 @@ class ResumeMake {
                                   .map((sk) => pw.Container(
                                         padding:
                                             const pw.EdgeInsets.only(bottom: 6),
-                                        child: pw.Text(sk),
+                                        child: pw.Text(
+                                          sk,
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
                                       ))
                                   .toList(),
                             ),
                             pw.SizedBox(
-                              height: 20,
+                              height: 14,
                             ),
                             pw.Row(
                               children: [
@@ -2513,7 +2773,7 @@ class ResumeMake {
                                   width: 15,
                                   decoration: pw.BoxDecoration(
                                     borderRadius: pw.BorderRadius.circular(5),
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                                 pw.SizedBox(
@@ -2524,7 +2784,7 @@ class ResumeMake {
                                   style: pw.TextStyle(
                                     fontSize: 18,
                                     fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                               ],
@@ -2565,7 +2825,7 @@ class ResumeMake {
                               );
                             }).toList(),
                             pw.SizedBox(
-                              height: 20,
+                              height: 12,
                             ),
                             pw.Row(
                               children: [
@@ -2574,7 +2834,7 @@ class ResumeMake {
                                   width: 15,
                                   decoration: pw.BoxDecoration(
                                     borderRadius: pw.BorderRadius.circular(5),
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                                 pw.SizedBox(
@@ -2585,7 +2845,7 @@ class ResumeMake {
                                   style: pw.TextStyle(
                                     fontSize: 18,
                                     fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                               ],
@@ -2597,11 +2857,16 @@ class ResumeMake {
                                 .map((ach) => pw.Padding(
                                       padding:
                                           const pw.EdgeInsets.only(bottom: 6),
-                                      child: pw.Text(ach),
+                                      child: pw.Text(
+                                        ach,
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
                                     ))
                                 .toList(),
                             pw.SizedBox(
-                              height: 20,
+                              height: 14,
                             ),
                             pw.Row(
                               children: [
@@ -2610,7 +2875,7 @@ class ResumeMake {
                                   width: 15,
                                   decoration: pw.BoxDecoration(
                                     borderRadius: pw.BorderRadius.circular(5),
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                                 pw.SizedBox(
@@ -2621,7 +2886,7 @@ class ResumeMake {
                                   style: pw.TextStyle(
                                     fontSize: 18,
                                     fontWeight: pw.FontWeight.bold,
-                                    color: PdfColor.fromHex("#283c5f"),
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
                                 ),
                               ],
@@ -2636,7 +2901,12 @@ class ResumeMake {
                                   .map((lang) => pw.Container(
                                         padding:
                                             const pw.EdgeInsets.only(bottom: 6),
-                                        child: pw.Text(lang),
+                                        child: pw.Text(
+                                          lang,
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
                                       ))
                                   .toList(),
                             ),
@@ -2648,8 +2918,8 @@ class ResumeMake {
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -2678,6 +2948,9 @@ class ResumeMake {
   }) async {
     final pdf = pw.Document();
     pw.MemoryImage? image;
+    pw.MemoryImage? addressIcon;
+    pw.MemoryImage? phoneIcon;
+    pw.MemoryImage? emailIcon;
 
     if (kIsWeb && webImageFile != null) {
       final file = webImageFile!;
@@ -2697,18 +2970,40 @@ class ResumeMake {
       } catch (e) {
         image = null;
       }
-    } else {
-      image = null;
+    }
+
+    try {
+      addressIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_location.png"))
+            .buffer
+            .asUint8List(),
+      );
+      phoneIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
+      );
+      emailIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
+      );
+    } catch (e) {
+      addressIcon = null;
+      phoneIcon = null;
+      emailIcon = null;
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Row(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Row(
             children: [
               pw.Expanded(
                 child: pw.Container(
-                  color: PdfColor.fromHex("#ECEBDE"),
+                  color: PdfColor.fromHex("#CECECE"),
                   child: pw.Padding(
                     padding: pw.EdgeInsets.all(17),
                     child: pw.Column(
@@ -2719,7 +3014,7 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 25,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
@@ -2730,7 +3025,7 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
                         pw.SizedBox(
@@ -2741,87 +3036,104 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 10,
                           ),
+                          textAlign: pw.TextAlign.justify,
                         ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "/ Skills",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 20,
+                              ),
+                              pw.Text(
+                                "/ Skills",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...skill
+                                  .map((sk) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#000000"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Text(
+                                              sk,
+                                              style: pw.TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...skill!
-                            .map((sk) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#000000"),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "/ Achivements",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...achivement
+                                  .map((ach) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#000000"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Expanded(
+                                              child: pw.Text(
+                                                ach,
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      pw.SizedBox(
-                                        width: 8,
-                                      ),
-                                      pw.Text(
-                                        sk,
-                                        style: pw.TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "/ Achivements",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                                      ))
+                                  .toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...achivement!
-                            .map((ach) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#000000"),
-                                        ),
-                                      ),
-                                      pw.SizedBox(
-                                        width: 8,
-                                      ),
-                                      pw.Expanded(
-                                        child: pw.Text(
-                                          ach,
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
                       ],
                     ),
                   ),
@@ -2829,19 +3141,20 @@ class ResumeMake {
               ),
               pw.Expanded(
                 child: pw.Container(
-                  color: PdfColor.fromHex("#BEA0A5"),
+                  color: PdfColor.fromHex("#03335e"),
                   child: pw.Column(
                     children: [
                       if (image != null)
                         pw.Container(
                           child: pw.Image(
                             image,
-                            height: 300,
-                            width: 160,
+                            // height: 300,
+                            // width: 160,
                           ),
                         ),
                       pw.Padding(
-                        padding: pw.EdgeInsets.symmetric(vertical: 25),
+                        padding: pw.EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 7),
                         child: pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
@@ -2856,60 +3169,105 @@ class ResumeMake {
                             pw.SizedBox(
                               height: 10,
                             ),
-                            pw.Text(
-                              "+91 $phoneNo",
-                              style: pw.TextStyle(
-                                fontSize: 10,
-                                color: PdfColor.fromHex("#ffffff"),
-                              ),
+                            pw.Row(
+                              children: [
+                                pw.Image(
+                                  phoneIcon!,
+                                  height: 10,
+                                  width: 10,
+                                ),
+                                pw.SizedBox(
+                                  width: 5,
+                                ),
+                                pw.Text(
+                                  "+91 $phoneNo",
+                                  style: pw.TextStyle(
+                                    fontSize: 10,
+                                    color: PdfColor.fromHex("#ffffff"),
+                                  ),
+                                ),
+                              ],
                             ),
                             pw.SizedBox(
                               height: 7,
                             ),
-                            pw.Text(
-                              email,
-                              style: pw.TextStyle(
-                                fontSize: 10,
-                                color: PdfColor.fromHex("#ffffff"),
-                              ),
+                            pw.Row(
+                              children: [
+                                pw.Image(
+                                  emailIcon!,
+                                  height: 10,
+                                  width: 10,
+                                ),
+                                pw.SizedBox(
+                                  width: 5,
+                                ),
+                                pw.Text(
+                                  email,
+                                  style: pw.TextStyle(
+                                    fontSize: 10,
+                                    color: PdfColor.fromHex("#ffffff"),
+                                  ),
+                                ),
+                              ],
                             ),
                             pw.SizedBox(
                               height: 7,
                             ),
-                            pw.Text(
-                              address,
-                              style: pw.TextStyle(
-                                fontSize: 10,
-                                color: PdfColor.fromHex("#ffffff"),
+                            pw.Row(
+                              children: [
+                                pw.Image(
+                                  addressIcon!,
+                                  height: 10,
+                                  width: 10,
+                                ),
+                                pw.SizedBox(
+                                  width: 5,
+                                ),
+                                pw.Expanded(
+                                  child: pw.Text(
+                                    address,
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                      color: PdfColor.fromHex("#ffffff"),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (language != null && language.isNotEmpty)
+                              pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.SizedBox(
+                                    height: 20,
+                                  ),
+                                  pw.Text(
+                                    "/ Laguages",
+                                    style: pw.TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#ffffff"),
+                                    ),
+                                  ),
+                                  pw.SizedBox(
+                                    height: 10,
+                                  ),
+                                  ...language
+                                      .map((lang) => pw.Padding(
+                                            padding: const pw.EdgeInsets.only(
+                                                bottom: 6),
+                                            child: pw.Text(
+                                              lang,
+                                              style: pw.TextStyle(
+                                                fontSize: 10,
+                                                color:
+                                                    PdfColor.fromHex("#ffffff"),
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                ],
                               ),
-                            ),
-                            pw.SizedBox(
-                              height: 20,
-                            ),
-                            pw.Text(
-                              "/ Laguages",
-                              style: pw.TextStyle(
-                                fontSize: 17,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#ffffff"),
-                              ),
-                            ),
-                            pw.SizedBox(
-                              height: 10,
-                            ),
-                            ...language!
-                                .map((lang) => pw.Padding(
-                                      padding:
-                                          const pw.EdgeInsets.only(bottom: 6),
-                                      child: pw.Text(
-                                        lang,
-                                        style: pw.TextStyle(
-                                          fontSize: 10,
-                                          color: PdfColor.fromHex("#ffffff"),
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
                           ],
                         ),
                       ),
@@ -2919,7 +3277,7 @@ class ResumeMake {
               ),
               pw.Expanded(
                 child: pw.Container(
-                  color: PdfColor.fromHex("#ECEBDE"),
+                  color: PdfColor.fromHex("#CECECE"),
                   child: pw.Padding(
                     padding: pw.EdgeInsets.all(17),
                     child: pw.Column(
@@ -2930,215 +3288,236 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 25,
                             fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                            color: PdfColor.fromHex("#03335e"),
                           ),
                         ),
-                        pw.SizedBox(
-                          height: 30,
-                        ),
-                        pw.Text(
-                          "/ Education",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...education!.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 30,
+                              ),
+                              pw.Text(
+                                "/ Education",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...education.map((edu) {
+                                final parts = edu.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "/ Experience",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...experience!.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "/ Experience",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...experience.map((exp) {
+                                final parts = exp.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "/ Projects",
-                          style: pw.TextStyle(
-                            fontSize: 18,
-                            fontWeight: pw.FontWeight.bold,
-                            color: PdfColor.fromHex("#BEA0A5"),
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...project!.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "/ Projects",
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex("#03335e"),
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...project.map((proj) {
+                                final parts = proj.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -3193,15 +3572,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/white_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -3210,9 +3593,11 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Stack(
                 children: [
@@ -3224,7 +3609,7 @@ class ResumeMake {
                     width: double.infinity,
                     decoration: pw.BoxDecoration(
                       borderRadius: pw.BorderRadius.circular(10),
-                      color: PdfColor.fromHex("#283c5f"),
+                      color: PdfColor.fromHex("#03335e"),
                     ),
                     child: pw.Padding(
                       padding: pw.EdgeInsets.all(15),
@@ -3263,6 +3648,7 @@ class ResumeMake {
                                       fontSize: 10,
                                       color: PdfColor.fromHex("#ffffff"),
                                     ),
+                                    textAlign: pw.TextAlign.justify,
                                   ),
                                 ),
                               ],
@@ -3321,11 +3707,13 @@ class ResumeMake {
                                 pw.Row(
                                   mainAxisAlignment: pw.MainAxisAlignment.end,
                                   children: [
-                                    pw.Text(
-                                      address,
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
-                                        color: PdfColor.fromHex("#ffffff"),
+                                    pw.Expanded(
+                                      child: pw.Text(
+                                        address,
+                                        style: pw.TextStyle(
+                                          fontSize: 10,
+                                          color: PdfColor.fromHex("#ffffff"),
+                                        ),
                                       ),
                                     ),
                                     pw.SizedBox(
@@ -3383,304 +3771,355 @@ class ResumeMake {
                       child: pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
-                                ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Experience",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...experience!.map((exp) {
-                            final parts = exp.split("\n");
-                            return pw.Padding(
-                              padding: const pw.EdgeInsets.only(bottom: 8),
-                              child: pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.Text(
-                                    parts[0],
-                                    style: pw.TextStyle(
-                                      fontWeight: pw.FontWeight.bold,
-                                    ),
-                                  ),
-                                  if (parts.length > 1)
-                                    pw.Text(
-                                      parts[1],
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
+                          if (experience != null && experience.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
                                       ),
                                     ),
-                                  if (parts.length > 2)
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
                                     pw.Text(
-                                      parts[2],
+                                      "Experience",
                                       style: pw.TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
                                       ),
                                     ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                          pw.SizedBox(
-                            height: 20,
-                          ),
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  ],
                                 ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Education",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
+                                pw.SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...education!.map((edu) {
-                            final parts = edu.split("\n");
-                            return pw.Padding(
-                              padding: const pw.EdgeInsets.only(bottom: 8),
-                              child: pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.Text(
-                                    parts[0],
-                                    style: pw.TextStyle(
-                                      fontWeight: pw.FontWeight.bold,
+                                ...experience.map((exp) {
+                                  final parts = exp.split("\n");
+                                  return pw.Padding(
+                                    padding:
+                                        const pw.EdgeInsets.only(bottom: 8),
+                                    child: pw.Column(
+                                      crossAxisAlignment:
+                                          pw.CrossAxisAlignment.start,
+                                      children: [
+                                        pw.Text(
+                                          parts[0],
+                                          style: pw.TextStyle(
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        if (parts.length > 1)
+                                          pw.Text(
+                                            parts[1],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        if (parts.length > 2)
+                                          pw.Text(
+                                            parts[2],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                  ),
-                                  if (parts.length > 1)
-                                    pw.Text(
-                                      parts[1],
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  if (parts.length > 2)
-                                    pw.Text(
-                                      parts[2],
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                          pw.SizedBox(
-                            height: 20,
-                          ),
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  );
+                                }).toList(),
+                              ],
+                            ),
+                          if (education != null && education.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.SizedBox(
+                                  height: 12,
                                 ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Projects",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
+                                      ),
+                                    ),
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
+                                    pw.Text(
+                                      "Education",
+                                      style: pw.TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...project!.map((proj) {
-                            final parts = proj.split("\n");
-                            return pw.Padding(
-                              padding: const pw.EdgeInsets.only(bottom: 8),
-                              child: pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.Text(
-                                    parts[0],
-                                    style: pw.TextStyle(
-                                      fontWeight: pw.FontWeight.bold,
+                                pw.SizedBox(
+                                  height: 10,
+                                ),
+                                ...education.map((edu) {
+                                  final parts = edu.split("\n");
+                                  return pw.Padding(
+                                    padding:
+                                        const pw.EdgeInsets.only(bottom: 8),
+                                    child: pw.Column(
+                                      crossAxisAlignment:
+                                          pw.CrossAxisAlignment.start,
+                                      children: [
+                                        pw.Text(
+                                          parts[0],
+                                          style: pw.TextStyle(
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        if (parts.length > 1)
+                                          pw.Text(
+                                            parts[1],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        if (parts.length > 2)
+                                          pw.Text(
+                                            parts[2],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                  ),
-                                  if (parts.length > 1)
-                                    pw.Text(
-                                      parts[1],
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
+                                  );
+                                }).toList(),
+                              ],
+                            ),
+                          if (project != null && project.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.SizedBox(
+                                  height: 12,
+                                ),
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
                                       ),
                                     ),
-                                  if (parts.length > 2)
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
                                     pw.Text(
-                                      parts[2],
+                                      "Projects",
                                       style: pw.TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
                                       ),
                                     ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                                  ],
+                                ),
+                                pw.SizedBox(
+                                  height: 10,
+                                ),
+                                ...project.map((proj) {
+                                  final parts = proj.split("\n");
+                                  return pw.Padding(
+                                    padding:
+                                        const pw.EdgeInsets.only(bottom: 8),
+                                    child: pw.Column(
+                                      crossAxisAlignment:
+                                          pw.CrossAxisAlignment.start,
+                                      children: [
+                                        pw.Text(
+                                          parts[0],
+                                          style: pw.TextStyle(
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        if (parts.length > 1)
+                                          pw.Text(
+                                            parts[1],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        if (parts.length > 2)
+                                          pw.Text(
+                                            parts[2],
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ],
+                            ),
                         ],
                       ),
+                    ),
+                    pw.SizedBox(
+                      width: 10,
                     ),
                     pw.Expanded(
                       child: pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
-                                ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Skills",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...skill!
-                              .map((sk) => pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(
-                                      sk,
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
+                          if (skill != null && skill.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
                                       ),
                                     ),
-                                  ))
-                              .toList(),
-                          pw.SizedBox(
-                            height: 20,
-                          ),
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
-                                ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Achivements",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...achivement!
-                              .map((ach) => pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(
-                                      ach,
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
+                                    pw.Text(
+                                      "Skills",
                                       style: pw.TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
                                       ),
                                     ),
-                                  ))
-                              .toList(),
-                          pw.SizedBox(
-                            height: 20,
-                          ),
-                          pw.Row(
-                            children: [
-                              pw.Container(
-                                height: 15,
-                                width: 15,
-                                decoration: pw.BoxDecoration(
-                                  borderRadius: pw.BorderRadius.circular(5),
-                                  color: PdfColor.fromHex("#283c5f"),
+                                  ],
                                 ),
-                              ),
-                              pw.SizedBox(
-                                width: 7,
-                              ),
-                              pw.Text(
-                                "Languages",
-                                style: pw.TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: pw.FontWeight.bold,
+                                pw.SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                          pw.SizedBox(
-                            height: 10,
-                          ),
-                          ...language!
-                              .map((lang) => pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(
-                                      lang,
-                                      style: pw.TextStyle(
-                                        fontSize: 10,
+                                ...skill
+                                    .map((sk) => pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            sk,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ],
+                            ),
+                          if (achivement != null && achivement.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.SizedBox(
+                                  height: 14,
+                                ),
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
                                       ),
                                     ),
-                                  ))
-                              .toList(),
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
+                                    pw.Text(
+                                      "Achivements",
+                                      style: pw.TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                pw.SizedBox(
+                                  height: 10,
+                                ),
+                                ...achivement
+                                    .map((ach) => pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            ach,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ],
+                            ),
+                          if (language != null && language.isNotEmpty)
+                            pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.SizedBox(
+                                  height: 14,
+                                ),
+                                pw.Row(
+                                  children: [
+                                    pw.Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: pw.BoxDecoration(
+                                        borderRadius:
+                                            pw.BorderRadius.circular(5),
+                                        color: PdfColor.fromHex("#03335e"),
+                                      ),
+                                    ),
+                                    pw.SizedBox(
+                                      width: 7,
+                                    ),
+                                    pw.Text(
+                                      "Languages",
+                                      style: pw.TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: pw.FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                pw.SizedBox(
+                                  height: 10,
+                                ),
+                                ...language
+                                    .map((lang) => pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            lang,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ],
+                            ),
                         ],
                       ),
                     ),
@@ -3688,8 +4127,8 @@ class ResumeMake {
                 ),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -3744,15 +4183,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/white_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -3761,15 +4204,17 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Container(
                 width: double.infinity,
                 decoration: pw.BoxDecoration(
                   borderRadius: pw.BorderRadius.circular(10),
-                  color: PdfColor.fromHex("#283c5f"),
+                  color: PdfColor.fromHex("#03335e"),
                 ),
                 child: pw.Padding(
                   padding: pw.EdgeInsets.all(15),
@@ -3899,7 +4344,7 @@ class ResumeMake {
                           width: double.infinity,
                           decoration: pw.BoxDecoration(
                             borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
+                            color: PdfColor.fromHex("#CECECE"),
                           ),
                           child: pw.Padding(
                             padding: pw.EdgeInsets.all(10),
@@ -3926,128 +4371,144 @@ class ResumeMake {
                             ),
                           ),
                         ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        pw.Container(
-                          width: double.infinity,
-                          decoration: pw.BoxDecoration(
-                            borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
-                          ),
-                          child: pw.Padding(
-                            padding: pw.EdgeInsets.all(10),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Experience",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
+                                ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Experience",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...experience.map((exp) {
+                                        final parts = exp.split("\n");
+                                        return pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 8),
+                                          child: pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                parts[0],
+                                                style: pw.TextStyle(
+                                                  fontWeight:
+                                                      pw.FontWeight.bold,
+                                                ),
+                                              ),
+                                              if (parts.length > 1)
+                                                pw.Text(
+                                                  parts[1],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              if (parts.length > 2)
+                                                pw.Text(
+                                                  parts[2],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ],
                                   ),
                                 ),
-                                pw.SizedBox(
-                                  height: 7,
+                              ),
+                            ],
+                          ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
                                 ),
-                                ...experience!.map((exp) {
-                                  final parts = exp.split("\n");
-                                  return pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Projects",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
                                         ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...project.map((proj) {
+                                        final parts = proj.split("\n");
+                                        return pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 8),
+                                          child: pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                parts[0],
+                                                style: pw.TextStyle(
+                                                  fontWeight:
+                                                      pw.FontWeight.bold,
+                                                ),
+                                              ),
+                                              if (parts.length > 1)
+                                                pw.Text(
+                                                  parts[1],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              if (parts.length > 2)
+                                                pw.Text(
+                                                  parts[2],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                            ],
                                           ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        pw.Container(
-                          width: double.infinity,
-                          decoration: pw.BoxDecoration(
-                            borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
-                          ),
-                          child: pw.Padding(
-                            padding: pw.EdgeInsets.all(10),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Projects",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
+                                        );
+                                      }).toList(),
+                                    ],
                                   ),
                                 ),
-                                pw.SizedBox(
-                                  height: 7,
-                                ),
-                                ...project!.map((proj) {
-                                  final parts = proj.split("\n");
-                                  return pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
-                                        ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -4058,177 +4519,224 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Container(
-                          width: double.infinity,
-                          decoration: pw.BoxDecoration(
-                            borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
-                          ),
-                          child: pw.Padding(
-                            padding: pw.EdgeInsets.all(10),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Skills",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
                                 ),
-                                pw.SizedBox(
-                                  height: 7,
-                                ),
-                                ...skill!
-                                    .map((sk) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 5),
-                                          child: pw.Text(
-                                            sk,
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
-                                pw.SizedBox(
-                                  height: 10,
-                                ),
-                                pw.Text(
-                                  "Languages",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 7,
-                                ),
-                                ...language!
-                                    .map((lang) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 5),
-                                          child: pw.Text(
-                                            lang,
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        pw.Container(
-                          width: double.infinity,
-                          decoration: pw.BoxDecoration(
-                            borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
-                          ),
-                          child: pw.Padding(
-                            padding: pw.EdgeInsets.all(10),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Education",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  height: 7,
-                                ),
-                                ...education!.map((edu) {
-                                  final parts = edu.split("\n");
-                                  return pw.Padding(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 8),
-                                    child: pw.Column(
-                                      crossAxisAlignment:
-                                          pw.CrossAxisAlignment.start,
-                                      children: [
-                                        pw.Text(
-                                          parts[0],
-                                          style: pw.TextStyle(
-                                            fontWeight: pw.FontWeight.bold,
-                                          ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Skills",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
                                         ),
-                                        if (parts.length > 1)
-                                          pw.Text(
-                                            parts[1],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        if (parts.length > 2)
-                                          pw.Text(
-                                            parts[2],
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        pw.Container(
-                          width: double.infinity,
-                          decoration: pw.BoxDecoration(
-                            borderRadius: pw.BorderRadius.circular(10),
-                            color: PdfColor.fromHex("#AEC6F0"),
-                          ),
-                          child: pw.Padding(
-                            padding: pw.EdgeInsets.all(10),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  "Achivement",
-                                  style: pw.TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: pw.FontWeight.bold,
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...skill
+                                          .map((sk) => pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.only(
+                                                        bottom: 5),
+                                                child: pw.Text(
+                                                  sk,
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                    ],
                                   ),
                                 ),
-                                pw.SizedBox(
-                                  height: 7,
-                                ),
-                                ...achivement!
-                                    .map((ach) => pw.Padding(
-                                          padding: const pw.EdgeInsets.only(
-                                              bottom: 5),
-                                          child: pw.Text(
-                                            ach,
-                                            style: pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ),
+                        if (language != null && language.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
+                                ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Languages",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...language
+                                          .map((lang) => pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.only(
+                                                        bottom: 5),
+                                                child: pw.Text(
+                                                  lang,
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
+                                ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Education",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...education.map((edu) {
+                                        final parts = edu.split("\n");
+                                        return pw.Padding(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 8),
+                                          child: pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                parts[0],
+                                                style: pw.TextStyle(
+                                                  fontWeight:
+                                                      pw.FontWeight.bold,
+                                                ),
+                                              ),
+                                              if (parts.length > 1)
+                                                pw.Text(
+                                                  parts[1],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              if (parts.length > 2)
+                                                pw.Text(
+                                                  parts[2],
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Container(
+                                width: double.infinity,
+                                decoration: pw.BoxDecoration(
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                  color: PdfColor.fromHex("#CECECE"),
+                                ),
+                                child: pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "Achivement",
+                                        style: pw.TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 7,
+                                      ),
+                                      ...achivement
+                                          .map((ach) => pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.only(
+                                                        bottom: 5),
+                                                child: pw.Text(
+                                                  ach,
+                                                  style: pw.TextStyle(
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -4283,15 +4791,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/black_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/black_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -4300,9 +4812,11 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             children: [
               pw.Container(
                 height: 200,
@@ -4344,7 +4858,7 @@ class ResumeMake {
                           child: pw.Container(
                             height: 100,
                             width: 320,
-                            color: PdfColor.fromHex("#283c5f"),
+                            color: PdfColor.fromHex("#03335e"),
                             child: pw.Padding(
                               padding: pw.EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
@@ -4368,6 +4882,7 @@ class ResumeMake {
                                       fontSize: 10,
                                       color: PdfColor.fromHex("#ffffff"),
                                     ),
+                                    textAlign: pw.TextAlign.justify,
                                   ),
                                 ],
                               ),
@@ -4463,104 +4978,124 @@ class ResumeMake {
                             ),
                           ],
                         ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Skills",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 20,
+                              ),
+                              pw.Text(
+                                "Skills",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...skill
+                                  .map((sk) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#03335e"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Text(
+                                              sk,
+                                              style: pw.TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...skill!
-                            .map((sk) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Education",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...education.map((edu) {
+                                final parts = edu.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
                                   child: pw.Row(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#283c5f"),
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
                                       pw.SizedBox(
                                         width: 8,
                                       ),
-                                      pw.Text(sk),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Education",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...education!.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
-                                ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.start,
-                                    children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -4571,200 +5106,238 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Text(
-                          "Experience",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...experience!.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Text(
+                                "Experience",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
-                                ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...experience.map((exp) {
+                                final parts = exp.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
-                                        ),
-                                      ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
                                           ),
-                                        ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Achivement",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...achivement!
-                            .map((ach) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Row(
-                                    children: [
-                                      pw.ClipOval(
-                                        child: pw.Container(
-                                          height: 4,
-                                          width: 4,
-                                          color: PdfColor.fromHex("#283c5f"),
                                         ),
                                       ),
                                       pw.SizedBox(
                                         width: 8,
                                       ),
                                       pw.Expanded(
-                                        child: pw.Text(ach),
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ))
-                            .toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Projects",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        ...project!.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Padding(
-                                  padding: pw.EdgeInsets.only(top: 5),
-                                  child: pw.ClipOval(
-                                    child: pw.Container(
-                                      height: 4,
-                                      width: 4,
-                                      color: PdfColor.fromHex("#283c5f"),
-                                    ),
-                                  ),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "Achivement",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
                                 ),
-                                pw.SizedBox(
-                                  width: 8,
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...achivement
+                                  .map((ach) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Row(
+                                          children: [
+                                            pw.ClipOval(
+                                              child: pw.Container(
+                                                height: 4,
+                                                width: 4,
+                                                color:
+                                                    PdfColor.fromHex("#03335e"),
+                                              ),
+                                            ),
+                                            pw.SizedBox(
+                                              width: 8,
+                                            ),
+                                            pw.Expanded(
+                                              child: pw.Text(
+                                                ach,
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Text(
+                                "Projects",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
                                 ),
-                                pw.Expanded(
-                                  child: pw.Column(
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              ...project.map((proj) {
+                                final parts = proj.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Row(
                                     crossAxisAlignment:
                                         pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.Text(
-                                        parts[0],
-                                        style: pw.TextStyle(
-                                          fontWeight: pw.FontWeight.bold,
+                                      pw.Padding(
+                                        padding: pw.EdgeInsets.only(top: 5),
+                                        child: pw.ClipOval(
+                                          child: pw.Container(
+                                            height: 4,
+                                            width: 4,
+                                            color: PdfColor.fromHex("#03335e"),
+                                          ),
                                         ),
                                       ),
-                                      if (parts.length > 1)
-                                        pw.Text(
-                                          parts[1],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                      pw.SizedBox(
+                                        width: 8,
+                                      ),
+                                      pw.Expanded(
+                                        child: pw.Column(
+                                          crossAxisAlignment:
+                                              pw.CrossAxisAlignment.start,
+                                          children: [
+                                            pw.Text(
+                                              parts[0],
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (parts.length > 1)
+                                              pw.Text(
+                                                parts[1],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            if (parts.length > 2)
+                                              pw.Text(
+                                                parts[2],
+                                                style: pw.TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (parts.length > 2)
-                                        pw.Text(
-                                          parts[2],
-                                          style: pw.TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Text(
-                          "Languages",
-                          style: pw.TextStyle(
-                            fontSize: 15,
-                            fontWeight: pw.FontWeight.bold,
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ),
-                        pw.SizedBox(
-                          height: 10,
-                        ),
-                        pw.Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: language!
-                              .map((lang) => pw.Container(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(lang),
-                                  ))
-                              .toList(),
-                        ),
+                        if (language != null && language.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Text(
+                                "Languages",
+                                style: pw.TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 10,
+                              ),
+                              pw.Wrap(
+                                spacing: 20,
+                                runSpacing: 10,
+                                children: language
+                                    .map((lang) => pw.Container(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            lang,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -4819,15 +5392,19 @@ class ResumeMake {
 
     try {
       addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/location.png"))
+        (await rootBundle.load("assets/icons/white_location.png"))
             .buffer
             .asUint8List(),
       );
       phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/phone.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_phone.png"))
+            .buffer
+            .asUint8List(),
       );
       emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/email.png")).buffer.asUint8List(),
+        (await rootBundle.load("assets/icons/white_email.png"))
+            .buffer
+            .asUint8List(),
       );
     } catch (e) {
       addressIcon = null;
@@ -4836,9 +5413,11 @@ class ResumeMake {
     }
 
     pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(20),
+        build: (pw.Context context) => [
+          pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
               pw.Row(
@@ -4863,7 +5442,7 @@ class ResumeMake {
                             pw.Container(
                               height: 8,
                               width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
+                              color: PdfColor.fromHex("#03335e"),
                             ),
                             pw.SizedBox(
                               width: 10,
@@ -4873,7 +5452,7 @@ class ResumeMake {
                               style: pw.TextStyle(
                                 fontSize: 15,
                                 fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                                color: PdfColor.fromHex("#03335e"),
                               ),
                             ),
                           ],
@@ -4886,6 +5465,7 @@ class ResumeMake {
                           style: pw.TextStyle(
                             fontSize: 10,
                           ),
+                          textAlign: pw.TextAlign.justify,
                         ),
                       ],
                     ),
@@ -4896,7 +5476,7 @@ class ResumeMake {
                 height: image == null ? 20 : 0,
               ),
               pw.Container(
-                color: PdfColor.fromHex("#283c5f"),
+                color: PdfColor.fromHex("#03335e"),
                 child: pw.Padding(
                   padding: pw.EdgeInsets.all(15),
                   child: pw.Row(
@@ -5012,109 +5592,143 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "Skills",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                        if (skill != null && skill.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
+                                  pw.Text(
+                                    "Skills",
+                                    style: pw.TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        pw.Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: skill!
-                              .map((sk) => pw.Container(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(sk),
-                                  ))
-                              .toList(),
-                        ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "languages",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                              pw.SizedBox(
+                                height: 7,
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        pw.Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: language!
-                              .map((lang) => pw.Container(
-                                    padding:
-                                        const pw.EdgeInsets.only(bottom: 6),
-                                    child: pw.Text(lang),
-                                  ))
-                              .toList(),
-                        ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "Achivements",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                              pw.Wrap(
+                                spacing: 20,
+                                runSpacing: 10,
+                                children: skill
+                                    .map((sk) => pw.Container(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            sk,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        ...achivement!
-                            .map((ach) => pw.Padding(
-                                  padding: const pw.EdgeInsets.only(bottom: 6),
-                                  child: pw.Text(ach),
-                                ))
-                            .toList(),
+                            ],
+                          ),
+                        if (language != null && language.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
+                                  pw.Text(
+                                    "languages",
+                                    style: pw.TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              pw.Wrap(
+                                spacing: 20,
+                                runSpacing: 10,
+                                children: language
+                                    .map((lang) => pw.Container(
+                                          padding: const pw.EdgeInsets.only(
+                                              bottom: 6),
+                                          child: pw.Text(
+                                            lang,
+                                            style: pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        if (achivement != null && achivement.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 14,
+                              ),
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
+                                  pw.Text(
+                                    "Achivements",
+                                    style: pw.TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              ...achivement
+                                  .map((ach) => pw.Padding(
+                                        padding:
+                                            const pw.EdgeInsets.only(bottom: 6),
+                                        child: pw.Text(
+                                          ach,
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -5125,182 +5739,203 @@ class ResumeMake {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "Experience",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                        if (experience != null && experience.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
+                                  pw.Text(
+                                    "Experience",
+                                    style: pw.TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        ...experience!.map((exp) {
-                          final parts = exp.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
-                                  ),
-                                ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "Education",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                              pw.SizedBox(
+                                height: 7,
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        ...education!.map((edu) {
-                          final parts = edu.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                              ...experience.map((exp) {
+                                final parts = exp.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                ),
-                                if (parts.length > 1)
-                                  pw.Text(
-                                    parts[1],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                if (parts.length > 2)
-                                  pw.Text(
-                                    parts[2],
-                                    style: pw.TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Row(
-                          children: [
-                            pw.Container(
-                              height: 8,
-                              width: 30,
-                              color: PdfColor.fromHex("#283c5f"),
-                            ),
-                            pw.SizedBox(
-                              width: 10,
-                            ),
-                            pw.Text(
-                              "Projects",
-                              style: pw.TextStyle(
-                                fontSize: 15,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColor.fromHex("#283c5f"),
+                                );
+                              }).toList(),
+                            ],
+                          ),
+                        if (education != null && education.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
                               ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 7,
-                        ),
-                        ...project!.map((proj) {
-                          final parts = proj.split("\n");
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 8),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                pw.Text(
-                                  parts[0],
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
                                   ),
-                                ),
-                                if (parts.length > 1)
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
                                   pw.Text(
-                                    parts[1],
+                                    "Education",
                                     style: pw.TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
                                     ),
                                   ),
-                                if (parts.length > 2)
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              ...education.map((edu) {
+                                final parts = edu.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            ],
+                          ),
+                        if (project != null && project.isNotEmpty)
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.SizedBox(
+                                height: 12,
+                              ),
+                              pw.Row(
+                                children: [
+                                  pw.Container(
+                                    height: 8,
+                                    width: 30,
+                                    color: PdfColor.fromHex("#03335e"),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 10,
+                                  ),
                                   pw.Text(
-                                    parts[2],
+                                    "Projects",
                                     style: pw.TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 15,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
                                     ),
                                   ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              ...project.map((proj) {
+                                final parts = proj.split("\n");
+                                return pw.Padding(
+                                  padding: const pw.EdgeInsets.only(bottom: 8),
+                                  child: pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        parts[0],
+                                        style: pw.TextStyle(
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (parts.length > 1)
+                                        pw.Text(
+                                          parts[1],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      if (parts.length > 2)
+                                        pw.Text(
+                                          parts[2],
+                                          style: pw.TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
 
@@ -5318,18 +5953,37 @@ class ResumeMake {
   }) async {
     showIndicator(context);
 
-    final dir = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
-    String name = DateTime.now().millisecondsSinceEpoch.toString();
-    final String path = "$dir/$name.pdf";
-    final File file = File(path);
-    await file.writeAsBytes(uint8list);
+    if (kIsWeb) {
+      final String name = "${DateTime.now().millisecondsSinceEpoch}.pdf";
+      final html.Blob blob = html.Blob([uint8list], 'application/pdf');
+      final String url = html.Url.createObjectUrlFromBlob(blob);
 
-    toastView(
-      msg: "Resume download process is complete",
-      context: context,
-    );
+      final html.AnchorElement anchor = html.AnchorElement(href: url)
+        ..setAttribute("download", name)
+        ..click();
+      html.Url.revokeObjectUrl(url);
 
-    Navigator.of(context).pop();
+      toastView(
+        msg: "Resume download process is complete",
+        context: context,
+      );
+
+      Navigator.of(context).pop();
+    } else {
+      final dir = await ExternalPath.getExternalStoragePublicDirectory(
+          ExternalPath.DIRECTORY_DOWNLOADS);
+      String name = DateTime.now().millisecondsSinceEpoch.toString();
+
+      final String path = "$dir/$name.pdf";
+      final io.File file = io.File(path);
+      await file.writeAsBytes(uint8list);
+
+      toastView(
+        msg: "Resume download process is complete",
+        context: context,
+      );
+
+      Navigator.of(context).pop();
+    }
   }
 }
