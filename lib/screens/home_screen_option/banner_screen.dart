@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/screens/home_screen_option/banner_view/banner_common_view.dart';
+import 'package:genify/screens/home_screen_option/banner_view/web_banner_view.dart';
 import '../../widgets/layout_builder_view.dart';
 
 class BannerScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _BannerScreenState extends State<BannerScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilderView(
-      webView: BannerCommonViewScreen(),
+      webView: WebBannerScreen(),
       tabletView: BannerCommonViewScreen(),
       mobileView: BannerCommonViewScreen(),
     );

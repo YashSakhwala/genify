@@ -5,6 +5,7 @@ import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import '../../../config/app_image.dart';
 import '../../home_screen_option/banner_screen.dart';
+import '../../home_screen_option/barcode_screen.dart';
 import '../../home_screen_option/card_screen.dart';
 import '../../home_screen_option/invoice_screen.dart';
 import '../../home_screen_option/resume_screen.dart';
@@ -37,7 +38,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     {
       "name": "Barcode",
       "image": AppImages.barcode,
-      "navigation": ResumeScreen(),
+      "navigation": BarcodeScreen(),
     },
     {
       "name": "Banner",
@@ -48,7 +49,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       "name": "Salary slip",
       "image": AppImages.salary,
       "navigation": SalarySlipScreen(),
-    }
+    },
   ];
 
   @override

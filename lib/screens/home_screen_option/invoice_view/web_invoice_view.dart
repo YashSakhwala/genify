@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unused_local_variable
 
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
@@ -33,8 +32,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
 
   @override
   void initState() {
-    InvoiceMake.webImageFile = null;
-    InvoiceMake.signatureWebImageFile = null;
+    InvoiceMake.imagePath = "";
+    InvoiceMake.signatureImagePath = "";
     super.initState();
   }
 
@@ -105,7 +104,6 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               reader.readAsDataUrl(file);
                               reader.onLoadEnd.listen((event) {
                                 setState(() {
-                                  InvoiceMake.webImageFile = file;
                                   InvoiceMake.imagePath =
                                       reader.result as String;
                                 });
@@ -186,7 +184,6 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               reader.readAsDataUrl(file);
                               reader.onLoadEnd.listen((event) {
                                 setState(() {
-                                  InvoiceMake.signatureWebImageFile = file;
                                   InvoiceMake.signatureImagePath =
                                       reader.result as String;
                                 });
@@ -224,7 +221,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                     child: Column(
                       children: [
                         TextFieldView(
-                          title: "Company name",
+                          title: "Company Name",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -260,10 +257,16 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               "105-A, Ambar society, Neharu chock, surat.",
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
+                        ),
+                        Divider(
+                          thickness: 1.5,
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFieldView(
-                          title: "Client name",
+                          title: "Client Name",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -275,7 +278,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                           height: 20,
                         ),
                         TextFieldView(
-                          title: "Client phone number",
+                          title: "Client Phone Number",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -298,7 +301,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                     child: Column(
                       children: [
                         TextFieldView(
-                          title: "GST number",
+                          title: "GST Number",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -315,7 +318,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                           height: 20,
                         ),
                         TextFieldView(
-                          title: "Phone number",
+                          title: "Phone Number",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -329,10 +332,16 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                           hintText: "9876543210",
                         ),
                         SizedBox(
-                          height: 153,
+                          height: 144,
+                        ),
+                        Divider(
+                          thickness: 1.5,
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFieldView(
-                          title: "Client email",
+                          title: "Client Email",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -496,75 +505,75 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                     ),
                   ],
                 ),
-               onTap: () {
-                log("Company name-----> ${companyName.text}");
-                log("GST number-----> ${gstNo.text}");
-                log("Company email-----> ${companyEmail.text}");
-                log("Company phoneNo-----> ${companyPhoneNo.text}");
-                log("Address-----> ${address.text}");
-                log("Client email-----> ${clientEmail.text}");
-                log("Client phoneNo-----> ${clientPhoneNo.text}");
-                log("Items-----> ${items.map((item) => "Name: ${item["name"]!.text}, Quantity: ${item["quantity"]!.text}, Price: ${item["price"]!.text}").toList()}");
+                onTap: () {
+                  log("Company name-----> ${companyName.text}");
+                  log("GST number-----> ${gstNo.text}");
+                  log("Company email-----> ${companyEmail.text}");
+                  log("Company phoneNo-----> ${companyPhoneNo.text}");
+                  log("Address-----> ${address.text}");
+                  log("Client email-----> ${clientEmail.text}");
+                  log("Client phoneNo-----> ${clientPhoneNo.text}");
+                  log("Items-----> ${items.map((item) => "Name: ${item["name"]!.text}, Quantity: ${item["quantity"]!.text}, Price: ${item["price"]!.text}").toList()}");
 
-                List<Map<String, String>> itemList = items.map((item) {
-                  return {
-                    "name": item["name"]!.text,
-                    "quantity": item["quantity"]!.text,
-                    "price": item["price"]!.text
-                  };
-                }).toList();
+                  List<Map<String, String>> itemList = items.map((item) {
+                    return {
+                      "name": item["name"]!.text,
+                      "quantity": item["quantity"]!.text,
+                      "price": item["price"]!.text
+                    };
+                  }).toList();
 
-                if (companyName.text.isEmpty ||
-                    gstNo.text.isEmpty ||
-                    companyEmail.text.isEmpty ||
-                    companyPhoneNo.text.isEmpty ||
-                    address.text.isEmpty ||
-                    clientName.text.isEmpty ||
-                    clientEmail.text.isEmpty ||
-                    clientPhoneNo.text.isEmpty) {
-                  toastView(
-                    msg: "Please fill all details",
-                    context: context,
-                  );
-                } else {
-                  InvoiceMake.generateInvoice(
-                    companyName: companyName.text,
-                    gstNumber: gstNo.text,
-                    companyEmail: companyEmail.text,
-                    companyPhoneNo: companyPhoneNo.text,
-                    address: address.text,
-                    clientName: clientName.text,
-                    clientEmail: clientEmail.text,
-                    clientPhoneNo: clientPhoneNo.text,
-                    items: itemList,
-                    context: context,
-                  );
-                }
+                  if (companyName.text.isEmpty ||
+                      gstNo.text.isEmpty ||
+                      companyEmail.text.isEmpty ||
+                      companyPhoneNo.text.isEmpty ||
+                      address.text.isEmpty ||
+                      clientName.text.isEmpty ||
+                      clientEmail.text.isEmpty ||
+                      clientPhoneNo.text.isEmpty) {
+                    toastView(
+                      msg: "Please fill all details",
+                      context: context,
+                    );
+                  } else {
+                    InvoiceMake.generateInvoice(
+                      companyName: companyName.text,
+                      gstNumber: gstNo.text,
+                      companyEmail: companyEmail.text,
+                      companyPhoneNo: companyPhoneNo.text,
+                      address: address.text,
+                      clientName: clientName.text,
+                      clientEmail: clientEmail.text,
+                      clientPhoneNo: clientPhoneNo.text,
+                      items: itemList,
+                      context: context,
+                    );
+                  }
 
-                // InvoiceMake.generateInvoice(
-                //   companyName: "MD Pharma",
-                //   gstNumber: "123456789012345",
-                //   companyEmail: "md.pharma@gmail.com",
-                //   companyPhoneNo: "8795674356",
-                //   address: "46, Jolly arcade, P.M. road, Surat - 39145",
-                //   clientName: "Yash Sakhwala",
-                //   clientEmail: "yashsakhwala@gmail.com",
-                //   clientPhoneNo: "9723831969",
-                //   items: [
-                //     {
-                //       "name": "Paracetamol",
-                //       "quantity": "10",
-                //       "price": "5",
-                //     },
-                //     {
-                //       "name": "Ibuprofen",
-                //       "quantity": "5",
-                //       "price": "10",
-                //     },
-                //   ],
-                //   context: context,
-                // );
-              },
+                  // InvoiceMake.generateInvoice(
+                  //   companyName: "MD Pharma",
+                  //   gstNumber: "123456789012345",
+                  //   companyEmail: "md.pharma@gmail.com",
+                  //   companyPhoneNo: "8795674356",
+                  //   address: "46, Jolly arcade, P.M. road, Surat - 39145",
+                  //   clientName: "Yash Sakhwala",
+                  //   clientEmail: "yashsakhwala@gmail.com",
+                  //   clientPhoneNo: "9723831969",
+                  //   items: [
+                  //     {
+                  //       "name": "Paracetamol",
+                  //       "quantity": "10",
+                  //       "price": "5",
+                  //     },
+                  //     {
+                  //       "name": "Ibuprofen",
+                  //       "quantity": "5",
+                  //       "price": "10",
+                  //     },
+                  //   ],
+                  //   context: context,
+                  // );
+                },
               ),
             ],
           ),

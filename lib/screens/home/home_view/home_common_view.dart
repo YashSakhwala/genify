@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/screens/home_screen_option/banner_screen.dart';
+import 'package:genify/screens/home_screen_option/barcode_screen.dart';
 import 'package:genify/screens/home_screen_option/card_screen.dart';
 import 'package:genify/screens/home_screen_option/resume_screen.dart';
 import 'package:genify/screens/home_screen_option/salary_slip_screen.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/appbar.dart';
 import '../../home_screen_option/invoice_screen.dart';
+import '../../home_screen_option/voice_recorder_screen.dart';
 
 class HomeCommonViewScreen extends StatefulWidget {
   const HomeCommonViewScreen({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
     {
       "name": "Barcode",
       "image": AppImages.barcode,
-      "navigation": ResumeScreen(),
+      "navigation": BarcodeScreen(),
     },
     {
       "name": "Banner",
@@ -49,7 +51,12 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
       "name": "Salary slip",
       "image": AppImages.salary,
       "navigation": SalarySlipScreen(),
-    }
+    },
+    {
+      "name": "Voice recorder",
+      "image": AppImages.microphone,
+      "navigation": VoiceRecorderScreen(),
+    },
   ];
 
   @override
@@ -72,6 +79,7 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
                 padding: const EdgeInsets.all(13),
                 child: GridView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisExtent: 180,

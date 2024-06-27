@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, unused_local_variable, prefer_const_constructors, avoid_init_to_null, deprecated_member_use
 
-import "dart:convert";
 import "dart:io" as io;
 import "package:external_path/external_path.dart";
 import "package:flutter/material.dart";
@@ -11,14 +10,14 @@ import "package:intl/intl.dart";
 import "package:pdf/pdf.dart";
 import "package:pdf/widgets.dart" as pw;
 import "package:universal_html/html.dart" as html;
+import 'package:http/http.dart' as http;
 import "package:flutter/foundation.dart";
+
+import "../../../widgets/common_widgets/snackbar_view.dart";
 
 class InvoiceMake {
   static String imagePath = "";
-  static html.File? webImageFile = null;
-
   static String signatureImagePath = "";
-  static html.File? signatureWebImageFile = null;
 
   static void generateInvoice({
     required String companyName,
@@ -32,6 +31,8 @@ class InvoiceMake {
     required List<Map<String, String>> items,
     required BuildContext context,
   }) async {
+    showIndicator(context);
+
     final pdf = pw.Document();
     pw.MemoryImage? image;
     pw.MemoryImage? signatureImage;
@@ -40,44 +41,45 @@ class InvoiceMake {
     pw.MemoryImage? emailIcon;
     pw.MemoryImage? dateIcon;
     pw.MemoryImage? timeIcon;
+    pw.MemoryImage? rupeeIcon;
 
-    if (kIsWeb && webImageFile != null) {
-      final file = webImageFile!;
-      final reader = html.FileReader();
-      reader.readAsDataUrl(file);
-
-      await reader.onLoad.first;
-      final encoded = reader.result as String;
-      final data = base64Decode(encoded.split(",").last);
-
-      image = pw.MemoryImage(data);
-    } else if (imagePath.isNotEmpty) {
-      try {
-        io.File imageFile = io.File(imagePath);
-        Uint8List imageBytes = await imageFile.readAsBytes();
-        image = pw.MemoryImage(imageBytes);
-      } catch (e) {
-        image = null;
+    if (imagePath.isNotEmpty) {
+      if (kIsWeb) {
+        try {
+          final response = await http.get(Uri.parse(imagePath));
+          Uint8List imageBytes = response.bodyBytes;
+          image = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          image = null;
+        }
+      } else {
+        try {
+          io.File imageFile = io.File(imagePath);
+          Uint8List imageBytes = await imageFile.readAsBytes();
+          image = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          image = null;
+        }
       }
     }
 
-    if (kIsWeb && signatureWebImageFile != null) {
-      final file = signatureWebImageFile!;
-      final reader = html.FileReader();
-      reader.readAsDataUrl(file);
-
-      await reader.onLoad.first;
-      final encoded = reader.result as String;
-      final data = base64Decode(encoded.split(",").last);
-
-      signatureImage = pw.MemoryImage(data);
-    } else if (signatureImagePath.isNotEmpty) {
-      try {
-        io.File signatureFile = io.File(signatureImagePath);
-        Uint8List signatureBytes = await signatureFile.readAsBytes();
-        signatureImage = pw.MemoryImage(signatureBytes);
-      } catch (e) {
-        signatureImage = null;
+    if (signatureImagePath.isNotEmpty) {
+      if (kIsWeb) {
+        try {
+          final response = await http.get(Uri.parse(signatureImagePath));
+          Uint8List imageBytes = response.bodyBytes;
+          signatureImage = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          signatureImage = null;
+        }
+      } else {
+        try {
+          io.File imageFile = io.File(signatureImagePath);
+          Uint8List imageBytes = await imageFile.readAsBytes();
+          signatureImage = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          signatureImage = null;
+        }
       }
     }
 
@@ -107,12 +109,16 @@ class InvoiceMake {
             .buffer
             .asUint8List(),
       );
+      rupeeIcon = pw.MemoryImage(
+        (await rootBundle.load("assets/icons/rupee.png")).buffer.asUint8List(),
+      );
     } catch (e) {
       addressIcon = null;
       phoneIcon = null;
       emailIcon = null;
       dateIcon = null;
       timeIcon = null;
+      rupeeIcon = null;
     }
 
     final now = DateTime.now();
@@ -419,19 +425,32 @@ class InvoiceMake {
                 pw.SizedBox(
                   height: 5,
                 ),
-                pw.Text(
-                  "₹${items.map((item) {
-                        final itemQuantity =
-                            int.tryParse(item["quantity"] ?? '') ?? 0;
-                        final itemPrice =
-                            double.tryParse(item["price"] ?? '') ?? 0.0;
-                        return itemQuantity * itemPrice;
-                      }).reduce((a, b) => a + b).toStringAsFixed(2)}",
-                  style: pw.TextStyle(
-                    fontSize: 16,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColor.fromHex("#03335e"),
-                  ),
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.end,
+                  children: [
+                    pw.Image(
+                      rupeeIcon!,
+                      height: 14,
+                      width: 14,
+                    ),
+                    pw.Text(
+                      items
+                          .map((item) {
+                            final itemQuantity =
+                                int.tryParse(item["quantity"] ?? '') ?? 0;
+                            final itemPrice =
+                                double.tryParse(item["price"] ?? '') ?? 0.0;
+                            return itemQuantity * itemPrice;
+                          })
+                          .reduce((a, b) => a + b)
+                          .toStringAsFixed(2),
+                      style: pw.TextStyle(
+                        fontSize: 16,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColor.fromHex("#03335e"),
+                      ),
+                    ),
+                  ],
                 ),
                 pw.SizedBox(
                   height: 5,
@@ -515,8 +534,6 @@ class InvoiceMake {
     required BuildContext context,
     required Uint8List uint8list,
   }) async {
-    showIndicator(context);
-
     if (kIsWeb) {
       final String name = "${DateTime.now().millisecondsSinceEpoch}.pdf";
       final html.Blob blob = html.Blob([uint8list], "application/pdf");
@@ -528,7 +545,7 @@ class InvoiceMake {
       html.Url.revokeObjectUrl(url);
 
       toastView(
-        msg: "Resume download process is complete",
+        msg: "Invoice download process is complete",
         context: context,
       );
 
@@ -542,10 +559,8 @@ class InvoiceMake {
       final io.File file = io.File(path);
       await file.writeAsBytes(uint8list);
 
-      toastView(
-        msg: "Resume download process is complete",
-        context: context,
-      );
+      showSnackbar(
+          "Invoice", "Your invoice download successfully !", "$dir/$name.pdf");
 
       Navigator.of(context).pop();
     }

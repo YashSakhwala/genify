@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unused_local_variable
 
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
+import 'package:genify/screens/home_screen_option/resume_view/all_resume_view/web_all_resume_view.dart';
 import "package:universal_html/html.dart" as html;
 import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
@@ -35,7 +35,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
 
   @override
   void initState() {
-    ResumeMake.webImageFile = null;
+    ResumeMake.imagePath = "";
     super.initState();
   }
 
@@ -106,7 +106,6 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                               reader.readAsDataUrl(file);
                               reader.onLoadEnd.listen((event) {
                                 setState(() {
-                                  ResumeMake.webImageFile = file;
                                   ResumeMake.imagePath =
                                       reader.result as String;
                                 });
@@ -156,7 +155,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                           height: 20,
                         ),
                         TextFieldView(
-                          title: "Phone number",
+                          title: "Phone Number",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -309,7 +308,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Add languages",
+                                "Add Languages",
                                 style: AppTextStyle.regularTextStyle
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -378,7 +377,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Add skills",
+                                "Add Skills",
                                 style: AppTextStyle.regularTextStyle
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -427,7 +426,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                           height: 20,
                         ),
                         TextFieldView(
-                          title: "About me",
+                          title: "About Me",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -492,7 +491,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Add achivements",
+                                "Add Achivements",
                                 style: AppTextStyle.regularTextStyle
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -563,7 +562,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Add educations",
+                                "Add Educations",
                                 style: AppTextStyle.regularTextStyle
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -634,7 +633,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Add projects",
+                                "Add Projects",
                                 style: AppTextStyle.regularTextStyle
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -680,19 +679,6 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                   ],
                 ),
                 onTap: () {
-                  log("Name-----> ${name.text}");
-                  log("Profession-----> ${profession.text}");
-                  log("Email-----> ${email.text}");
-                  log("PhoneNo-----> ${phoneNo.text}");
-                  log("Address-----> ${address.text}");
-                  log("AboutMe-----> ${aboutMe.text}");
-                  log("Experiance-----> ${experiences.map((controller) => controller.text).toList()}");
-                  log("Achivement-----> ${achivements.map((controller) => controller.text).toList()}");
-                  log("Languages-----> ${languages.map((controller) => controller.text).toList()}");
-                  log("Eductions-----> ${educations.map((controller) => controller.text).toList()}");
-                  log("Skills-----> ${skills.map((controller) => controller.text).toList()}");
-                  log("Projects-----> ${projects.map((controller) => controller.text).toList()}");
-
                   List exp =
                       experiences.map((controller) => controller.text).toList();
                   List ach =
@@ -706,6 +692,23 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                   List prj =
                       projects.map((controller) => controller.text).toList();
 
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) => WebAllResumeScreen(
+                  //     name: name.text,
+                  //     profession: profession.text,
+                  //     email: email.text,
+                  //     phoneNo: phoneNo.text,
+                  //     address: address.text,
+                  //     aboutMe: aboutMe.text,
+                  //     experience: exp,
+                  //     achivement: ach,
+                  //     language: lan,
+                  //     education: edu,
+                  //     skill: skill,
+                  //     project: prj,
+                  //   ),
+                  // ));
+
                   if (name.text.isEmpty ||
                       profession.text.isEmpty ||
                       email.text.isEmpty ||
@@ -717,54 +720,25 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                       context: context,
                     );
                   } else {
-                    ResumeMake.function1(
-                      name: name.text,
-                      profession: profession.text,
-                      email: email.text,
-                      phoneNo: phoneNo.text,
-                      address: address.text,
-                      aboutMe: aboutMe.text,
-                      experience: exp,
-                      achivement: ach,
-                      language: lan,
-                      education: edu,
-                      skill: skill,
-                      project: prj,
-                      context: context,
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => WebAllResumeScreen(
+                        name: name.text,
+                        profession: profession.text,
+                        email: email.text,
+                        phoneNo: phoneNo.text,
+                        address: address.text,
+                        aboutMe: aboutMe.text,
+                        experience: exp,
+                        achivement: ach,
+                        language: lan,
+                        education: edu,
+                        skill: skill,
+                        project: prj,
+                      ),
+                    ));
                   }
 
-                  // ResumeMake.function10(
-                  //   name: "Yash sakhwala",
-                  //   profession: "Flutter developer",
-                  //   email: "yashsakhwala@gmail.com",
-                  //   phoneNo: "9723831969",
-                  //   address: "Surat",
-                  //   aboutMe:
-                  //       "Professional fluter developer for cross-platform developement",
-                  //   experience: ["Flutter team manager \nTCS \n2020-current"],
-                  //   achivement: [
-                  //     "Best batsman award in inter school compatition",
-                  //   ],
-                  //   language: ["Hindi", "Gujarati", "English"],
-                  //   education: [
-                  //     "HSC \n2022 \nAkshar jyoti high school",
-                  //     "BCA \n2024 \nS.V. patel college",
-                  //     "BBA \n2020 \nSDJ college",
-                  //   ],
-                  //   skill: [
-                  //     "Dart",
-                  //     "GitHub",
-                  //     "Problem Solving",
-                  //   ],
-                  //   project: [
-                  //     "Quiz up \nMCQ exam application",
-                  //     "Genify \nInvoice application"
-                  //   ],
-                  //   context: context,
-                  // );
-
-                  // ResumeMake.function6(
+                  // ResumeMake.function1(
                   //   name: "Yash Sakhwala",
                   //   profession: "Flutter developer",
                   //   email: "yashsakhwal@gmail.com",
@@ -810,7 +784,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                   //     "Quiz up \nMCQ based exam application for school and college students.",
                   //     "Genify \nInvoice application for business related work.",
                   //     "WhatsApp \nCommunication application for all type of purpose.",
-                  //     "Travellingo \nTravelling relatedd application for all tourist.",
+                  //     "Travellingo \nTravelling related application for all tourist.",
                   //   ],
                   //   context: context,
                   // );

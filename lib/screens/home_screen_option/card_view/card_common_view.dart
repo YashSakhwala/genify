@@ -1,17 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
-import 'dart:developer';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../../config/app_colors.dart';
-import '../../../config/app_image.dart';
-import '../../../config/app_style.dart';
-import '../../../widgets/common_widgets/appbar.dart';
-import '../../../widgets/common_widgets/button_view.dart';
-import '../../../widgets/common_widgets/text_field_view.dart';
-import 'card_make_function.dart';
+import "dart:io";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_colorpicker/flutter_colorpicker.dart";
+import "package:image_picker/image_picker.dart";
+import "../../../config/app_colors.dart";
+import "../../../config/app_image.dart";
+import "../../../config/app_style.dart";
+import "../../../widgets/common_widgets/appbar.dart";
+import "../../../widgets/common_widgets/button_view.dart";
+import "../../../widgets/common_widgets/text_field_view.dart";
+import "all_card_view/all_card_common_view.dart";
+import "card_make_function.dart";
 
 class CardCommonViewScreen extends StatefulWidget {
   const CardCommonViewScreen({super.key});
@@ -26,11 +27,85 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
   final TextEditingController email = TextEditingController();
   final TextEditingController phoneNo = TextEditingController();
   final TextEditingController address = TextEditingController();
+  final TextEditingController textColorController = TextEditingController();
+  final TextEditingController backgroundColorController =
+      TextEditingController();
+
+  Color textColor = AppColors.blackColor;
+  Color backgroundColor = AppColors.whiteColor;
 
   @override
   void initState() {
-    CardMake.imagePath = "";
     super.initState();
+    CardMake.imagePath = "";
+    CardMake.backgroundImagePath = "";
+
+    textColorController.text =
+        textColor.value.toRadixString(16).substring(2).toUpperCase();
+    backgroundColorController.text =
+        backgroundColor.value.toRadixString(16).substring(2).toUpperCase();
+
+    textColorController.addListener(() {
+      applyColorCode(textColorController, (color) {
+        setState(() {
+          textColor = color;
+        });
+      });
+    });
+
+    backgroundColorController.addListener(() {
+      applyColorCode(backgroundColorController, (color) {
+        setState(() {
+          backgroundColor = color;
+        });
+      });
+    });
+  }
+
+  void applyColorCode(
+      TextEditingController controller, Function(Color) onColorPicked) {
+    try {
+      String colorCode = controller.text;
+      if (colorCode.startsWith("#")) {
+        colorCode = colorCode.substring(1);
+      }
+      if (colorCode.length == 6) {
+        int colorValue = int.parse(colorCode, radix: 16);
+        Color color = Color(0xFF000000 + colorValue);
+        onColorPicked(color);
+      }
+    } catch (e) {
+      print("Invalid color code");
+    }
+  }
+
+  void pickColor(Color currentColor, Function(Color) onColorPicked) async {
+    Color pickedColor = currentColor;
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Pick a color"),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: currentColor,
+              onColorChanged: (color) {
+                pickedColor = color;
+              },
+            ),
+          ),
+          actions: [
+            ButtonView(
+              title: "Select",
+              onTap: () {
+                onColorPicked(pickedColor);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -180,7 +255,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
               height: 20,
             ),
             TextFieldView(
-              title: "Phone number",
+              title: "Phone Number",
               controller: phoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
@@ -207,32 +282,229 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
               hintText: "119, Silver line, K.M. chock, Surat - 395006",
             ),
             SizedBox(
+              height: 20,
+            ),
+            Divider(),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFieldView(
+                    title: "Text Color",
+                    controller: textColorController,
+                    titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(6),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 13,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: InkWell(
+                    onTap: () {
+                      pickColor(textColor, (color) {
+                        setState(() {
+                          textColor = color;
+                          textColorController.text = color.value
+                              .toRadixString(16)
+                              .substring(2)
+                              .toUpperCase();
+                        });
+                      });
+                    },
+                    child: Container(
+                      height: 47,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: textColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.greyColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFieldView(
+                    title: "Background Color",
+                    controller: backgroundColorController,
+                    titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(6),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 13,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: InkWell(
+                    onTap: () {
+                      pickColor(backgroundColor, (color) {
+                        setState(() {
+                          backgroundColor = color;
+                          backgroundColorController.text = color.value
+                              .toRadixString(16)
+                              .substring(2)
+                              .toUpperCase();
+                        });
+                      });
+                    },
+                    child: Container(
+                      height: 47,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.greyColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.greyColor.shade300,
+                    image: DecorationImage(
+                      image: CardMake.backgroundImagePath.isEmpty
+                          ? Image.asset(
+                              AppImages.addImage,
+                              color: AppColors.greyColor.shade300,
+                              scale: 12,
+                            ).image
+                          : Image.file(
+                              File(CardMake.backgroundImagePath),
+                            ).image,
+                      fit: CardMake.backgroundImagePath.isEmpty
+                          ? BoxFit.scaleDown
+                          : BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 17,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Add a background image",
+                          style: AppTextStyle.regularTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Some companies require card without background image, so check before adding one.",
+                          style: AppTextStyle.regularTextStyle
+                              .copyWith(fontSize: 9),
+                        ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () async {
+                            ImagePicker imagePicker = ImagePicker();
+
+                            XFile? xFile = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+
+                            if (xFile != null && xFile.path.isNotEmpty) {
+                              CardMake.backgroundImagePath = xFile.path;
+                            }
+
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 43,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Upload background image",
+                                style: AppTextStyle.regularTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
               height: 80,
             ),
             ButtonView(
               title: "Continue",
               onTap: () {
-                log("Name-----> ${name.text}");
-                log("Profession-----> ${profession.text}");
-                log("Email-----> ${email.text}");
-                log("PhoneNo-----> ${phoneNo.text}");
-                log("Address-----> ${address.text}");
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AllCardCommonScreen(
+                    name: name.text,
+                    profession: profession.text,
+                    email: email.text,
+                    phoneNo: phoneNo.text,
+                    address: address.text,
+                    textColor: textColor,
+                    backgroundColor: backgroundColor,
+                  ),
+                ));
 
-                CardMake.generateCard(
-                  name: name.text,
-                  profession: profession.text,
-                  email: email.text,
-                  phoneNo: phoneNo.text,
-                  address: address.text,
-                  context: context,
-                );
-
-                // CardMake.generateCard(
-                //   name: "Yash sakhwala",
-                //   profession: "Insurance Advisor",
-                //   email: "mkconsulting@gmail.com",
-                //   phoneNo: "90998 42858",
-                //   address: "119, Silver line, K.M. chock, Surat - 395006",
+                // CardMake.function10(
+                //   name: "Yash Sakhwala",
+                //   profession: "Flutter developer",
+                //   email: "yashsakhwala@gmail.com",
+                //   phoneNo: "9723831969",
+                //   address:
+                //       "19, Sangam society, rakatha road, ambatalavadi, katargam, Surat - 395004",
+                //   textColor: textColor,
+                //   backgroundColor: backgroundColor,
                 //   context: context,
                 // );
               },

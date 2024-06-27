@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/screens/home_screen_option/salary_slip_view/salary_slip_common_view.dart';
+import 'package:genify/screens/home_screen_option/salary_slip_view/web_salary_slip_view.dart';
 import '../../widgets/layout_builder_view.dart';
 
 class SalarySlipScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilderView(
-      webView: SalarySlipCommonViewScreen(),
+      webView: WebSalarySlipScreen(),
       tabletView: SalarySlipCommonViewScreen(),
       mobileView: SalarySlipCommonViewScreen(),
     );
