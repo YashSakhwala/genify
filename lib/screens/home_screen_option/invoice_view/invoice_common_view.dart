@@ -91,7 +91,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Photo",
+                          "Add Company Logo",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                           height: 5,
                         ),
                         Text(
-                          "Some companies require invoice without photos, so check before adding one.",
+                          "Some companies require invoice without logo, so check before adding one.",
                           style: AppTextStyle.regularTextStyle
                               .copyWith(fontSize: 9),
                         ),
@@ -130,7 +130,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload Photo",
+                                "Upload Logo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -291,6 +291,9 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                         ),
                         controller: item["quantity"]!,
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        ],
                         hintText: "0",
                       ),
                     ),
@@ -397,7 +400,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Signature",
+                          "Add Signature",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -477,6 +480,16 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                     clientPhoneNo.text.isEmpty) {
                   toastView(
                     msg: "Please fill all details",
+                    context: context,
+                  );
+                } else if (items.isEmpty) {
+                  toastView(
+                    msg: "Please fill item details",
+                    context: context,
+                  );
+                } else if (items.any((item) => item["name"]!.text.isEmpty)) {
+                  toastView(
+                    msg: "Please fill item name",
                     context: context,
                   );
                 } else {

@@ -73,7 +73,7 @@ class _EditDetailsCommonViewScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
+          widget.type == "Incomes" ? AppColors.greenColor : AppColors.redColor,
       appBar: AppBarView(
         title: widget.type,
         style: AppTextStyle.regularTextStyle.copyWith(
@@ -83,13 +83,14 @@ class _EditDetailsCommonViewScreenState
         ),
         automaticallyImplyLeading: true,
         iconThemeData: IconThemeData(color: AppColors.whiteColor),
-        backgroundColor:
-            widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
+        backgroundColor: widget.type == "Incomes"
+            ? AppColors.greenColor
+            : AppColors.redColor,
       ),
       body: ListView(
         children: [
           Container(
-            color: widget.type == "Income"
+            color: widget.type == "Incomes"
                 ? AppColors.greenColor
                 : AppColors.redColor,
             height: Get.height / 4,
@@ -161,7 +162,9 @@ class _EditDetailsCommonViewScreenState
                       XFile? xFile = await imagePicker.pickImage(
                           source: ImageSource.gallery);
 
-                      transactionController.imagePath.value = xFile!.path;
+                      if (xFile != null && xFile.path.isNotEmpty) {
+                        transactionController.imagePath.value = xFile.path;
+                      }
                     },
                     child: Obx(
                       () => Stack(

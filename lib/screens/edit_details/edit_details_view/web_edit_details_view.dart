@@ -74,8 +74,9 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: Container(
-        color:
-            widget.type == "Income" ? AppColors.greenColor : AppColors.redColor,
+        color: widget.type == "Incomes"
+            ? AppColors.greenColor
+            : AppColors.redColor,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -85,7 +86,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.type == "Income" ? "Income" : "Expenses",
+                      widget.type == "Incomes" ? "Incomes" : "Expenses",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 30,
                         color: AppColors.whiteColor,

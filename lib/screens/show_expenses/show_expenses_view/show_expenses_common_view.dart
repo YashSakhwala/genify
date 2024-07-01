@@ -197,7 +197,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Category: ",
+                                                              "Category : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -217,9 +217,6 @@ class _ShowExpensesCommonViewScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .end,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
                                                               ),
                                                             ),
                                                           ],
@@ -230,7 +227,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Description: ",
+                                                              "Description : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -261,7 +258,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Amount: ",
+                                                              "Amount : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -271,7 +268,7 @@ class _ShowExpensesCommonViewScreenState
                                                             ),
                                                             Expanded(
                                                               child: Text(
-                                                                "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                                "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                                 style: AppTextStyle
                                                                     .regularTextStyle
                                                                     .copyWith(
@@ -279,7 +276,7 @@ class _ShowExpensesCommonViewScreenState
                                                                   color: allData[allDataIndex]
                                                                               [
                                                                               "type"] ==
-                                                                          "Income"
+                                                                          "Incomes"
                                                                       ? AppColors
                                                                           .greenColor
                                                                       : AppColors
@@ -288,9 +285,6 @@ class _ShowExpensesCommonViewScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .end,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
                                                               ),
                                                             ),
                                                           ],
@@ -301,7 +295,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Wallet: ",
+                                                              "Wallet : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -331,7 +325,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Date: ",
+                                                              "Date : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -361,7 +355,7 @@ class _ShowExpensesCommonViewScreenState
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Time: ",
+                                                              "Time : ",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -433,7 +427,8 @@ class _ShowExpensesCommonViewScreenState
                                                   onPressed:
                                                       (BuildContext con) {
                                                     Navigator.of(context)
-                                                        .pushReplacement(MaterialPageRoute(
+                                                        .pushReplacement(
+                                                            MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditDetailsScreen(
                                                         type: allData[
@@ -642,7 +637,7 @@ class _ShowExpensesCommonViewScreenState
                                                                 .end,
                                                         children: [
                                                           Text(
-                                                            "${allData[allDataIndex]['type'] == 'Income' ? '+' : '-'} ₹${allData[allDataIndex]['amount']}",
+                                                            "${allData[allDataIndex]['type'] == 'Incomes' ? '+' : '-'} ₹${allData[allDataIndex]['amount']}",
                                                             style: AppTextStyle
                                                                 .regularTextStyle
                                                                 .copyWith(
@@ -652,7 +647,7 @@ class _ShowExpensesCommonViewScreenState
                                                               color: allData[allDataIndex]
                                                                           [
                                                                           'type'] ==
-                                                                      'Income'
+                                                                      'Incomes'
                                                                   ? Colors.green
                                                                   : Colors.red,
                                                             ),

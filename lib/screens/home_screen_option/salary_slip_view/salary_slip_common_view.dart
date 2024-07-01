@@ -314,7 +314,7 @@ class _SalarySlipCommonViewScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Signature",
+                          "Add Signature",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,

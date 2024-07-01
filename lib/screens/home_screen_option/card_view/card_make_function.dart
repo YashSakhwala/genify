@@ -11,9 +11,7 @@ import "package:pdf/widgets.dart" as pw;
 import "package:universal_html/html.dart" as html;
 import "package:flutter/foundation.dart";
 import 'package:http/http.dart' as http;
-
 import "../../../widgets/common_widgets/snackbar_view.dart";
-import "../../bottom_bar/bottom_bar_screen.dart";
 
 class CardMake {
   static String imagePath = "";
@@ -2525,11 +2523,7 @@ class CardMake {
         context: context,
       );
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => BottomBarScreen(),
-          ),
-          (route) => false);
+      Navigator.of(context).pop();
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -2542,11 +2536,7 @@ class CardMake {
       showSnackbar(
           "Card", "Your card download successfully !", "$dir/$name.pdf");
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => BottomBarScreen(),
-          ),
-          (route) => false);
+      Navigator.of(context).pop();
     }
   }
 }

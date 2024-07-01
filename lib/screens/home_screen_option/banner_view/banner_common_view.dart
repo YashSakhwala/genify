@@ -161,7 +161,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Photo",
+                          "Add Company Logo",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -171,7 +171,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                           height: 5,
                         ),
                         Text(
-                          "Some companies require banner without photos, so check before adding one.",
+                          "Some companies require banner without logo, so check before adding one.",
                           style: AppTextStyle.regularTextStyle
                               .copyWith(fontSize: 9),
                         ),
@@ -200,7 +200,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload Photo",
+                                "Upload Logo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -424,7 +424,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Background Image",
+                          "Add Background Image",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_image.dart';
-import 'package:genify/screens/expenses/expenses_screen.dart';
+import 'package:genify/screens/Finances/finances_screen.dart';
 import 'package:genify/screens/home/home_screen.dart';
 import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
@@ -30,7 +30,7 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
     {
       "fillIcons": AppImages.blankHand,
       "blankIcons": AppImages.fillHand,
-      "name": "Expenses"
+      "name": "Finances"
     },
     {
       "fillIcons": AppImages.blankCalculator,
@@ -46,7 +46,7 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
 
   List bottomScreen = [
     HomeScreen(),
-    ExpensesScreen(),
+    FinancesScreen(),
     CalculatorScreen(),
     SettingsScreen(),
   ];

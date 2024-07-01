@@ -261,6 +261,12 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                                     msg: "Please enter details",
                                     context: context,
                                   );
+                                } else if (transactionController
+                                    .imagePath.value.isEmpty) {
+                                  toastView(
+                                    msg: "Please select image",
+                                    context: context,
+                                  );
                                 } else {
                                   transactionController.AllTransaction(
                                     amount: amount.text,

@@ -90,7 +90,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                     : 20,
                           ),
                           Text(
-                            "All Income",
+                            "All Incomes",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -212,7 +212,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Category: ",
+                                                                    "Category : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -231,9 +231,6 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -244,7 +241,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Description: ",
+                                                                    "Description : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -273,7 +270,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Amount: ",
+                                                                    "Amount : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -282,23 +279,20 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                   ),
                                                                   Expanded(
                                                                     child: Text(
-                                                                      "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                                      "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                                       style: AppTextStyle
                                                                           .regularTextStyle
                                                                           .copyWith(
                                                                         fontSize:
                                                                             14,
                                                                         color: allData[allDataIndex]["type"] ==
-                                                                                "Income"
+                                                                                "Incomes"
                                                                             ? AppColors.greenColor
                                                                             : AppColors.redColor,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -309,7 +303,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Wallet: ",
+                                                                    "Wallet : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -338,7 +332,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Date: ",
+                                                                    "Date : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -367,7 +361,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Time: ",
+                                                                    "Time : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -525,7 +519,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                   .end,
                                                           children: [
                                                             Text(
-                                                              "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                              "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -535,7 +529,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                 color: allData[allDataIndex]
                                                                             [
                                                                             "type"] ==
-                                                                        "Income"
+                                                                        "Incomes"
                                                                     ? AppColors
                                                                         .greenColor
                                                                     : AppColors

@@ -134,20 +134,20 @@ class TransactionController extends GetxController {
 
         expenses.add(newTransaction);
         await data.update({"Expenses": expenses});
-      } else if (type == "Income") {
-        List income = temp["Income"] ?? [];
+      } else if (type == "Incomes") {
+        List income = temp["Incomes"] ?? [];
 
         income.add(newTransaction);
-        await data.update({"Income": income});
+        await data.update({"Incomes": income});
       }
     } else {
       if (type == "Expenses") {
         await data.set({
           "Expenses": [newTransaction],
         });
-      } else if (type == "Income") {
+      } else if (type == "Incomes") {
         await data.set({
-          "Income": [newTransaction],
+          "Incomes": [newTransaction],
         });
       }
     }
@@ -175,7 +175,7 @@ class TransactionController extends GetxController {
     List incomeList = [];
 
     expensesList = transactionData["Expenses"] ?? [];
-    incomeList = transactionData["Income"] ?? [];
+    incomeList = transactionData["Incomes"] ?? [];
 
     // Sorting by time
     DateTime now = DateTime.now();
@@ -261,7 +261,7 @@ class TransactionController extends GetxController {
 
         if (transaction["type"] == "Expenses") {
           todayExpensesList.add(transaction);
-        } else if (transaction["type"] == "Income") {
+        } else if (transaction["type"] == "Incomes") {
           todayIncomeList.add(transaction);
         }
       }
@@ -278,7 +278,7 @@ class TransactionController extends GetxController {
       if (transaction["type"] == "Expenses") {
         expensesAmountsList.add(-amount);
         return -amount;
-      } else if (transaction["type"] == "Income") {
+      } else if (transaction["type"] == "Incomes") {
         incomeAmountsList.add(amount);
         return amount;
       } else {
@@ -331,7 +331,7 @@ class TransactionController extends GetxController {
     Map data = docSnapshot.data() as Map<String, dynamic>;
 
     List expenses = data["Expenses"];
-    List income = data["Income"];
+    List income = data["Incomes"];
 
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
@@ -416,7 +416,7 @@ class TransactionController extends GetxController {
 
     await docRef.update({
       "Expenses": expenses,
-      "Income": income,
+      "Incomes": income,
     });
 
     Navigator.of(context).pushAndRemoveUntil(
@@ -444,7 +444,7 @@ class TransactionController extends GetxController {
     Map data = docSnapshot.data() as Map<String, dynamic>;
 
     List expenses = data["Expenses"] ?? [];
-    List income = data["Income"] ?? [];
+    List income = data["Incomes"] ?? [];
 
     expenses.removeWhere((expense) => expense["uniqueTime"] == uniqueTime);
 
@@ -452,12 +452,9 @@ class TransactionController extends GetxController {
 
     await docRef.update({
       "Expenses": expenses,
-      "Income": income,
+      "Incomes": income,
     });
 
-    // BottomBarController bottomBarController = Get.put(BottomBarController());
-
-    // bottomBarController.index.value = 0;
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => BottomBarScreen(),

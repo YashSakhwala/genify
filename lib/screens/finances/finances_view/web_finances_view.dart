@@ -15,14 +15,14 @@ import '../../edit_details/edit_details_screen.dart';
 import '../../show_expenses/show_expenses_screen.dart';
 import '../../show_income/show_income_screen.dart';
 
-class WebExpenesScreen extends StatefulWidget {
-  const WebExpenesScreen({super.key});
+class WebFinancesScreen extends StatefulWidget {
+  const WebFinancesScreen({super.key});
 
   @override
-  State<WebExpenesScreen> createState() => _WebExpenesScreenState();
+  State<WebFinancesScreen> createState() => _WebFinancesScreenState();
 }
 
-class _WebExpenesScreenState extends State<WebExpenesScreen> {
+class _WebFinancesScreenState extends State<WebFinancesScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
 
@@ -55,7 +55,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Accont Balance",
+                          "Account Balance",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             color: AppColors.greyColor,
@@ -114,7 +114,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Income",
+                                              "Incomes",
                                               style: AppTextStyle
                                                   .regularTextStyle
                                                   .copyWith(
@@ -217,7 +217,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Recent Transaction",
+                              "Recent Transactions",
                               style: AppTextStyle.regularTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -228,8 +228,6 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => AllTransactionScreen(),
                                 ));
-
-                                // transactionController.getTransactionData();
                               },
                               child: Container(
                                 height: 30,
@@ -355,7 +353,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Category: ",
+                                                                    "Category : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -374,9 +372,6 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -387,7 +382,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Description: ",
+                                                                    "Description : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -416,7 +411,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Amount: ",
+                                                                    "Amount : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -425,23 +420,20 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                                   ),
                                                                   Expanded(
                                                                     child: Text(
-                                                                      "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                                      "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                                       style: AppTextStyle
                                                                           .regularTextStyle
                                                                           .copyWith(
                                                                         fontSize:
                                                                             14,
                                                                         color: allData[allDataIndex]["type"] ==
-                                                                                "Income"
+                                                                                "Incomes"
                                                                             ? AppColors.greenColor
                                                                             : AppColors.redColor,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -452,7 +444,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Wallet: ",
+                                                                    "Wallet : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -481,7 +473,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Date: ",
+                                                                    "Date : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -510,7 +502,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Time: ",
+                                                                    "Time : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -668,7 +660,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                                   .end,
                                                           children: [
                                                             Text(
-                                                              "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                              "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -678,7 +670,7 @@ class _WebExpenesScreenState extends State<WebExpenesScreen> {
                                                                 color: allData[allDataIndex]
                                                                             [
                                                                             "type"] ==
-                                                                        "Income"
+                                                                        "Incomes"
                                                                     ? AppColors
                                                                         .greenColor
                                                                     : AppColors

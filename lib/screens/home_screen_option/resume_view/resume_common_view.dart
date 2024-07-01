@@ -93,7 +93,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a Photo",
+                          "Add Profile Image",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -103,7 +103,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                           height: 5,
                         ),
                         Text(
-                          "Some employers require resumes without photos, so check before adding one.",
+                          "Some person require resume without image, so check before adding one.",
                           style: AppTextStyle.regularTextStyle
                               .copyWith(fontSize: 9),
                         ),
@@ -132,7 +132,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload Photo",
+                                "Upload Image",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -219,7 +219,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
               height: 20,
             ),
             TextFieldView(
-              title: "About Me",
+              title: "Summary",
               titleStyle: AppTextStyle.regularTextStyle.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -247,6 +247,16 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                         titleStyle: AppTextStyle.regularTextStyle.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
+                        ),
+                        anyWidget: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 7),
+                          child: Text(
+                            "eg: (Job title\n Company\n Date)",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 12,
+                              color: AppColors.greyColor,
+                            ),
+                          ),
                         ),
                         controller: experiences[experianceIndex],
                         maxLines: 4,
@@ -453,6 +463,16 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                         titleStyle: AppTextStyle.regularTextStyle.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
+                        ),
+                        anyWidget: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 7),
+                          child: Text(
+                            "eg: (Degree\n Year\n Collage name)",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 12,
+                              color: AppColors.greyColor,
+                            ),
+                          ),
                         ),
                         controller: educations[educationIndex],
                         maxLines: 4,

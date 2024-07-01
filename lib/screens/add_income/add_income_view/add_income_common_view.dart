@@ -55,7 +55,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
     return Scaffold(
       backgroundColor: AppColors.greenColor,
       appBar: AppBarView(
-        title: "Income",
+        title: "Incomes",
         style: AppTextStyle.regularTextStyle.copyWith(
           fontSize: 17,
           fontWeight: FontWeight.w600,
@@ -239,7 +239,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                       } else if (transactionController
                           .imagePath.value.isEmpty) {
                         toastView(
-                          msg: "Please select profile image",
+                          msg: "Please select image",
                           context: context,
                         );
                       } else {
@@ -249,7 +249,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                           subTitle: subTitle.text,
                           payment: wallet,
                           context: context,
-                          type: "Income",
+                          type: "Incomes",
                         );
                       }
                     },

@@ -30,6 +30,7 @@ class TextFieldView extends StatelessWidget {
   final double? cursorHeight;
   final int? maxLines;
   final TextStyle? titleStyle;
+  final Widget? anyWidget;
 
   const TextFieldView({
     super.key,
@@ -56,6 +57,7 @@ class TextFieldView extends StatelessWidget {
     this.cursorHeight,
     this.maxLines,
     this.titleStyle,
+    this.anyWidget,
   });
 
   @override
@@ -72,6 +74,9 @@ class TextFieldView extends StatelessWidget {
                         AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
                     : titleStyle ?? AppTextStyle.regularTextStyle,
               ),
+        SizedBox(
+          child: anyWidget,
+        ),
         TextFormField(
           controller: controller,
           onChanged: onChanged,

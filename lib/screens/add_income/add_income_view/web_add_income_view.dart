@@ -61,7 +61,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Income",
+                      "Incomes",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 30,
                         color: AppColors.whiteColor,
@@ -261,6 +261,12 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     msg: "Please enter details",
                                     context: context,
                                   );
+                                } else if (transactionController
+                                    .imagePath.value.isEmpty) {
+                                  toastView(
+                                    msg: "Please select image",
+                                    context: context,
+                                  );
                                 } else {
                                   transactionController.AllTransaction(
                                     amount: amount.text,
@@ -268,7 +274,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     subTitle: subTitle.text,
                                     payment: wallet,
                                     context: context,
-                                    type: "Income",
+                                    type: "Incomes",
                                   );
                                 }
                               },

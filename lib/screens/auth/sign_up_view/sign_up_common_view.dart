@@ -43,6 +43,13 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
+  void initState() {
+    authController.imagePath.value = "";
+    authController.webImageFile.value = null;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (isLoading) {

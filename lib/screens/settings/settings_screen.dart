@@ -51,8 +51,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List settingTools = [
     {"icons": AppImages.aboutUs, "name": "About Us"},
-    {"icons": AppImages.privacyPolicy, "name": "Privacy Policy"},
-    {"icons": AppImages.terms, "name": "Terms & Condition"},
+    {"icons": AppImages.privacyPolicy, "name": "Privacy & Policy"},
+    {"icons": AppImages.terms, "name": "Terms & Conditions"},
     {"icons": AppImages.contact, "name": "Contact Us"},
     {"icons": AppImages.logout, "name": "Logout"},
   ];
@@ -224,7 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "Version 1.0",
+              "Version 1.0.0",
               style: AppTextStyle.regularTextStyle
                   .copyWith(color: AppColors.primaryColor),
               textAlign: TextAlign.center,

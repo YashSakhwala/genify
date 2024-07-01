@@ -11,9 +11,7 @@ import "package:pdf/widgets.dart" as pw;
 import "package:universal_html/html.dart" as html;
 import 'package:http/http.dart' as http;
 import "package:flutter/foundation.dart";
-
 import "../../../widgets/common_widgets/snackbar_view.dart";
-import "../../bottom_bar/bottom_bar_screen.dart";
 
 class SalaryMake {
   static String signatureImagePath = "";
@@ -101,6 +99,7 @@ class SalaryMake {
                   height: 15,
                 ),
                 pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Expanded(
                       child: pw.Container(
@@ -125,7 +124,9 @@ class SalaryMake {
                     pw.Expanded(
                       child: pw.Container(
                         decoration: pw.BoxDecoration(
-                          border: pw.Border.all(),
+                          border: pw.Border(
+                            top: pw.BorderSide(),
+                          ),
                         ),
                         child: pw.Padding(
                           padding: pw.EdgeInsets.all(10),
@@ -607,11 +608,7 @@ class SalaryMake {
         context: context,
       );
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => BottomBarScreen(),
-          ),
-          (route) => false);
+      Navigator.of(context).pop();
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -622,13 +619,12 @@ class SalaryMake {
       await file.writeAsBytes(uint8list);
 
       showSnackbar(
-          "Salary", "Your salary download successfully !", "$dir/$name.pdf");
+        "Salary Slip",
+        "Your salary slip download successfully !",
+        "$dir/$name.pdf",
+      );
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => BottomBarScreen(),
-          ),
-          (route) => false);
+      Navigator.of(context).pop();
     }
   }
 }

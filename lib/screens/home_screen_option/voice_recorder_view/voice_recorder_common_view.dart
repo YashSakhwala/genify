@@ -14,9 +14,7 @@ import '../../../widgets/common_widgets/dialog_view.dart';
 import 'package:record/record.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
-
 import '../../../widgets/common_widgets/snackbar_view.dart';
-import '../../bottom_bar/bottom_bar_screen.dart';
 
 class VoiceRecorderCommonViewScreen extends StatefulWidget {
   const VoiceRecorderCommonViewScreen({Key? key}) : super(key: key);
@@ -426,16 +424,10 @@ class _VoiceRecorderCommonViewScreenState
                         recordeController.isStop.value = false;
 
                         showSnackbar(
-                          "Voice recorder",
+                          "Voice Recorder",
                           "Your recording download successfully !",
                           saveFile.path,
                         );
-
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => BottomBarScreen(),
-                            ),
-                            (route) => false);
                       },
                       width: MediaQuery.of(context).size.width / 4,
                       title: "Save",

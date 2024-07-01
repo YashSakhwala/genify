@@ -39,6 +39,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
     country.text = authController.userData["country"];
     email.text = authController.userData["email"];
     phoneNo.text = authController.userData["phoneNo"];
+    authController.imagePath.value = "";
     super.initState();
   }
 
@@ -204,7 +205,9 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                           XFile? xFile = await imagePicker.pickImage(
                               source: ImageSource.gallery);
 
-                          authController.imagePath.value = xFile!.path;
+                          if (xFile != null && xFile.path.isNotEmpty) {
+                            authController.imagePath.value = xFile.path;
+                          }
                         },
                         child: Container(
                           height: 40,
@@ -358,7 +361,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(1950),
-                            lastDate: DateTime(2040),
+                            lastDate: DateTime.now(),
                             builder: (BuildContext context, Widget? child) {
                               return Theme(
                                 data: ThemeData.light().copyWith(

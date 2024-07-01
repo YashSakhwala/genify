@@ -40,6 +40,7 @@ class _WebProfileScreenState extends State<WebProfileScreen> {
     country.text = authController.userData["country"];
     email.text = authController.userData["email"];
     phoneNo.text = authController.userData["phoneNo"];
+    authController.imagePath.value = "";
     super.initState();
   }
 
@@ -416,7 +417,7 @@ class _WebProfileScreenState extends State<WebProfileScreen> {
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1950),
-                                lastDate: DateTime(2040),
+                                lastDate: DateTime.now(),
                                 builder: (BuildContext context, Widget? child) {
                                   return Theme(
                                     data: ThemeData.light().copyWith(

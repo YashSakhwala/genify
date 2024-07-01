@@ -16,15 +16,15 @@ import "../../../controller/transaction_controller.dart";
 import "../../all_transaction/all_transaction_screen.dart";
 import "../../edit_details/edit_details_screen.dart";
 
-class ExpensesCommonViewScreen extends StatefulWidget {
-  const ExpensesCommonViewScreen({super.key});
+class FinancesCommonViewScreen extends StatefulWidget {
+  const FinancesCommonViewScreen({super.key});
 
   @override
-  State<ExpensesCommonViewScreen> createState() =>
-      _ExpensesCommonViewScreenState();
+  State<FinancesCommonViewScreen> createState() =>
+      _FinancesCommonViewScreenState();
 }
 
-class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
+class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
 
@@ -54,7 +54,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                       height: 20,
                     ),
                     Text(
-                      "Accont Balance",
+                      "Account Balance",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 13,
                         color: AppColors.greyColor,
@@ -111,7 +111,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Income",
+                                            "Incomes",
                                             style: AppTextStyle.regularTextStyle
                                                 .copyWith(
                                               fontSize: 13,
@@ -210,7 +210,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Recent Transaction",
+                          "Recent Transactions",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -249,7 +249,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                       child: Text(
                         transactionController.todayTransactions.isEmpty
                             ? ""
-                            : "--- Swip for edit and delete ---",
+                            : "--- Swipe for edit and delete ---",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 12,
                           color: AppColors.greyColor,
@@ -334,9 +334,12 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                       height: 20,
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Text(
-                                                          "Category: ",
+                                                          "Category : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -355,9 +358,6 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                                         14),
                                                             textAlign:
                                                                 TextAlign.end,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
                                                           ),
                                                         ),
                                                       ],
@@ -366,9 +366,12 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                       height: 8,
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Text(
-                                                          "Description: ",
+                                                          "Description : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -395,9 +398,12 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                       height: 8,
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Text(
-                                                          "Amount: ",
+                                                          "Amount : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -407,7 +413,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                         ),
                                                         Expanded(
                                                           child: Text(
-                                                            "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                            "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                             style: AppTextStyle
                                                                 .regularTextStyle
                                                                 .copyWith(
@@ -415,7 +421,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                               color: allData[allDataIndex]
                                                                           [
                                                                           "type"] ==
-                                                                      "Income"
+                                                                      "Incomes"
                                                                   ? AppColors
                                                                       .greenColor
                                                                   : AppColors
@@ -423,9 +429,6 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                             ),
                                                             textAlign:
                                                                 TextAlign.end,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
                                                           ),
                                                         ),
                                                       ],
@@ -436,7 +439,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          "Wallet: ",
+                                                          "Wallet : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -465,7 +468,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          "Date: ",
+                                                          "Date : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -494,7 +497,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          "Time: ",
+                                                          "Time : ",
                                                           style: AppTextStyle
                                                               .regularTextStyle
                                                               .copyWith(
@@ -753,7 +756,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        "${allData[allDataIndex]['type'] == 'Income' ? '+' : '-'} ₹${allData[allDataIndex]['amount']}",
+                                                        "${allData[allDataIndex]['type'] == 'Incomes' ? '+' : '-'} ₹${allData[allDataIndex]['amount']}",
                                                         style: AppTextStyle
                                                             .regularTextStyle
                                                             .copyWith(
@@ -762,7 +765,7 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                                                           color: allData[allDataIndex]
                                                                       [
                                                                       'type'] ==
-                                                                  'Income'
+                                                                  'Incomes'
                                                               ? Colors.green
                                                               : Colors.red,
                                                         ),

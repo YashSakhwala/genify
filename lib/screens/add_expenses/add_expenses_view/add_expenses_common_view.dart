@@ -238,7 +238,7 @@ class _AddExpensesCommonViewScreenState
                       } else if (transactionController
                           .imagePath.value.isEmpty) {
                         toastView(
-                          msg: "Please select profile image",
+                          msg: "Please select image",
                           context: context,
                         );
                       } else {

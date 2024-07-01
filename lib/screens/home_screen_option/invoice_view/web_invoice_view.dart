@@ -80,7 +80,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                           height: 10,
                         ),
                         Text(
-                          "Some companies require invoice without photos, so check before adding one.",
+                          "Some companies require invoice without logo, so check before adding one.",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 8,
                             fontWeight: FontWeight.w600,
@@ -121,7 +121,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload Photo",
+                                "Upload Logo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -533,6 +533,16 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                       clientPhoneNo.text.isEmpty) {
                     toastView(
                       msg: "Please fill all details",
+                      context: context,
+                    );
+                  } else if (items.isEmpty) {
+                    toastView(
+                      msg: "Please fill item details",
+                      context: context,
+                    );
+                  } else if (items.any((item) => item["name"]!.text.isEmpty)) {
+                    toastView(
+                      msg: "Please fill item name",
                       context: context,
                     );
                   } else {

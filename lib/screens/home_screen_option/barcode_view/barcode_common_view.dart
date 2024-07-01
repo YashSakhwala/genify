@@ -70,8 +70,6 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
         msg: "Barcode download process is complete",
         context: context,
       );
-
-      Navigator.of(context).pop();
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -83,8 +81,6 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
 
       showSnackbar(
           "Barcode", "Your barcode download successfully !", "$dir/$name.png");
-
-      Navigator.of(context).pop();
     }
   }
 
@@ -171,13 +167,27 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
                         ],
                       ),
                       onTap: () {
-                        saveQrCode();
+                        if (text.text.isEmpty) {
+                          toastView(
+                            msg: "Please enter any detail",
+                            context: context,
+                          );
+                        } else {
+                          saveQrCode();
+                        }
                       },
                     ),
                   )
                 : ButtonView(
                     onTap: () {
-                      saveQrCode();
+                      if (text.text.isEmpty) {
+                        toastView(
+                          msg: "Please enter any detail",
+                          context: context,
+                        );
+                      } else {
+                        saveQrCode();
+                      }
                     },
                     title: "Download",
                   ),

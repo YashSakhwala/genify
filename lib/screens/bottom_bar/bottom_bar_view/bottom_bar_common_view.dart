@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:genify/controller/bottom_bar_controller.dart';
 import 'package:genify/screens/calculator/calculator_screen.dart';
-import 'package:genify/screens/expenses/expenses_screen.dart';
+import 'package:genify/screens/Finances/finances_screen.dart';
 import 'package:genify/screens/home/home_screen.dart';
 import 'package:genify/screens/settings/settings_screen.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ class BottomBarCommonView extends StatefulWidget {
 class _BottomBarCommonViewState extends State<BottomBarCommonView> {
   List bottomScreen = [
     HomeScreen(),
-    ExpensesScreen(),
+    FinancesScreen(),
     CalculatorScreen(),
     SettingsScreen(),
   ];
@@ -89,7 +89,7 @@ class _BottomBarCommonViewState extends State<BottomBarCommonView> {
                     ),
                     Obx(
                       () => Text(
-                        "Expenses",
+                        "Finances",
                         style: TextStyle(
                           fontSize: 12,
                           color: bottomBarController.index.value == 1

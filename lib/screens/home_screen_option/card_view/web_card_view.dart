@@ -149,7 +149,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                           height: 10,
                         ),
                         Text(
-                          "Some companies require card without photos, so check before adding one.",
+                          "Some companies require card without logo, so check before adding one.",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 8,
                             fontWeight: FontWeight.w600,
@@ -189,7 +189,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload Photo",
+                                "Upload Logo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -268,14 +268,19 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               ),
                             ),
                             child: Center(
-                              child: Text(
-                                "Upload Background Image",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryColor,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    "Upload Background Image",
+                                    style:
+                                        AppTextStyle.regularTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
                                 ),
-                                textAlign: TextAlign.justify,
                               ),
                             ),
                           ),

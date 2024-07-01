@@ -90,7 +90,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                     : 20,
                           ),
                           Text(
-                            "All Transaction",
+                            "All Transactions",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -211,7 +211,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Category: ",
+                                                                    "Category : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -230,9 +230,6 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -243,7 +240,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Description: ",
+                                                                    "Description : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -272,7 +269,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Amount: ",
+                                                                    "Amount : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -281,23 +278,20 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                   ),
                                                                   Expanded(
                                                                     child: Text(
-                                                                      "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                                      "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                                       style: AppTextStyle
                                                                           .regularTextStyle
                                                                           .copyWith(
                                                                         fontSize:
                                                                             14,
                                                                         color: allData[allDataIndex]["type"] ==
-                                                                                "Income"
+                                                                                "Incomes"
                                                                             ? AppColors.greenColor
                                                                             : AppColors.redColor,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -308,7 +302,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Wallet: ",
+                                                                    "Wallet : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -337,7 +331,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Date: ",
+                                                                    "Date : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -366,7 +360,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                               Row(
                                                                 children: [
                                                                   Text(
-                                                                    "Time: ",
+                                                                    "Time : ",
                                                                     style: AppTextStyle
                                                                         .regularTextStyle
                                                                         .copyWith(
@@ -524,7 +518,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                   .end,
                                                           children: [
                                                             Text(
-                                                              "${allData[allDataIndex]["type"] == "Income" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                              "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
                                                               style: AppTextStyle
                                                                   .regularTextStyle
                                                                   .copyWith(
@@ -534,7 +528,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                 color: allData[allDataIndex]
                                                                             [
                                                                             "type"] ==
-                                                                        "Income"
+                                                                        "Incomes"
                                                                     ? AppColors
                                                                         .greenColor
                                                                     : AppColors
