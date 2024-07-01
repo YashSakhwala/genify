@@ -121,7 +121,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -201,7 +201,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload signature",
+                                "Upload Signature",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -549,30 +549,6 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                       context: context,
                     );
                   }
-
-                  // InvoiceMake.generateInvoice(
-                  //   companyName: "MD Pharma",
-                  //   gstNumber: "123456789012345",
-                  //   companyEmail: "md.pharma@gmail.com",
-                  //   companyPhoneNo: "8795674356",
-                  //   address: "46, Jolly arcade, P.M. road, Surat - 39145",
-                  //   clientName: "Yash Sakhwala",
-                  //   clientEmail: "yashsakhwala@gmail.com",
-                  //   clientPhoneNo: "9723831969",
-                  //   items: [
-                  //     {
-                  //       "name": "Paracetamol",
-                  //       "quantity": "10",
-                  //       "price": "5",
-                  //     },
-                  //     {
-                  //       "name": "Ibuprofen",
-                  //       "quantity": "5",
-                  //       "price": "10",
-                  //     },
-                  //   ],
-                  //   context: context,
-                  // );
                 },
               ),
             ],

@@ -37,7 +37,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
         children: [
           Center(
             child: Text(
-              "Welocme Back!",
+              "Welcome Back!",
               style: AppTextStyle.largeTextStyle,
             ),
           ),
@@ -46,6 +46,10 @@ class _LoginCommonViewState extends State<LoginCommonView> {
           ),
           TextFieldView(
             title: "Email",
+            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
             hintText: "example@gmail.com",
             controller: email,
             needValidator: true,
@@ -57,6 +61,10 @@ class _LoginCommonViewState extends State<LoginCommonView> {
           Obx(
             () => TextFieldView(
               title: "Password",
+              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
               hintText: "******",
               controller: password,
               obscureText: authController.isLoginPasswordShow.value,
@@ -107,7 +115,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
             child: Align(
               alignment: Alignment.topRight,
               child: Text(
-                "Forget password?",
+                "Forgot Password?",
                 style: AppTextStyle.largeTextStyle.copyWith(
                   fontSize: 13,
                   color: AppColors.primaryColor,
@@ -131,19 +139,20 @@ class _LoginCommonViewState extends State<LoginCommonView> {
             title: "Login",
           ),
           SizedBox(
-            height: 8,
+            height: 10,
           ),
           RichText(
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Doesn\'t have an account? ',
+                  text: 'Don\'t have an account? ',
                   style: AppTextStyle.regularTextStyle.copyWith(fontSize: 14),
                 ),
                 TextSpan(
                     text: 'Sign Up',
                     style: AppTextStyle.regularTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: AppColors.primaryColor,
                     ),
                     recognizer: TapGestureRecognizer()

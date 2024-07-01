@@ -10,7 +10,7 @@ import "../../../../config/app_colors.dart";
 import "../../../../config/app_image.dart";
 import "../../../../config/app_style.dart";
 import "../../../../widgets/common_widgets/appbar.dart";
-import "../../../../widgets/common_widgets/button_view.dart"; 
+import "../../../../widgets/common_widgets/button_view.dart";
 import "../../../widgets/common_widgets/toast_view.dart";
 import "all_resume_view/all_resume_common_view.dart";
 
@@ -93,7 +93,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a photo",
+                          "Add a Photo",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -132,7 +132,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -664,23 +664,6 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                 List prj =
                     projects.map((controller) => controller.text).toList();
 
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => AllResumeCommonScreen(
-                //     name: name.text,
-                //     profession: profession.text,
-                //     email: email.text,
-                //     phoneNo: phoneNo.text,
-                //     address: address.text,
-                //     aboutMe: aboutMe.text,
-                //     experience: exp,
-                //     achivement: ach,
-                //     language: lan,
-                //     education: edu,
-                //     skill: skill,
-                //     project: prj,
-                //   ),
-                // ));
-
                 if (name.text.isEmpty ||
                     profession.text.isEmpty ||
                     email.text.isEmpty ||
@@ -709,57 +692,6 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                     ),
                   ));
                 }
-
-                // ResumeMake.function1(
-                //   name: "Yash Sakhwala",
-                //   profession: "Flutter developer",
-                //   email: "yashsakhwal@gmail.com",
-                //   phoneNo: "9723831969",
-                //   address:
-                //       "19, Sangam society, rakatha road, ambatalavadi, katargam, Surat - 395004",
-                //   aboutMe:
-                //       "As a developer, I'm like a digital architect, crafting the intricate frameworks and structures that power the virtual world. My expertise spans across various programming languages, databases, and software development methodologies. Whether it's creating sleek websites, robust mobile applications, or complex software solutions, I thrive on turning ideas into functional, user-friendly realities. With a keen eye for detail and a passion for innovation, I'm dedicated to delivering high-quality, scalable solutions that meet and exceed client expectations.",
-                //   experience: [
-                //     "Junior developer \nMD infotexh \n2020-2022",
-                //     "Senior developer \nTCS \n2022-2023",
-                //     "CEO \nOracle \n2023-Current",
-                //   ],
-                //   achivement: [
-                //     "Earning a scholarship award in school.",
-                //     "Winning a championship at collagiate level.",
-                //     "Seleted for the National Defence Academy (NDA).",
-                //     "Best oppening betsman award in inter college cricket championship.",
-                //   ],
-                //   language: [
-                //     "English",
-                //     "Hindi",
-                //     "Gujarati",
-                //     "Marathi",
-                //     "Spanish",
-                //     "German",
-                //   ],
-                //   education: [
-                //     "SSC \n2020 \nYogi pravruti vidhyalay",
-                //     "HSC \n2022 \nAkshar jyoti high school",
-                //     "BCA \n2024 \nShri shambhubhai v. patel college of computer science and business management",
-                //   ],
-                //   skill: [
-                //     "Flutter",
-                //     "Dart",
-                //     "GitHub",
-                //     "Problem Solving",
-                //     "Python",
-                //     "SQL",
-                //     "VB.Net",
-                //   ],
-                //   project: [
-                //     "Quiz up \nMCQ based exam application for school and college students.",
-                //     "Genify \nInvoice application for business related work.",
-                //     "WhatsApp \nCommunication application for all type of purpose.",
-                //     "Travellingo \nTravelling related application for all tourist.",
-                //   ],
-                //   context: context,
-                // );
               },
             ),
           ],

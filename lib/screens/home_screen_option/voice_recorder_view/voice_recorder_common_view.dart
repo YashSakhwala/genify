@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, avoid_print, non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: deprecated_member_use, avoid_print, non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:io';
@@ -15,6 +15,9 @@ import 'package:record/record.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 
+import '../../../widgets/common_widgets/snackbar_view.dart';
+import '../../bottom_bar/bottom_bar_screen.dart';
+
 class VoiceRecorderCommonViewScreen extends StatefulWidget {
   const VoiceRecorderCommonViewScreen({Key? key}) : super(key: key);
 
@@ -28,7 +31,7 @@ class _VoiceRecorderCommonViewScreenState
   RecordeController recordeController = Get.put(RecordeController());
 
   final TextEditingController savName = TextEditingController();
-  late Timer timer;
+  Timer? timer;
 
   void _init() async {
     String musicDir = await ExternalPath.getExternalStoragePublicDirectory(
@@ -72,7 +75,7 @@ class _VoiceRecorderCommonViewScreenState
   void startRecord() async {
     String musicDir = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
-    Directory folder = Directory("$musicDir/voice recorder/.private/tmp.m4a");
+    Directory folder = Directory("$musicDir/voice recorder/.private/tmp.mp3");
     if (await record.hasPermission()) {
       count();
       await record.start(
@@ -82,12 +85,14 @@ class _VoiceRecorderCommonViewScreenState
   }
 
   void pauseRecorde() async {
-    timer.cancel();
+    timer!.cancel();
     await record.pause();
   }
 
   void cancelTime() {
-    timer.cancel();
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }
     recordeController.seconds.value = 0;
     recordeController.minutes.value = 0;
     recordeController.hours.value = 0;
@@ -134,7 +139,6 @@ class _VoiceRecorderCommonViewScreenState
         padding: const EdgeInsets.all(13),
         child: ListView(
           children: [
-            // const Spacer(),
             SizedBox(
               height: size.height / 10,
               child: Obx(
@@ -187,7 +191,7 @@ class _VoiceRecorderCommonViewScreenState
                                     .getExternalStoragePublicDirectory(
                                         ExternalPath.DIRECTORY_DOWNLOADS);
                                 Directory folder = Directory(
-                                    "$musicDir/voice recorder/.private/tmp.m4a");
+                                    "$musicDir/voice recorder/.private/tmp.mp3");
                                 File file = File(folder.path);
                                 try {
                                   await file.delete();
@@ -214,7 +218,7 @@ class _VoiceRecorderCommonViewScreenState
                             ),
                             InkWell(
                               onTap: () {
-                                showSaveDialoBox();
+                                showSaveDialogBox();
                               },
                               child: Container(
                                 height: 55,
@@ -249,9 +253,10 @@ class _VoiceRecorderCommonViewScreenState
                           child: Container(
                             height: 80,
                             width: 80,
-                            decoration: const BoxDecoration(
-                                color: AppColors.primaryColor,
-                                shape: BoxShape.circle),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
                             child: Obx(
                               () => Center(
                                 child: recordeController.isStop.value
@@ -293,8 +298,9 @@ class _VoiceRecorderCommonViewScreenState
                             height: 80,
                             width: 80,
                             decoration: const BoxDecoration(
-                                color: AppColors.primaryColor,
-                                shape: BoxShape.circle),
+                              color: AppColors.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
                             child: Center(
                               child: Image.asset(
                                 AppImages.recorder,
@@ -316,8 +322,8 @@ class _VoiceRecorderCommonViewScreenState
     );
   }
 
-  showSaveDialoBox() {
-    String name = "VoiceRecorder-${DateTime.now().microsecondsSinceEpoch}.m4a";
+  showSaveDialogBox() {
+    String name = "VoiceRecorder-${DateTime.now().microsecondsSinceEpoch}.mp3";
     savName.text = name;
 
     dialogBoxView(
@@ -363,8 +369,9 @@ class _VoiceRecorderCommonViewScreenState
                     style: AppTextStyle.smallTextStyle
                         .copyWith(color: AppColors.blackColor),
                     decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                        border: InputBorder.none),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -375,7 +382,6 @@ class _VoiceRecorderCommonViewScreenState
                   children: [
                     ButtonView(
                       width: MediaQuery.of(context).size.width / 4,
-                      title: "Cancel",
                       onTap: () async {
                         toastView(
                           msg: "Recording is not saved...",
@@ -383,24 +389,23 @@ class _VoiceRecorderCommonViewScreenState
                         );
                         cancelTime();
                         Navigator.of(context).pop();
+
                         await record.stop();
                         String musicDir = await ExternalPath
                             .getExternalStoragePublicDirectory(
                                 ExternalPath.DIRECTORY_DOWNLOADS);
                         Directory folder = Directory(
-                            "$musicDir/voice recorder/.private/tmp.m4a");
+                            "$musicDir/voice recorder/.private/tmp.mp3");
                         File file = File(folder.path);
                         await file.delete();
+
                         recordeController.isStart.value = false;
                         recordeController.isStop.value = false;
                       },
+                      title: "Cancel",
                     ),
                     ButtonView(
                       onTap: () async {
-                        toastView(
-                          msg: "Recording is saved...",
-                          context: context,
-                        );
                         cancelTime();
                         Navigator.of(context).pop();
 
@@ -412,7 +417,7 @@ class _VoiceRecorderCommonViewScreenState
                         Directory folder2 =
                             Directory("$musicDir/voice recorder/voice");
                         Directory folder = Directory(
-                            "$musicDir/voice recorder/.private/tmp.m4a");
+                            "$musicDir/voice recorder/.private/tmp.mp3");
                         File file = File(folder.path);
                         File saveFile = File("${folder2.path}/${savName.text}");
                         await file.copy(saveFile.path);
@@ -420,10 +425,17 @@ class _VoiceRecorderCommonViewScreenState
                         recordeController.isStart.value = false;
                         recordeController.isStop.value = false;
 
-                        // showSnackbar(
-                        //     "Voice recorder",
-                        //     "Your recording download successfully !",
-                        //     "${folder2.path}/${savName.text}");
+                        showSnackbar(
+                          "Voice recorder",
+                          "Your recording download successfully !",
+                          saveFile.path,
+                        );
+
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => BottomBarScreen(),
+                            ),
+                            (route) => false);
                       },
                       width: MediaQuery.of(context).size.width / 4,
                       title: "Save",

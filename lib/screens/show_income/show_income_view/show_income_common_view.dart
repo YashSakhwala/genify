@@ -93,7 +93,7 @@ class _ShowIncomeCommonViewScreenState
                                     : 20,
                           ),
                           Text(
-                            "All income",
+                            "All Income",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

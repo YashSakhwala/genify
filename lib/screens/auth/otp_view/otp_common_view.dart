@@ -19,7 +19,6 @@ class OTPCommonView extends StatefulWidget {
   final String phoneNo;
   final String password;
   final String verificationId;
-  // final EmailOTP myAuth;
 
   const OTPCommonView({
     super.key,
@@ -28,7 +27,6 @@ class OTPCommonView extends StatefulWidget {
     required this.phoneNo,
     required this.password,
     required this.verificationId,
-    // required this.myAuth,
   });
 
   @override
@@ -96,27 +94,6 @@ class _OTPCommonViewState extends State<OTPCommonView> {
               height: 50,
               title: "Continue",
               onTap: () async {
-                // var inputOTP = pinPutController.text;
-
-                // var temp = await widget.myAuth.verifyOTP(
-                //   otp: inputOTP,
-                // );
-
-                // if (temp == true) {
-                // authController.signUp(
-                //   name: widget.name,
-                //   email: widget.email,
-                //   password: widget.password,
-                //   phoneNo: widget.phoneNo,
-                //   context: context,
-                // );
-                // } else {
-                //   toastView(
-                //     msg: "Please enter valid OTP",
-                //     context: context,
-                //   );
-                // }
-
                 setState(() {
                   isLoading = true;
                 });

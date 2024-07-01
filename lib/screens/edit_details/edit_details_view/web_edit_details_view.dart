@@ -95,7 +95,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                       height: 85,
                     ),
                     Text(
-                      "How much?",
+                      "How Much?",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 15,
                         color: AppColors.whiteColor.withOpacity(0.7),
@@ -314,7 +314,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                     msg: "Please enter details",
                                     context: context,
                                   );
-                                }   else {
+                                } else {
                                   transactionController.updateTransactionData(
                                     amount: amount.text,
                                     title: title.text,

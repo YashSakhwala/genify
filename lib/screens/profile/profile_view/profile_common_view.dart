@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
 import 'package:genify/config/app_style.dart';
@@ -64,7 +63,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                   Spacer(),
                   ButtonView(
                     width: 130,
-                    title: "Save changes",
+                    title: "Save Changes",
                     borderRadius: BorderRadius.circular(12),
                     onTap: () {
                       authController.updateProfile(
@@ -128,7 +127,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                       width: 13,
                     ),
                     Text(
-                      "Change password",
+                      "Change Password",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 14.5,
                         fontWeight: FontWeight.w500,
@@ -224,7 +223,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                       ),
                       Divider(),
                       Text(
-                        "Full name",
+                        "Full Name",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 13,
                           color: AppColors.greyColor,
@@ -267,14 +266,14 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                         height: 16,
                       ),
                       Text(
-                        "Account info",
+                        "Account Info",
                         style: AppTextStyle.regularTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Divider(),
                       Text(
-                        "Email address",
+                        "Email Address",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 13,
                           color: AppColors.greyColor,
@@ -292,7 +291,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Phone number",
+                        "Phone Number",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 13,
                           color: AppColors.greyColor,
@@ -304,6 +303,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                           border: InputBorder.none,
                         ),
                         keyboardType: TextInputType.phone,
+                        enabled: false,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(10),
                         ],
@@ -339,14 +339,14 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                         height: 16,
                       ),
                       Text(
-                        "Profile info",
+                        "Profile Info",
                         style: AppTextStyle.regularTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Divider(),
                       Text(
-                        "Date of birth",
+                        "Date of Birth",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 13,
                           color: AppColors.greyColor,
@@ -390,7 +390,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Country or region",
+                        "Country or Region",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 13,
                           color: AppColors.greyColor,

@@ -41,7 +41,9 @@ class _CalculatorCommonViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
         toolbarHeight: 70,
         title: Container(
           height: MediaQuery.of(context).size.height,

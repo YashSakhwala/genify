@@ -221,8 +221,6 @@ class _ExpensesCommonViewScreenState extends State<ExpensesCommonViewScreen> {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AllTransactionScreen(),
                             ));
-
-                            // transactionController.getTransactionData();
                           },
                           child: Container(
                             height: 30,

@@ -90,7 +90,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                     : 20,
                           ),
                           Text(
-                            "All transaction",
+                            "All Transaction",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

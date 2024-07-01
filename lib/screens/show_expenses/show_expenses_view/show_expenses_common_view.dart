@@ -94,7 +94,7 @@ class _ShowExpensesCommonViewScreenState
                                     : 20,
                           ),
                           Text(
-                            "All expenses",
+                            "All Expenses",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

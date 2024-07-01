@@ -36,6 +36,7 @@ class _SalarySlipCommonViewScreenState
 
   final TextEditingController bankName = TextEditingController();
   final TextEditingController bankAccountNumber = TextEditingController();
+  final TextEditingController upiID = TextEditingController();
 
   String paymentMethod = "Cash";
 
@@ -202,9 +203,6 @@ class _SalarySlipCommonViewScreenState
               height: 20,
             ),
             if (paymentMethod == "Bank Transfer") ...[
-              SizedBox(
-                height: 20,
-              ),
               TextFieldView(
                 title: "Bank Name",
                 titleStyle: AppTextStyle.regularTextStyle.copyWith(
@@ -231,6 +229,20 @@ class _SalarySlipCommonViewScreenState
                 height: 20,
               ),
             ],
+            if (paymentMethod == "UPI Payment") ...[
+              TextFieldView(
+                title: "UPI ID",
+                titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+                controller: upiID,
+                hintText: "9876543210@okaxis",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
             Text(
               "Select Payment Method",
               style: AppTextStyle.regularTextStyle.copyWith(
@@ -250,7 +262,8 @@ class _SalarySlipCommonViewScreenState
                 value: paymentMethod,
                 isExpanded: true,
                 underline: SizedBox(),
-                items: ["Cash", "Bank Transfer"].map((String value) {
+                items: ["Cash", "Bank Transfer", "UPI Payment"]
+                    .map((String value) {
                   return DropdownMenuItem(
                     value: value,
                     child: Text(value),
@@ -301,7 +314,7 @@ class _SalarySlipCommonViewScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a signature",
+                          "Add a Signature",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -340,7 +353,7 @@ class _SalarySlipCommonViewScreenState
                             ),
                             child: Center(
                               child: Text(
-                                "Upload signature",
+                                "Upload Signature",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -403,30 +416,10 @@ class _SalarySlipCommonViewScreenState
                     bankAccountNumber: paymentMethod == "Bank Transfer"
                         ? bankAccountNumber.text
                         : null,
+                    upiID: paymentMethod == "UPI Payment" ? upiID.text : null,
                     context: context,
                   );
                 }
-
-                // SalaryMake.generateSalarySlip(
-                //   companyName: "MD Pharam",
-                //   employeeName: "Yash Sakhwala",
-                //   employeeID: "1366",
-                //   department: "Developement",
-                //   designation: "Senior Developer",
-                //   salary: "50000",
-                //   mealAllowance: "5700",
-                //   transportationAllowance: "3000",
-                //   medicalAllowance: "3970",
-                //   retirementInsurance: "7000",
-                //   tax: "482",
-                //   paymentMethod: paymentMethod,
-                //   bankName:
-                //       paymentMethod == "Bank Transfer" ? bankName.text : null,
-                //   bankAccountNumber: paymentMethod == "Bank Transfer"
-                //       ? bankAccountNumber.text
-                //       : null,
-                //   context: context,
-                // );
               },
             ),
           ],

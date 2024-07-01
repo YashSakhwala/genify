@@ -21,12 +21,13 @@ class _FinancialCalculatorCommonViewScreenState
     {"image": AppImages.investment, "name": "Investment"},
     {"image": AppImages.loan, "name": "Loan"},
     {"image": AppImages.dividend, "name": "Dividend"},
-    {"image": AppImages.gain, "name": "Capital gain"},
+    {"image": AppImages.gain, "name": "Capital Gain"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: ListView(
         children: [
           GridView.builder(

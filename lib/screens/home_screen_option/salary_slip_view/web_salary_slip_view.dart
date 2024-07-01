@@ -33,6 +33,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
 
   final TextEditingController bankName = TextEditingController();
   final TextEditingController bankAccountNumber = TextEditingController();
+  final TextEditingController upiID = TextEditingController();
 
   String paymentMethod = "Cash";
 
@@ -126,7 +127,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload signature",
+                                "Upload Signature",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -313,9 +314,6 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           height: 20,
                         ),
                         if (paymentMethod == "Bank Transfer") ...[
-                          SizedBox(
-                            height: 20,
-                          ),
                           TextFieldView(
                             title: "Bank Name",
                             titleStyle: AppTextStyle.regularTextStyle.copyWith(
@@ -342,6 +340,20 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             height: 20,
                           ),
                         ],
+                        if (paymentMethod == "UPI Payment") ...[
+                          TextFieldView(
+                            title: "UPI ID",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: upiID,
+                            hintText: "9876543210@okaxis",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
                         Text(
                           "Select Payment Method",
                           style: AppTextStyle.regularTextStyle.copyWith(
@@ -361,8 +373,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             value: paymentMethod,
                             isExpanded: true,
                             underline: SizedBox(),
-                            items:
-                                ["Cash", "Bank Transfer"].map((String value) {
+                            items: ["Cash", "Bank Transfer", "UPI Payment"]
+                                .map((String value) {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
@@ -448,30 +460,10 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                       bankAccountNumber: paymentMethod == "Bank Transfer"
                           ? bankAccountNumber.text
                           : null,
+                      upiID: paymentMethod == "UPI Payment" ? upiID.text : null,
                       context: context,
                     );
                   }
-
-                  // SalaryMake.generateSalarySlip(
-                  //   companyName: "MD Pharam",
-                  //   employeeName: "Yash Sakhwala",
-                  //   employeeID: "1366",
-                  //   department: "Developement",
-                  //   designation: "Senior Developer",
-                  //   salary: "50000",
-                  //   mealAllowance: "5700",
-                  //   transportationAllowance: "3000",
-                  //   medicalAllowance: "3970",
-                  //   retirementInsurance: "7000",
-                  //   tax: "482",
-                  //   paymentMethod: paymentMethod,
-                  //   bankName:
-                  //       paymentMethod == "Bank Transfer" ? bankName.text : null,
-                  //   bankAccountNumber: paymentMethod == "Bank Transfer"
-                  //       ? bankAccountNumber.text
-                  //       : null,
-                  //   context: context,
-                  // );
                 },
               ),
             ],

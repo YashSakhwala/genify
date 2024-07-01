@@ -48,12 +48,12 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen> {
       "navigation": BannerScreen(),
     },
     {
-      "name": "Salary slip",
+      "name": "Salary Slip",
       "image": AppImages.salary,
       "navigation": SalarySlipScreen(),
     },
     {
-      "name": "Voice recorder",
+      "name": "Voice Recorder",
       "image": AppImages.microphone,
       "navigation": VoiceRecorderScreen(),
     },

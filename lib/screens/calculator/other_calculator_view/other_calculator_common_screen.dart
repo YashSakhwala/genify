@@ -30,7 +30,7 @@ class _OtherCalculatorCommonViewScreenState
     {"image": AppImages.discount, "name": "Discount"},
     {"image": AppImages.length, "name": "Length"},
     {"image": AppImages.mass, "name": "Mass"},
-    {"image": AppImages.numeral, "name": "Numeral system"},
+    {"image": AppImages.numeral, "name": "Numeral System"},
     {"image": AppImages.speed, "name": "Speed"},
     {"image": AppImages.temperature, "name": "Temperature"},
     {"image": AppImages.time, "name": "Time"},
@@ -48,6 +48,7 @@ class _OtherCalculatorCommonViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: ListView(
         children: [
           GridView.builder(
@@ -109,43 +110,41 @@ class _OtherCalculatorCommonViewScreenState
                 },
                 child: Container(
                   margin: EdgeInsets.all(8),
-                  child: 
-                  MediaQuery.of(context).size.width >= 900 ?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image(
-                        image: Image.asset(option[index]["image"]).image,
-                        height: 35,
-                        color: AppColors.primaryColor,
-                      ),
-                      Text(
-                        option[index]["name"],
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          color: AppColors.greyColor.shade600,
-                          fontSize: 18,
+                  child: MediaQuery.of(context).size.width >= 900
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Image(
+                              image: Image.asset(option[index]["image"]).image,
+                              height: 35,
+                              color: AppColors.primaryColor,
+                            ),
+                            Text(
+                              option[index]["name"],
+                              textAlign: TextAlign.center,
+                              style: AppTextStyle.smallTextStyle.copyWith(
+                                color: AppColors.greyColor.shade600,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Image(
+                              image: Image.asset(option[index]["image"]).image,
+                              height: 30,
+                              color: AppColors.primaryColor,
+                            ),
+                            Text(
+                              option[index]["name"],
+                              textAlign: TextAlign.center,
+                              style: AppTextStyle.smallTextStyle.copyWith(
+                                  color: AppColors.greyColor.shade600),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  )                  
-                  :
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image(
-                        image: Image.asset(option[index]["image"]).image,
-                        height: 30,
-                        color: AppColors.primaryColor,
-                      ),
-                      Text(
-                        option[index]["name"],
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle.smallTextStyle
-                            .copyWith(color: AppColors.greyColor.shade600),
-                      ),
-                    ],
-                  ),
                 ),
               );
             },

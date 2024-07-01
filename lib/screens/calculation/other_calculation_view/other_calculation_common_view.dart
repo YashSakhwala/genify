@@ -931,6 +931,7 @@ class _OtherCalculationCommonViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: ListView(
         children: [
           Center(

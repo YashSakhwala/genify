@@ -46,28 +46,28 @@ class AppImages {
   static const String resume10 = "assets/images/resume_10.jpg";
 
   // Card images
-  static const String card1 = "assets/images/card_1.jpg";
-  static const String card2 = "assets/images/card_2.jpg";
-  static const String card3 = "assets/images/card_3.jpg";
-  static const String card4 = "assets/images/card_4.jpg";
-  static const String card5 = "assets/images/card_5.jpg";
-  static const String card6 = "assets/images/card_6.jpg";
-  static const String card7 = "assets/images/card_7.jpg";
-  static const String card8 = "assets/images/card_8.jpg";
-  static const String card9 = "assets/images/card_9.jpg";
-  static const String card10 = "assets/images/card_10.jpg";
+  static const String card1 = "assets/images/card_1.png";
+  static const String card2 = "assets/images/card_2.png";
+  static const String card3 = "assets/images/card_3.png";
+  static const String card4 = "assets/images/card_4.png";
+  static const String card5 = "assets/images/card_5.png";
+  static const String card6 = "assets/images/card_6.png";
+  static const String card7 = "assets/images/card_7.png";
+  static const String card8 = "assets/images/card_8.png";
+  static const String card9 = "assets/images/card_9.png";
+  static const String card10 = "assets/images/card_10.png";
 
   // Banner images
-  static const String banner1 = "assets/images/banner_1.jpg";
-  static const String banner2 = "assets/images/banner_2.jpg";
-  static const String banner3 = "assets/images/banner_3.jpg";
-  static const String banner4 = "assets/images/banner_4.jpg";
-  static const String banner5 = "assets/images/banner_5.jpg";
-  static const String banner6 = "assets/images/banner_6.jpg";
-  static const String banner7 = "assets/images/banner_7.jpg";
-  static const String banner8 = "assets/images/banner_8.jpg";
-  static const String banner9 = "assets/images/banner_9.jpg";
-  static const String banner10 = "assets/images/banner_10.jpg";
+  static const String banner1 = "assets/images/banner_1.png";
+  static const String banner2 = "assets/images/banner_2.png";
+  static const String banner3 = "assets/images/banner_3.png";
+  static const String banner4 = "assets/images/banner_4.png";
+  static const String banner5 = "assets/images/banner_5.png";
+  static const String banner6 = "assets/images/banner_6.png";
+  static const String banner7 = "assets/images/banner_7.png";
+  static const String banner8 = "assets/images/banner_8.png";
+  static const String banner9 = "assets/images/banner_9.png";
+  static const String banner10 = "assets/images/banner_10.png";
 
   // Recorder icons
   static const String audio_waves = "assets/icons/audio_waves.png";

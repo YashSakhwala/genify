@@ -18,6 +18,7 @@ import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/indicatior.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import "package:universal_html/html.dart" as html;
+import '../otp_screen.dart';
 
 class SignUpCommomView extends StatefulWidget {
   const SignUpCommomView({super.key});
@@ -147,6 +148,10 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           ),
           TextFieldView(
             title: "Name",
+            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
             hintText: "Joseph Buttler",
             controller: name,
             needValidator: true,
@@ -157,6 +162,10 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           ),
           TextFieldView(
             title: "Email",
+            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
             hintText: "example@gmail.com",
             controller: email,
             needValidator: true,
@@ -167,6 +176,10 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           ),
           TextFieldView(
             title: "Phone number",
+            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
             hintText: "1234567890",
             keyboardType: TextInputType.phone,
             controller: phoneNo,
@@ -183,6 +196,10 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           Obx(
             () => TextFieldView(
               title: "Password",
+              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
               hintText: "******",
               controller: password,
               obscureText: authController.isSignUpPasswordShow.value,
@@ -209,6 +226,10 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           Obx(
             () => TextFieldView(
               title: "Confirm password",
+              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
               hintText: "******",
               controller: confirmPassword,
               obscureText: authController.isConfirmPasswordShow.value,
@@ -246,111 +267,77 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     context: context,
                   );
                 } else {
-                  // showIndicator(context);
+                  setState(() {
+                    isLoading = true;
+                  });
 
-                  // EmailOTP MyAuth = EmailOTP();
+                  String phoneNumber = phoneNo.text.trim();
+                  if (!phoneNumber.startsWith("+91")) {
+                    phoneNumber = "+91" + phoneNumber;
+                  }
 
-                  // MyAuth.setConfig(
-                  //   appEmail: "yashsakhwala@gmail.com",
-                  //   appName: "Genify",
-                  //   userEmail: email.text,
-                  //   otpLength: 6,
-                  //   otpType: OTPType.digitsOnly,
-                  // );
+                  final PhoneVerificationCompleted verificationCompleted =
+                      (PhoneAuthCredential credential) async {
+                    await firebaseAuth.signInWithCredential(credential);
 
-                  // bool otpSent = await MyAuth.sendOTP();
-                  // print("OTP sent status: $otpSent");
+                    setState(() {
+                      isLoading = false;
+                    });
+                  };
 
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) => OTPScreen(
-                  // name: name.text,
-                  // email: email.text,
-                  // password: password.text,
-                  // phoneNo: phoneNo.text,
-                  // myAuth: MyAuth,
-                  //   ),
-                  // ));
+                  final PhoneVerificationFailed verificationFailed =
+                      (FirebaseAuthException authException) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  };
 
-                  authController.signUp(
-                    name: name.text,
-                    email: email.text,
-                    phoneNo: phoneNo.text,
-                    password: password.text,
-                    context: context,
+                  final PhoneCodeSent codeSent = (String verificationId,
+                      [int? forceResendingToken]) async {
+                    toastView(
+                      msg: "OTP is successfully sent to your mobile number",
+                      context: context,
+                    );
+
+                    setState(() {
+                      verificationId = verificationId;
+                      isLoading = false;
+                    });
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OTPScreen(
+                        name: name.text,
+                        email: email.text,
+                        password: password.text,
+                        phoneNo: phoneNo.text,
+                        verificationId: verificationId,
+                      ),
+                    ));
+                  };
+
+                  final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+                      (String verificationId) {
+                    setState(() {
+                      verificationId = verificationId;
+                      isLoading = false;
+                    });
+                  };
+
+                  await firebaseAuth.verifyPhoneNumber(
+                    phoneNumber: phoneNumber,
+                    timeout: Duration(seconds: 60),
+                    verificationCompleted: verificationCompleted,
+                    verificationFailed: verificationFailed,
+                    codeSent: codeSent,
+                    codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
                   );
-
-                  // setState(() {
-                  //   isLoading = true;
-                  // });
-
-                  // String phoneNumber = phoneNo.text.trim();
-                  // if (!phoneNumber.startsWith("+91")) {
-                  //   phoneNumber = "+91" + phoneNumber;
-                  // }
-
-                  // final PhoneVerificationCompleted verificationCompleted =
-                  //     (PhoneAuthCredential credential) async {
-                  //   await firebaseAuth.signInWithCredential(credential);
-
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // };
-
-                  // final PhoneVerificationFailed verificationFailed =
-                  //     (FirebaseAuthException authException) {
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // };
-
-                  // final PhoneCodeSent codeSent = (String verificationId,
-                  //     [int? forceResendingToken]) async {
-                  //   toastView(
-                  //     msg: "OTP is successfully sent to your mobile number",
-                  //     context: context,
-                  //   );
-
-                  //   setState(() {
-                  //     verificationId = verificationId;
-                  //     isLoading = false;
-                  //   });
-
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => OTPScreen(
-                  //       name: name.text,
-                  //       email: email.text,
-                  //       password: password.text,
-                  //       phoneNo: phoneNo.text,
-                  //       // myAuth: MyAuth,
-                  //       verificationId: verificationId,
-                  //     ),
-                  //   ));
-                  // };
-
-                  // final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-                  //     (String verificationId) {
-                  //   setState(() {
-                  //     verificationId = verificationId;
-                  //     isLoading = false;
-                  //   });
-                  // };
-
-                  // await firebaseAuth.verifyPhoneNumber(
-                  //   phoneNumber: phoneNumber,
-                  //   timeout: Duration(seconds: 60),
-                  //   verificationCompleted: verificationCompleted,
-                  //   verificationFailed: verificationFailed,
-                  //   codeSent: codeSent,
-                  //   codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-                  // );
                 }
               }
             },
             title: "Sign Up",
           ),
           SizedBox(
-            height: 8,
+            height: 10,
           ),
           RichText(
             text: TextSpan(
@@ -362,7 +349,8 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                 TextSpan(
                     text: 'Log In',
                     style: AppTextStyle.regularTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: AppColors.primaryColor,
                     ),
                     recognizer: TapGestureRecognizer()

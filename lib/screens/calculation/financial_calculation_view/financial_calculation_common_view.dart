@@ -794,7 +794,7 @@ class _FinancialCalculationCommonViewScreenState
       case 5:
         return Column(
           children: [
-            titleBar(context, "Capital gains"),
+            titleBar(context, "Capital Gain"),
             Center(
               child: Container(
                 width: 500,
@@ -951,6 +951,7 @@ class _FinancialCalculationCommonViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: ListView(
         children: [
           Center(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -171,8 +171,9 @@ class _NumeralCalculationScreenState extends State<NumeralCalculationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
-        title: "Numeral system",
+        title: "Numeral System",
         style: AppTextStyle.regularTextStyle.copyWith(
           fontSize: 18,
           fontWeight: FontWeight.w700,

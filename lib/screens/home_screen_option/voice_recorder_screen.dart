@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../widgets/layout_builder_view.dart';
-import 'voice_recorder_view/voice_recorder_common_view.dart'; 
+import 'voice_recorder_view/voice_recorder_common_view.dart';
 
 class VoiceRecorderScreen extends StatefulWidget {
   const VoiceRecorderScreen({super.key});

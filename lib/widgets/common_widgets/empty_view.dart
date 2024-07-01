@@ -16,7 +16,7 @@ class EmptyView extends StatelessWidget {
           scale: 2,
         ),
         Text(
-          "No data found",
+          "No Data Found",
           style: AppTextStyle.largeTextStyle.copyWith(
             color: AppColors.greyColor,
             fontSize: 14,

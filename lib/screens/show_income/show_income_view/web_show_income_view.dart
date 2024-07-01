@@ -90,7 +90,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                     : 20,
                           ),
                           Text(
-                            "All income",
+                            "All Income",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

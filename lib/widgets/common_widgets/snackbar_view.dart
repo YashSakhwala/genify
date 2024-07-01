@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:open_file_plus/open_file_plus.dart';
@@ -17,7 +19,12 @@ void showSnackbar(String title, String message, String path) {
       color: AppColors.primaryColor,
     ),
     onTap: (snack) async {
-      final result = await OpenFile.open(path);
+      log('---------------$path');
+      try {
+        final result = await OpenFile.open(path);
+      } catch (e) {
+        log('---------------${e.toString()}');
+      }
     },
   );
 }

@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import "package:flutter/foundation.dart";
 
 import "../../../widgets/common_widgets/snackbar_view.dart";
+import "../../bottom_bar/bottom_bar_screen.dart";
 
 class SalaryMake {
   static String signatureImagePath = "";
@@ -32,6 +33,7 @@ class SalaryMake {
     required String paymentMethod,
     String? bankName,
     String? bankAccountNumber,
+    String? upiID,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -434,10 +436,15 @@ class SalaryMake {
                                       "Bank Name:  $bankName",
                                       style: pw.TextStyle(fontSize: 10),
                                     )
-                                  : pw.Text(
-                                      "Borrower name:  $employeeName",
-                                      style: pw.TextStyle(fontSize: 10),
-                                    ),
+                                  : paymentMethod == "UPI Payment"
+                                      ? pw.Text(
+                                          "UPI ID:  $upiID",
+                                          style: pw.TextStyle(fontSize: 10),
+                                        )
+                                      : pw.Text(
+                                          "Borrower name:  $employeeName",
+                                          style: pw.TextStyle(fontSize: 10),
+                                        ),
                               pw.SizedBox(
                                 height: 7,
                               ),
@@ -462,7 +469,7 @@ class SalaryMake {
                               ),
                               paymentMethod == "Bank Transfer"
                                   ? pw.Text(
-                                      "Bank Account #:  $bankAccountNumber",
+                                      "Bank Account Number:  $bankAccountNumber",
                                       style: pw.TextStyle(fontSize: 10),
                                     )
                                   : pw.SizedBox(),
@@ -600,7 +607,11 @@ class SalaryMake {
         context: context,
       );
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -613,7 +624,11 @@ class SalaryMake {
       showSnackbar(
           "Salary", "Your salary download successfully !", "$dir/$name.pdf");
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     }
   }
 }

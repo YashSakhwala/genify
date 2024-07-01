@@ -4,6 +4,7 @@ import "dart:io" as io;
 import "package:external_path/external_path.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:genify/screens/bottom_bar/bottom_bar_screen.dart";
 import "package:genify/widgets/common_widgets/indicatior.dart";
 import "package:genify/widgets/common_widgets/toast_view.dart";
 import "package:pdf/pdf.dart";
@@ -2635,7 +2636,11 @@ class BannerMake {
         context: context,
       );
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -2648,28 +2653,11 @@ class BannerMake {
       showSnackbar(
           "Banner", "Your banner download successfully !", "$dir/$name.pdf");
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     }
   }
 }
- 
-
-
-
-
-
-//  if (image != null)
-//                   pw.Expanded(
-//                     child: pw.Container(
-//                       height: double.infinity,
-//                       width: 800,
-//                       decoration: pw.BoxDecoration(
-//                         image: pw.DecorationImage(
-//                           image: pw.Image(
-//                             image,
-//                             fit: pw.BoxFit.fill,
-//                           ).image,
-//                         ),
-//                       ),
-//                     ),
-//                   ),

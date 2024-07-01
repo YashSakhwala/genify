@@ -29,7 +29,7 @@ class _AllTransactionCommonViewScreenState
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
-        title: "All transaction",
+        title: "All Transaction",
         style: AppTextStyle.largeTextStyle.copyWith(
           color: AppColors.whiteColor,
         ),
@@ -93,7 +93,7 @@ class _AllTransactionCommonViewScreenState
                                     : 20,
                           ),
                           Text(
-                            "All transaction",
+                            "All Transaction",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

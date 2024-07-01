@@ -71,7 +71,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                       height: 85,
                     ),
                     Text(
-                      "How much?",
+                      "How Much?",
                       style: AppTextStyle.regularTextStyle.copyWith(
                         fontSize: 15,
                         color: AppColors.whiteColor.withOpacity(0.7),

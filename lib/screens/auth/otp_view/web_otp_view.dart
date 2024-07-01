@@ -11,8 +11,7 @@ class WebOTPScreen extends StatefulWidget {
   final String email;
   final String phoneNo;
   final String password;
-  final String verificationId;
-  // final EmailOTP myAuth;
+  final String verificationId; 
 
   const WebOTPScreen({
     super.key,
@@ -20,8 +19,7 @@ class WebOTPScreen extends StatefulWidget {
     required this.email,
     required this.phoneNo,
     required this.password,
-    required this.verificationId,
-    // required this.myAuth,
+    required this.verificationId, 
   });
 
   @override
@@ -84,8 +82,7 @@ class _WebOTPScreenState extends State<WebOTPScreen> {
                     email: widget.email,
                     password: widget.password,
                     phoneNo: widget.phoneNo,
-                    verificationId: widget.verificationId,
-                    // myAuth: widget.myAuth,
+                    verificationId: widget.verificationId, 
                   ),
                 ),
               ),

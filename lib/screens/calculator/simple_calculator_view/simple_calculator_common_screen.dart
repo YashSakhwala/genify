@@ -20,6 +20,7 @@ class _SimpleCalculatorCommonViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: Align(
         alignment: Alignment.bottomCenter,
         child: Container(

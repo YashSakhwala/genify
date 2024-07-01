@@ -244,6 +244,7 @@ class _TemperatureCalculationScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
         title: "Temperature",
         style: AppTextStyle.regularTextStyle.copyWith(

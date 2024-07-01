@@ -11,7 +11,6 @@ class OTPScreen extends StatelessWidget {
   final String phoneNo;
   final String password;
   final String verificationId;
-  // final EmailOTP myAuth;
 
   const OTPScreen({
     super.key,
@@ -20,7 +19,6 @@ class OTPScreen extends StatelessWidget {
     required this.phoneNo,
     required this.password,
     required this.verificationId,
-    // required this.myAuth,
   });
 
   @override
@@ -32,7 +30,6 @@ class OTPScreen extends StatelessWidget {
         password: password,
         phoneNo: phoneNo,
         verificationId: verificationId,
-        // myAuth: myAuth,
       ),
       tabletView: OTPCommonView(
         name: name,
@@ -40,7 +37,6 @@ class OTPScreen extends StatelessWidget {
         password: password,
         phoneNo: phoneNo,
         verificationId: verificationId,
-        // myAuth: myAuth,
       ),
       mobileView: OTPCommonView(
         name: name,
@@ -48,7 +44,6 @@ class OTPScreen extends StatelessWidget {
         password: password,
         phoneNo: phoneNo,
         verificationId: verificationId,
-        // myAuth: myAuth,
       ),
     );
   }

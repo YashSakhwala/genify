@@ -12,8 +12,8 @@ import "package:pdf/widgets.dart" as pw;
 import "package:universal_html/html.dart" as html;
 import 'package:http/http.dart' as http;
 import "package:flutter/foundation.dart";
-
 import "../../../widgets/common_widgets/snackbar_view.dart";
+import "../../bottom_bar/bottom_bar_screen.dart";
 
 class InvoiceMake {
   static String imagePath = "";
@@ -549,7 +549,11 @@ class InvoiceMake {
         context: context,
       );
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -562,7 +566,11 @@ class InvoiceMake {
       showSnackbar(
           "Invoice", "Your invoice download successfully !", "$dir/$name.pdf");
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     }
   }
 }

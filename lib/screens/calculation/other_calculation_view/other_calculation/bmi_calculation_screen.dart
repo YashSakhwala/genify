@@ -139,6 +139,7 @@ class _BMICalculationScreenState extends State<BMICalculationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
         title: "BMI",
         style: AppTextStyle.regularTextStyle.copyWith(

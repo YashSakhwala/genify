@@ -9,6 +9,7 @@ import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 import 'all_banner_view/web_all_banner_view.dart';
 import 'banner_make_function.dart';
 
@@ -189,7 +190,7 @@ class _WebBannerScreenState extends State<WebBannerScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -269,7 +270,7 @@ class _WebBannerScreenState extends State<WebBannerScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload signature",
+                                "Upload Background Image",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -501,29 +502,28 @@ class _WebBannerScreenState extends State<WebBannerScreen> {
                             ],
                           ),
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => WebAllBannerScreen(
-                                name: name.text,
-                                profession: profession.text,
-                                email: email.text,
-                                phoneNo: phoneNo.text,
-                                address: address.text,
-                                textColor: textColor,
-                                backgroundColor: backgroundColor,
-                              ),
-                            ));
-
-                            // BannerMake.function10(
-                            //   name: "Yash Sakhwala",
-                            //   profession: "Flutter developer",
-                            //   email: "yashsakhwala@gmail.com",
-                            //   phoneNo: "9723831969",
-                            //   address:
-                            //       "19, Sangam society, ramkatha road, ambatalavadi, katargam, Surat - 395004",
-                            //   textColor: textColor,
-                            //   backgroundColor: backgroundColor,
-                            //   context: context,
-                            // );
+                            if (name.text.isEmpty ||
+                                profession.text.isEmpty ||
+                                email.text.isEmpty ||
+                                phoneNo.text.isEmpty ||
+                                address.text.isEmpty) {
+                              toastView(
+                                msg: "Please fill all details",
+                                context: context,
+                              );
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WebAllBannerScreen(
+                                  name: name.text,
+                                  profession: profession.text,
+                                  email: email.text,
+                                  phoneNo: phoneNo.text,
+                                  address: address.text,
+                                  textColor: textColor,
+                                  backgroundColor: backgroundColor,
+                                ),
+                              ));
+                            }
                           },
                         ),
                       ],

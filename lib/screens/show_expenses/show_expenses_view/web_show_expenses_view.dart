@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; 
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_style.dart';
@@ -90,7 +90,7 @@ class _WebShowExpensesScreenState extends State<WebShowExpensesScreen> {
                                     : 20,
                           ),
                           Text(
-                            "All expenses",
+                            "All Expenses",
                             style: AppTextStyle.regularTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

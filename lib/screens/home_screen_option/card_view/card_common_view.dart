@@ -11,6 +11,7 @@ import "../../../config/app_style.dart";
 import "../../../widgets/common_widgets/appbar.dart";
 import "../../../widgets/common_widgets/button_view.dart";
 import "../../../widgets/common_widgets/text_field_view.dart";
+import "../../../widgets/common_widgets/toast_view.dart";
 import "all_card_view/all_card_common_view.dart";
 import "card_make_function.dart";
 
@@ -85,7 +86,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Pick a color"),
+          title: Text("Pick a Color"),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: currentColor,
@@ -160,7 +161,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a photo",
+                          "Add a Photo",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -199,7 +200,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -423,7 +424,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a background image",
+                          "Add a Background Image",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -462,7 +463,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload background image",
+                                "Upload Background Image",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -484,29 +485,28 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
             ButtonView(
               title: "Continue",
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AllCardCommonScreen(
-                    name: name.text,
-                    profession: profession.text,
-                    email: email.text,
-                    phoneNo: phoneNo.text,
-                    address: address.text,
-                    textColor: textColor,
-                    backgroundColor: backgroundColor,
-                  ),
-                ));
-
-                // CardMake.function10(
-                //   name: "Yash Sakhwala",
-                //   profession: "Flutter developer",
-                //   email: "yashsakhwala@gmail.com",
-                //   phoneNo: "9723831969",
-                //   address:
-                //       "19, Sangam society, rakatha road, ambatalavadi, katargam, Surat - 395004",
-                //   textColor: textColor,
-                //   backgroundColor: backgroundColor,
-                //   context: context,
-                // );
+                if (name.text.isEmpty ||
+                    profession.text.isEmpty ||
+                    email.text.isEmpty ||
+                    phoneNo.text.isEmpty ||
+                    address.text.isEmpty) {
+                  toastView(
+                    msg: "Please fill all details",
+                    context: context,
+                  );
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AllCardCommonScreen(
+                      name: name.text,
+                      profession: profession.text,
+                      email: email.text,
+                      phoneNo: phoneNo.text,
+                      address: address.text,
+                      textColor: textColor,
+                      backgroundColor: backgroundColor,
+                    ),
+                  ));
+                }
               },
             ),
           ],

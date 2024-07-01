@@ -79,6 +79,7 @@ class _DiscountCalculationScreenState extends State<DiscountCalculationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
         title: "Discount",
         style: AppTextStyle.regularTextStyle.copyWith(

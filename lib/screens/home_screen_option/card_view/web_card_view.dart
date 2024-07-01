@@ -10,6 +10,7 @@ import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 import 'card_make_function.dart';
 
 class WebCardScreen extends StatefulWidget {
@@ -83,7 +84,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Pick a color"),
+          title: Text("Pick a Color"),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: currentColor,
@@ -188,7 +189,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -268,7 +269,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload background image",
+                                "Upload Background Image",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -501,26 +502,28 @@ class _WebCardScreenState extends State<WebCardScreen> {
                             ],
                           ),
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => WebAllCardScreen(
-                                name: name.text,
-                                profession: profession.text,
-                                email: email.text,
-                                phoneNo: phoneNo.text,
-                                address: address.text,
-                                textColor: textColor,
-                                backgroundColor: backgroundColor,
-                              ),
-                            ));
-
-                            // CardMake.function1(
-                            //   name: "Yash sakhwala",
-                            //   profession: "Insurance Advisor",
-                            //   email: "mkconsulting@gmail.com",
-                            //   phoneNo: "90998 42858",
-                            //   address: "119, Silver line, K.M. chock, Surat - 395006",
-                            //   context: context,
-                            // );
+                            if (name.text.isEmpty ||
+                                profession.text.isEmpty ||
+                                email.text.isEmpty ||
+                                phoneNo.text.isEmpty ||
+                                address.text.isEmpty) {
+                              toastView(
+                                msg: "Please fill all details",
+                                context: context,
+                              );
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WebAllCardScreen(
+                                  name: name.text,
+                                  profession: profession.text,
+                                  email: email.text,
+                                  phoneNo: phoneNo.text,
+                                  address: address.text,
+                                  textColor: textColor,
+                                  backgroundColor: backgroundColor,
+                                ),
+                              ));
+                            }
                           },
                         ),
                       ],

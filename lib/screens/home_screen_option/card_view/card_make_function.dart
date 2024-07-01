@@ -13,6 +13,7 @@ import "package:flutter/foundation.dart";
 import 'package:http/http.dart' as http;
 
 import "../../../widgets/common_widgets/snackbar_view.dart";
+import "../../bottom_bar/bottom_bar_screen.dart";
 
 class CardMake {
   static String imagePath = "";
@@ -2524,7 +2525,11 @@ class CardMake {
         context: context,
       );
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     } else {
       final dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
@@ -2537,7 +2542,11 @@ class CardMake {
       showSnackbar(
           "Card", "Your card download successfully !", "$dir/$name.pdf");
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => BottomBarScreen(),
+          ),
+          (route) => false);
     }
   }
 }

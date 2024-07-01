@@ -84,6 +84,7 @@ class _DateCalculationScreenState extends State<DateCalculationScreen> {
   Widget build(BuildContext context) {
     final ageDifference = calculateAgeDifference();
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
         title: widget.title,
         style: AppTextStyle.regularTextStyle.copyWith(

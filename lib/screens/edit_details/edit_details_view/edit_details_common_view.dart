@@ -99,7 +99,7 @@ class _EditDetailsCommonViewScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "How much?",
+                    "How Much?",
                     style: AppTextStyle.regularTextStyle.copyWith(
                       color: AppColors.whiteColor.withOpacity(0.7),
                     ),

@@ -46,7 +46,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       "navigation": BannerScreen(),
     },
     {
-      "name": "Salary slip",
+      "name": "Salary Slip",
       "image": AppImages.salary,
       "navigation": SalarySlipScreen(),
     },

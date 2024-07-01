@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 import 'all_banner_view/all_banner_common_view.dart';
 
 class BannerCommonViewScreen extends StatefulWidget {
@@ -85,7 +86,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Pick a color"),
+          title: Text("Pick a Color"),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: currentColor,
@@ -160,7 +161,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a photo",
+                          "Add a Photo",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -199,7 +200,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload photo",
+                                "Upload Photo",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -255,7 +256,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
               height: 20,
             ),
             TextFieldView(
-              title: "Phone number",
+              title: "Phone Number",
               controller: phoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
@@ -423,7 +424,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add a background image",
+                          "Add a Background Image",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -462,7 +463,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                "Upload background image",
+                                "Upload Background Image",
                                 style: AppTextStyle.regularTextStyle.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -484,29 +485,28 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
             ButtonView(
               title: "Continue",
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AllBannerCommonScreen(
-                    name: name.text,
-                    profession: profession.text,
-                    email: email.text,
-                    phoneNo: phoneNo.text,
-                    address: address.text,
-                    textColor: textColor,
-                    backgroundColor: backgroundColor,
-                  ),
-                ));
-
-                // BannerMake.function10(
-                //   name: "Yash Sakhwala",
-                //   profession: "Flutter developer",
-                //   email: "yashsakhwala@gmail.com",
-                //   phoneNo: "9723831969",
-                //   address:
-                //       "19, Sangam society, ramkatha road, ambatalavadi, katargam, Surat - 395004",
-                //   textColor: textColor,
-                //   backgroundColor: backgroundColor,
-                //   context: context,
-                // );
+                if (name.text.isEmpty ||
+                    profession.text.isEmpty ||
+                    email.text.isEmpty ||
+                    phoneNo.text.isEmpty ||
+                    address.text.isEmpty) {
+                  toastView(
+                    msg: "Please fill all details",
+                    context: context,
+                  );
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AllBannerCommonScreen(
+                      name: name.text,
+                      profession: profession.text,
+                      email: email.text,
+                      phoneNo: phoneNo.text,
+                      address: address.text,
+                      textColor: textColor,
+                      backgroundColor: backgroundColor,
+                    ),
+                  ));
+                }
               },
             ),
           ],
