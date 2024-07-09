@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:genify/screens/home_screen_option/banner_view/banner_make_function.dart';
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_image.dart';
@@ -17,7 +15,6 @@ class WebAllBannerScreen extends StatefulWidget {
   final String phoneNo;
   final String address;
   final Color textColor;
-  final Color backgroundColor;
 
   const WebAllBannerScreen({
     super.key,
@@ -27,7 +24,6 @@ class WebAllBannerScreen extends StatefulWidget {
     required this.phoneNo,
     required this.address,
     required this.textColor,
-    required this.backgroundColor,
   });
 
   @override
@@ -201,7 +197,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 1) {
@@ -212,7 +207,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 2) {
@@ -223,7 +217,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 3) {
@@ -234,7 +227,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 4) {
@@ -245,7 +237,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 5) {
@@ -256,7 +247,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 6) {
@@ -267,7 +257,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 7) {
@@ -278,7 +267,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 8) {
@@ -289,7 +277,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 9) {
@@ -300,7 +287,6 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     }

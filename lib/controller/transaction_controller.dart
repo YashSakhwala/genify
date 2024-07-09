@@ -34,9 +34,9 @@ class TransactionController extends GetxController {
   RxList<double> incomeAmountsList = <double>[].obs;
   RxList<double> expensesAmountsList = <double>[].obs;
 
-  RxInt totalAmount = 0.obs;
-  RxInt totalExpenses = 0.obs;
-  RxInt totalIncome = 0.obs;
+  RxDouble totalAmount = 0.0.obs;
+  RxDouble totalExpenses = 0.0.obs;
+  RxDouble totalIncome = 0.0.obs;
 
   Future<void> AllTransaction({
     required String amount,
@@ -64,21 +64,47 @@ class TransactionController extends GetxController {
     String url = "";
 
     if (kIsWeb) {
-      final file = webImageFile.value;
-      if (file != null) {
-        final reader = html.FileReader();
-        reader.readAsDataUrl(file);
+      if (imagePath.value.isEmpty) {
+        imagePath.value = "";
+      } else {
+        final file = webImageFile.value;
+        if (file != null) {
+          final reader = html.FileReader();
+          reader.readAsDataUrl(file);
 
-        await reader.onLoad.first;
-        final encoded = reader.result as String;
-        final data = base64Decode(encoded.split(",").last);
+          await reader.onLoad.first;
+          final encoded = reader.result as String;
+          final data = base64Decode(encoded.split(",").last);
 
+          String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
+          String ext = file.name.split(".").last;
+
+          Reference reference = firebaseStorage.ref("$dateTime.$ext");
+
+          UploadTask uploadTask = reference.putData(data);
+
+          TaskSnapshot taskSnapshot = await uploadTask;
+          if (taskSnapshot.state == TaskState.success) {
+            url = await reference.getDownloadURL();
+          } else {
+            toastView(
+              msg: "File upload failed",
+              context: context,
+            );
+          }
+        }
+      }
+    } else {
+      if (imagePath.value.isEmpty) {
+        imagePath.value = "";
+      } else {
+        io.File file = io.File(imagePath.value);
         String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
-        String ext = file.name.split(".").last;
+        String ext = imagePath.value.split("/").last.split(".").last;
 
         Reference reference = firebaseStorage.ref("$dateTime.$ext");
 
-        UploadTask uploadTask = reference.putData(data);
+        UploadTask uploadTask = reference.putFile(file);
 
         TaskSnapshot taskSnapshot = await uploadTask;
         if (taskSnapshot.state == TaskState.success) {
@@ -89,24 +115,6 @@ class TransactionController extends GetxController {
             context: context,
           );
         }
-      }
-    } else {
-      io.File file = io.File(imagePath.value);
-      String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
-      String ext = imagePath.value.split("/").last.split(".").last;
-
-      Reference reference = firebaseStorage.ref("$dateTime.$ext");
-
-      UploadTask uploadTask = reference.putFile(file);
-
-      TaskSnapshot taskSnapshot = await uploadTask;
-      if (taskSnapshot.state == TaskState.success) {
-        url = await reference.getDownloadURL();
-      } else {
-        toastView(
-          msg: "File upload failed",
-          context: context,
-        );
       }
     }
 
@@ -296,12 +304,12 @@ class TransactionController extends GetxController {
     totalIncome.value = 0;
 
     for (var expense in expensesList) {
-      totalExpenses.value += int.parse(expense["amount"]);
+      totalExpenses.value += double.parse(expense["amount"]);
     }
     totalAmount.value -= totalExpenses.value;
 
     for (var income in incomeList) {
-      totalIncome.value += int.parse(income["amount"]);
+      totalIncome.value += double.parse(income["amount"]);
     }
     totalAmount.value += totalIncome.value;
 

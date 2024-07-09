@@ -184,6 +184,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
               controller: phoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 LengthLimitingTextInputFormatter(10),
               ],
               hintText: "9876543210",

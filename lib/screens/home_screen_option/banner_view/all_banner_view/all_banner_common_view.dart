@@ -15,7 +15,6 @@ class AllBannerCommonScreen extends StatefulWidget {
   final String phoneNo;
   final String address;
   final Color textColor;
-  final Color backgroundColor;
 
   const AllBannerCommonScreen({
     super.key,
@@ -25,7 +24,6 @@ class AllBannerCommonScreen extends StatefulWidget {
     required this.phoneNo,
     required this.address,
     required this.textColor,
-    required this.backgroundColor,
   });
 
   @override
@@ -188,7 +186,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 1) {
@@ -199,7 +196,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 2) {
@@ -210,7 +206,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 3) {
@@ -221,7 +216,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 4) {
@@ -232,7 +226,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 5) {
@@ -243,7 +236,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 6) {
@@ -254,7 +246,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 7) {
@@ -265,7 +256,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 8) {
@@ -276,7 +266,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 9) {
@@ -287,7 +276,6 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     }

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:genify/config/app_colors.dart';
@@ -63,7 +64,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "₹${transactionController.totalAmount.value.toString()}",
+                          "₹${transactionController.totalAmount.value.toStringAsFixed(2)}",
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 33,
                             fontWeight: FontWeight.w600,
@@ -123,7 +124,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                               ),
                                             ),
                                             Text(
-                                              "₹${transactionController.totalIncome.value.toString()}",
+                                              "₹${transactionController.totalIncome.value.toStringAsFixed(2)}",
                                               style: AppTextStyle
                                                   .regularTextStyle
                                                   .copyWith(
@@ -191,7 +192,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                               ),
                                             ),
                                             Text(
-                                              "₹${transactionController.totalExpenses.value.toString()}",
+                                              "₹${transactionController.totalExpenses.value.toStringAsFixed(2)}",
                                               style: AppTextStyle
                                                   .regularTextStyle
                                                   .copyWith(
@@ -336,9 +337,11 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                                           DecorationImage(
                                                                         image: Image
                                                                             .network(
-                                                                          allData[allDataIndex]
-                                                                              [
-                                                                              "image"],
+                                                                          allData[allDataIndex]["image"] == ""
+                                                                              ? allData[allDataIndex]["type"] == "Incomes"
+                                                                                  ? AppImages.incomeImage
+                                                                                  : AppImages.expensesImage
+                                                                              : allData[allDataIndex]["image"],
                                                                         ).image,
                                                                         fit: BoxFit
                                                                             .cover,
@@ -555,152 +558,166 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                   },
                                                 );
                                               },
-                                              child: Container(
-                                                margin: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.primaryColor
-                                                      .withOpacity(0.06),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 17,
-                                                      vertical: 14),
-                                                  child: Row(
-                                                    children: [
-                                                      Stack(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        children: [
-                                                          CircularProgressIndicator(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            strokeWidth: 2,
-                                                          ),
-                                                          Container(
-                                                            height: 60,
-                                                            width: 60,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          16),
-                                                              border: Border.all(
-                                                                  color: AppColors
-                                                                      .primaryColor),
-                                                              image:
-                                                                  DecorationImage(
-                                                                image: Image
-                                                                    .network(
-                                                                  allData[allDataIndex]
-                                                                      ["image"],
-                                                                ).image,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width: 9,
-                                                      ),
-                                                      Expanded(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                              child: FlipInX(
+                                                child: Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors
+                                                        .primaryColor
+                                                        .withOpacity(0.06),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 17,
+                                                        vertical: 14),
+                                                    child: Row(
+                                                      children: [
+                                                        Stack(
+                                                          alignment:
+                                                              Alignment.center,
                                                           children: [
-                                                            Text(
-                                                              allData[allDataIndex]
-                                                                  ["title"],
-                                                              style: AppTextStyle
-                                                                  .regularTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          17),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                            CircularProgressIndicator(
+                                                              color: AppColors
+                                                                  .primaryColor,
+                                                              strokeWidth: 2,
                                                             ),
-                                                            SizedBox(
-                                                              height: 7,
-                                                            ),
-                                                            Text(
-                                                              allData[allDataIndex]
-                                                                  ["subTitle"],
-                                                              style: AppTextStyle
-                                                                  .regularTextStyle
-                                                                  .copyWith(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .greyColor,
-                                                              ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                      Expanded(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                              "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
-                                                              style: AppTextStyle
-                                                                  .regularTextStyle
-                                                                  .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: allData[allDataIndex]
+                                                            Container(
+                                                              height: 60,
+                                                              width: 60,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16),
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .primaryColor),
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: Image
+                                                                      .network(
+                                                                    allData[allDataIndex]["image"] ==
+                                                                            ""
+                                                                        ? allData[allDataIndex]["type"] ==
+                                                                                "Incomes"
+                                                                            ? AppImages
+                                                                                .incomeImage
+                                                                            : AppImages
+                                                                                .expensesImage
+                                                                        : allData[allDataIndex]
                                                                             [
-                                                                            "type"] ==
-                                                                        "Incomes"
-                                                                    ? AppColors
-                                                                        .greenColor
-                                                                    : AppColors
-                                                                        .redColor,
+                                                                            "image"],
+                                                                  ).image,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 7,
-                                                            ),
-                                                            Text(
-                                                              allData[allDataIndex]
-                                                                  ["time"],
-                                                              style: AppTextStyle
-                                                                  .regularTextStyle
-                                                                  .copyWith(
-                                                                fontSize: 13,
-                                                                color: AppColors
-                                                                    .greyColor,
-                                                              ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
                                                             ),
                                                           ],
                                                         ),
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          width: 9,
+                                                        ),
+                                                        Expanded(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                allData[allDataIndex]
+                                                                    ["title"],
+                                                                style: AppTextStyle
+                                                                    .regularTextStyle
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            17),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 7,
+                                                              ),
+                                                              Text(
+                                                                allData[allDataIndex]
+                                                                    [
+                                                                    "subTitle"],
+                                                                style: AppTextStyle
+                                                                    .regularTextStyle
+                                                                    .copyWith(
+                                                                  fontSize: 12,
+                                                                  color: AppColors
+                                                                      .greyColor,
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Spacer(),
+                                                        Expanded(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                "${allData[allDataIndex]["type"] == "Incomes" ? "+" : "-"} ₹${allData[allDataIndex]["amount"]}",
+                                                                style: AppTextStyle
+                                                                    .regularTextStyle
+                                                                    .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: allData[allDataIndex]
+                                                                              [
+                                                                              "type"] ==
+                                                                          "Incomes"
+                                                                      ? AppColors
+                                                                          .greenColor
+                                                                      : AppColors
+                                                                          .redColor,
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 7,
+                                                              ),
+                                                              Text(
+                                                                allData[allDataIndex]
+                                                                    ["time"],
+                                                                style: AppTextStyle
+                                                                    .regularTextStyle
+                                                                    .copyWith(
+                                                                  fontSize: 13,
+                                                                  color: AppColors
+                                                                      .greyColor,
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -746,9 +763,21 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                               wallet: allData[
                                                                       allDataIndex]
                                                                   ["payment"],
-                                                              image: allData[
-                                                                      allDataIndex]
-                                                                  ["image"],
+                                                              image: allData[allDataIndex]
+                                                                          [
+                                                                          "image"] ==
+                                                                      ""
+                                                                  ? allData[allDataIndex]
+                                                                              [
+                                                                              "type"] ==
+                                                                          "Incomes"
+                                                                      ? AppImages
+                                                                          .incomeImage
+                                                                      : AppImages
+                                                                          .expensesImage
+                                                                  : allData[
+                                                                          allDataIndex]
+                                                                      ["image"],
                                                               uniqueTime: allData[
                                                                       allDataIndex]
                                                                   [

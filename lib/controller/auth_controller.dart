@@ -1,6 +1,7 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously, avoid_print, prefer_const_constructors, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io' as io;
 import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
 import "package:universal_html/html.dart" as html;
@@ -22,6 +23,7 @@ class AuthController extends GetxController {
   final Rx<html.File?> webImageFile = Rx<html.File?>(null);
 
   final RxMap<String, dynamic> userData = <String, dynamic>{}.obs;
+  RxList userID = [].obs;
 
   Future<void> logIn({
     required String email,
@@ -60,8 +62,6 @@ class AuthController extends GetxController {
     required BuildContext context,
   }) async {
     try {
-      showIndicator(context);
-
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
       final UserCredential userCredential = await firebaseAuth
@@ -283,5 +283,27 @@ class AuthController extends GetxController {
 
       Navigator.of(context).pop();
     }
+  }
+
+  Future<void> getID({
+    required BuildContext context,
+  }) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    QuerySnapshot querySnapshot =
+        await firebaseFirestore.collection("User").get();
+
+    userID.clear();
+
+    querySnapshot.docs.forEach((document) {
+      var documentData = document.data() as Map<String, dynamic>?;
+      var phoneNo = documentData!['phoneNo'].toString();
+      var email = documentData['email'].toString();
+
+      userID.add(phoneNo);
+      userID.add(email);
+    });
+
+    log("All user id-----> $userID");
   }
 }

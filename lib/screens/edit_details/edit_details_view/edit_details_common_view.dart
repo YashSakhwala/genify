@@ -2,7 +2,8 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:genify/config/app_colors.dart';
+import 'package:flutter/services.dart';
+import 'package:genify/config/app_colors.dart'; 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../config/app_style.dart';
@@ -119,6 +120,10 @@ class _EditDetailsCommonViewScreenState
                           title: "",
                           controller: amount,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
                           cursorHeight: 50,
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 50,
@@ -190,7 +195,7 @@ class _EditDetailsCommonViewScreenState
                                         width: 120,
                                         fit: BoxFit.cover,
                                       ).image
-                                    : Image.network(
+                                    : Image.network( 
                                         widget.image,
                                         height: 120,
                                         width: 120,

@@ -93,7 +93,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9]'))
+                                  RegExp(r'[0-9\.]')),
                             ],
                             cursorHeight: 27,
                             style: AppTextStyle.regularTextStyle.copyWith(
@@ -261,13 +261,12 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     msg: "Please enter details",
                                     context: context,
                                   );
-                                } else if (transactionController
-                                    .imagePath.value.isEmpty) {
-                                  toastView(
-                                    msg: "Please select image",
-                                    context: context,
-                                  );
                                 } else {
+                                  if (transactionController
+                                      .imagePath.value.isEmpty) {
+                                    transactionController.imagePath.value = "";
+                                  }
+
                                   transactionController.AllTransaction(
                                     amount: amount.text,
                                     title: title.text,

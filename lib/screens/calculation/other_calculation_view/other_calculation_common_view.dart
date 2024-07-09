@@ -716,17 +716,17 @@ class _OtherCalculationCommonViewScreenState
 
     calculators.forEach((_, calculator) {
       calculator["values"][0].addListener(() {
-        handleInputChange(calculator);
+        handleInputChange(calculator,0);
       });
       calculator["values"][1].addListener(() {
-        handleInputChange(calculator);
+        handleInputChange(calculator,1);
       });
     });
   }
 
-  void handleInputChange(Map<String, dynamic> calculator) {
-    final fromController = calculator["values"][0];
-    final toController = calculator["values"][1];
+  void handleInputChange(Map<String, dynamic> calculator, int index) {
+    final fromController = calculator["values"][index];
+    final toController = calculator["values"][1-index];
     if (fromController.text.isEmpty) {
       toController.text = '';
       return;
@@ -737,8 +737,8 @@ class _OtherCalculationCommonViewScreenState
       return;
     }
     calculator["calculate"](
-      calculator["units"][0],
-      calculator["units"][1],
+      calculator["units"][index],
+      calculator["units"][1-index],
       fromController,
       toController,
       calculator["conversionFactors"],
@@ -831,7 +831,7 @@ class _OtherCalculationCommonViewScreenState
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(
-                  RegExp(r'[0-9]'),
+                  RegExp(r'[0-9.]'),
                 ),
               ],
               decoration: InputDecoration(

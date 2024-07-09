@@ -40,16 +40,9 @@ class _OTPCommonViewState extends State<OTPCommonView> {
   final FocusNode pinPutFocusNode = FocusNode();
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isLoading) {
-        showIndicator(context);
-      }
-    });
-
     return Scaffold(
       appBar: kIsWeb
           ? null
@@ -94,9 +87,7 @@ class _OTPCommonViewState extends State<OTPCommonView> {
               height: 50,
               title: "Continue",
               onTap: () async {
-                setState(() {
-                  isLoading = true;
-                });
+                showIndicator(context);
 
                 String smsCode = pinPutController.text.trim();
 
@@ -120,10 +111,6 @@ class _OTPCommonViewState extends State<OTPCommonView> {
                     msg: "Failed to sign in: $e",
                     context: context,
                   );
-                } finally {
-                  setState(() {
-                    isLoading = false;
-                  });
                 }
               },
             ),

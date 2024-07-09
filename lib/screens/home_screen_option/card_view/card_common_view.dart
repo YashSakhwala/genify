@@ -260,6 +260,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
               controller: phoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 LengthLimitingTextInputFormatter(10),
               ],
               titleStyle: AppTextStyle.regularTextStyle.copyWith(

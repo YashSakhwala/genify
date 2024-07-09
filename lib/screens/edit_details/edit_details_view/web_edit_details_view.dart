@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../config/app_colors.dart';
+import '../../../config/app_colors.dart'; 
 import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import "package:universal_html/html.dart" as html;
-
 import '../../../widgets/common_widgets/toast_view.dart';
 
 class WebEditDetailsScreen extends StatefulWidget {
@@ -118,7 +117,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9]'))
+                                  RegExp(r'[0-9\.]'))
                             ],
                             cursorHeight: 27,
                             style: AppTextStyle.regularTextStyle.copyWith(

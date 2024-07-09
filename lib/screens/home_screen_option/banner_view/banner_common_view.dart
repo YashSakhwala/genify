@@ -29,11 +29,8 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
   final TextEditingController phoneNo = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController textColorController = TextEditingController();
-  final TextEditingController backgroundColorController =
-      TextEditingController();
 
   Color textColor = AppColors.blackColor;
-  Color backgroundColor = AppColors.whiteColor;
 
   @override
   void initState() {
@@ -43,21 +40,11 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
 
     textColorController.text =
         textColor.value.toRadixString(16).substring(2).toUpperCase();
-    backgroundColorController.text =
-        backgroundColor.value.toRadixString(16).substring(2).toUpperCase();
 
     textColorController.addListener(() {
       applyColorCode(textColorController, (color) {
         setState(() {
           textColor = color;
-        });
-      });
-    });
-
-    backgroundColorController.addListener(() {
-      applyColorCode(backgroundColorController, (color) {
-        setState(() {
-          backgroundColor = color;
         });
       });
     });
@@ -260,6 +247,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
               controller: phoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 LengthLimitingTextInputFormatter(10),
               ],
               titleStyle: AppTextStyle.regularTextStyle.copyWith(
@@ -338,56 +326,6 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
             ),
             SizedBox(
               height: 20,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFieldView(
-                    title: "Background Color",
-                    controller: backgroundColorController,
-                    titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(6),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 13,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: InkWell(
-                    onTap: () {
-                      pickColor(backgroundColor, (color) {
-                        setState(() {
-                          backgroundColor = color;
-                          backgroundColorController.text = color.value
-                              .toRadixString(16)
-                              .substring(2)
-                              .toUpperCase();
-                        });
-                      });
-                    },
-                    child: Container(
-                      height: 47,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 40,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -503,7 +441,6 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                       phoneNo: phoneNo.text,
                       address: address.text,
                       textColor: textColor,
-                      backgroundColor: backgroundColor,
                     ),
                   ));
                 }

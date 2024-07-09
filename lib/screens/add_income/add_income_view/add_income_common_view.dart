@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -95,6 +96,10 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                           title: "",
                           controller: amount,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
                           cursorHeight: 50,
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 50,
@@ -236,13 +241,11 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                           msg: "Please enter details",
                           context: context,
                         );
-                      } else if (transactionController
-                          .imagePath.value.isEmpty) {
-                        toastView(
-                          msg: "Please select image",
-                          context: context,
-                        );
                       } else {
+                        if (transactionController.imagePath.value.isEmpty) {
+                          transactionController.imagePath.value = "";
+                        }
+
                         transactionController.AllTransaction(
                           amount: amount.text,
                           title: title.text,
@@ -263,3 +266,8 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
     );
   }
 }
+
+//  else if (transactionController
+//                           .imagePath.value.isEmpty) {
+//                         transactionController.imagePath.value = "";
+//                       }

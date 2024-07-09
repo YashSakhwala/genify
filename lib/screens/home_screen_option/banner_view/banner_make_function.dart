@@ -24,7 +24,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -38,10 +37,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -122,7 +117,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -279,7 +273,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -293,10 +286,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -377,7 +366,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -533,7 +521,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -547,10 +534,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -631,7 +614,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -783,7 +765,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -797,10 +778,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -881,7 +858,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1030,7 +1006,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1044,10 +1019,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1128,7 +1099,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1288,7 +1258,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1302,10 +1271,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1386,7 +1351,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1547,7 +1511,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1561,10 +1524,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1645,7 +1604,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1813,7 +1771,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1827,10 +1784,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1911,7 +1864,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -2085,7 +2037,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -2099,10 +2050,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -2183,7 +2130,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -2367,7 +2313,6 @@ class BannerMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -2381,10 +2326,6 @@ class BannerMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -2465,7 +2406,6 @@ class BannerMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(

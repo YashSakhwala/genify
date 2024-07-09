@@ -6,6 +6,7 @@ class AppImages {
   static const String whiteLogo = "assets/images/white_logo.png";
   static const String logoBackground = "assets/images/logo_with_background.png";
 
+  
   static const String empty = "assets/images/empty.png";
   static const String noInternet = "assets/images/no_wifi.png";
 
@@ -32,6 +33,8 @@ class AppImages {
   static const String banner = "assets/images/banner.png";
   static const String salary = "assets/images/salary.png";
   static const String microphone = "assets/images/microphone.png";
+
+  static const String transfer = "assets/images/transfer.png";
 
   // Resume images
   static const String resume1 = "assets/images/resume_1.jpg";
@@ -82,9 +85,13 @@ class AppImages {
   static const String phone = "assets/icons/phone.png";
   static const String mail = "assets/icons/email.png";
 
-  // Expenses screen icons
+  // Finance screen icons
   static const String income = "assets/icons/income.png";
   static const String expenses = "assets/icons/expense.png";
+  static const String incomeImage =
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fincome_image.png?alt=media&token=e7d783d7-86a2-4625-bbcf-4498b782ff69";
+  static const String expensesImage =
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image.png?alt=media&token=89251556-bd3f-492d-8e0d-8b8ec41fe5bd";
 
   // Calculator screen icon
   static const String blankEqual = "assets/icons/blank_equal.png";

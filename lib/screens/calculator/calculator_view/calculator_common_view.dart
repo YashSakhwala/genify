@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import "package:flutter/material.dart";
-import "package:genify/config/app_colors.dart";
-import "package:genify/controller/calculator_controller.dart";
-import "package:genify/screens/calculator/financial_calculator_screen.dart";
-import "package:genify/screens/calculator/other_calculator_screen.dart";
-import "package:genify/screens/calculator/simple_calculator_screen.dart";
-import "package:get/get.dart";
-import "../../../config/app_image.dart";
+import 'package:flutter/material.dart';
+import 'package:genify/config/app_colors.dart';
+import 'package:genify/controller/calculator_controller.dart';
+import 'package:genify/screens/calculator/financial_calculator_screen.dart';
+import 'package:genify/screens/calculator/other_calculator_screen.dart';
+import 'package:genify/screens/calculator/simple_calculator_screen.dart';
+import 'package:get/get.dart';
+import '../../../config/app_image.dart';
 
 class CalculatorCommonViewScreen extends StatefulWidget {
   const CalculatorCommonViewScreen({super.key});
@@ -19,23 +19,39 @@ class CalculatorCommonViewScreen extends StatefulWidget {
 
 class _CalculatorCommonViewScreenState
     extends State<CalculatorCommonViewScreen> {
-  List calculationScreen = [
+  List<Widget> calculationScreen = [
     SimpleCalculatorScreen(),
     OtherCalculatorScreen(),
     FinancialCalculatorScreen(),
   ];
 
   CalculatorController calculatorController = Get.put(CalculatorController());
-  PageController pageController = PageController();
+  PageController pageController = PageController(initialPage: 0);
 
   void onPageChanged(int index) {
     calculatorController.index.value = index;
+    calculatorController.isOtherCalculator.value = false;
   }
 
   @override
   void initState() {
-    calculatorController.index.value = 0;
     super.initState();
+    if (calculatorController.isOtherCalculator.value) {
+      calculatorController.index.value = 1;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        pageController.jumpToPage(
+          1,
+        );
+      });
+    } else {
+      calculatorController.index.value = 0;
+    }
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override

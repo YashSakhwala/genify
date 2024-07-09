@@ -38,7 +38,7 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
     birthDate.text = authController.userData["birthDate"];
     country.text = authController.userData["country"];
     email.text = authController.userData["email"];
-    phoneNo.text = authController.userData["phoneNo"];
+    phoneNo.text = "+91 ${authController.userData["phoneNo"]}";
     authController.imagePath.value = "";
     super.initState();
   }

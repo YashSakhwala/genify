@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/screens/calculation/other_calculation_view/other_calculation/bmi_calculation_screen.dart';
 import 'package:genify/screens/calculation/other_calculation_view/other_calculation/date_calculation_screen.dart';
@@ -108,43 +109,47 @@ class _OtherCalculatorCommonViewScreenState
                     ));
                   }
                 },
-                child: Container(
-                  margin: EdgeInsets.all(8),
-                  child: MediaQuery.of(context).size.width >= 900
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image(
-                              image: Image.asset(option[index]["image"]).image,
-                              height: 35,
-                              color: AppColors.primaryColor,
-                            ),
-                            Text(
-                              option[index]["name"],
-                              textAlign: TextAlign.center,
-                              style: AppTextStyle.smallTextStyle.copyWith(
-                                color: AppColors.greyColor.shade600,
-                                fontSize: 18,
+                child: FlipInX(
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    child: MediaQuery.of(context).size.width >= 900
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image(
+                                image:
+                                    Image.asset(option[index]["image"]).image,
+                                height: 35,
+                                color: AppColors.primaryColor,
                               ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image(
-                              image: Image.asset(option[index]["image"]).image,
-                              height: 30,
-                              color: AppColors.primaryColor,
-                            ),
-                            Text(
-                              option[index]["name"],
-                              textAlign: TextAlign.center,
-                              style: AppTextStyle.smallTextStyle.copyWith(
-                                  color: AppColors.greyColor.shade600),
-                            ),
-                          ],
-                        ),
+                              Text(
+                                option[index]["name"],
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle.smallTextStyle.copyWith(
+                                  color: AppColors.greyColor.shade600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image(
+                                image:
+                                    Image.asset(option[index]["image"]).image,
+                                height: 30,
+                                color: AppColors.primaryColor,
+                              ),
+                              Text(
+                                option[index]["name"],
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle.smallTextStyle.copyWith(
+                                    color: AppColors.greyColor.shade600),
+                              ),
+                            ],
+                          ),
+                  ),
                 ),
               );
             },

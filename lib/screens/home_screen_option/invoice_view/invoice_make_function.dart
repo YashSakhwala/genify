@@ -463,36 +463,12 @@ class InvoiceMake {
             ),
           ),
           pw.SizedBox(
-            height: 50,
+            height: 40,
           ),
           pw.Align(
             alignment: pw.Alignment.topRight,
             child: pw.Column(
               children: [
-                pw.RichText(
-                  text: pw.TextSpan(
-                    children: [
-                      pw.TextSpan(
-                        text: 'For, ',
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                      pw.TextSpan(
-                        text: companyName,
-                        style: pw.TextStyle(
-                          fontSize: 16,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColor.fromHex("#03335e"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                pw.SizedBox(
-                  height: 10,
-                ),
                 if (signatureImage != null)
                   pw.Image(
                     signatureImage,

@@ -168,11 +168,11 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                 fontWeight: FontWeight.w600,
               ),
               controller: gstNo,
-              keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9A-Z]')),
                 LengthLimitingTextInputFormatter(15),
               ],
-              hintText: "123456789012345",
+              hintText: "12ABCDE3456F",
             ),
             SizedBox(
               height: 20,
@@ -198,6 +198,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
               controller: companyPhoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 LengthLimitingTextInputFormatter(10),
               ],
               hintText: "9876543210",
@@ -252,6 +253,7 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
               controller: clientPhoneNo,
               keyboardType: TextInputType.phone,
               inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 LengthLimitingTextInputFormatter(10),
               ],
               hintText: "0123456789",
@@ -309,7 +311,10 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                         ),
                         controller: item["price"]!,
                         keyboardType: TextInputType.number,
-                        hintText: "0",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
+                        ],
+                        hintText: "0.0",
                       ),
                     ),
                     IconButton(

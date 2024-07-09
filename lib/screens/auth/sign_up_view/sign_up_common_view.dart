@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_interpolation_to_compose_strings, unnecessary_brace_in_string_interps
 
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +39,6 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String verificationId = "";
-  bool isLoading = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -46,17 +46,20 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
   void initState() {
     authController.imagePath.value = "";
     authController.webImageFile.value = null;
+
+    authController.getID(context: context);
+
+    bool emailMatch = authController.userID.contains(email.text);
+    bool phoneMatch = authController.userID.contains(phoneNo.text);
+
+    log("Email-----> ${emailMatch}");
+    log("phone-----> ${phoneMatch}");
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isLoading) {
-        showIndicator(context);
-      }
-    });
-
     return Form(
       key: _formKey,
       child: Column(
@@ -64,7 +67,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
         children: [
           Center(
             child: Text(
-              "Create an account",
+              "Create an Account",
               style: AppTextStyle.largeTextStyle,
             ),
           ),
@@ -182,7 +185,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
             height: 20,
           ),
           TextFieldView(
-            title: "Phone number",
+            title: "Phone Number",
             titleStyle: AppTextStyle.regularTextStyle.copyWith(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -232,7 +235,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
           ),
           Obx(
             () => TextFieldView(
-              title: "Confirm password",
+              title: "Confirm Password",
               titleStyle: AppTextStyle.regularTextStyle.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -274,70 +277,94 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                     context: context,
                   );
                 } else {
-                  setState(() {
-                    isLoading = true;
-                  });
+                  bool emailMatch = authController.userID.contains(email.text);
+                  bool phoneMatch =
+                      authController.userID.contains(phoneNo.text);
 
-                  String phoneNumber = phoneNo.text.trim();
-                  if (!phoneNumber.startsWith("+91")) {
-                    phoneNumber = "+91" + phoneNumber;
-                  }
+                  log("Email-----> ${emailMatch}");
+                  log("phone-----> ${phoneMatch}");
 
-                  final PhoneVerificationCompleted verificationCompleted =
-                      (PhoneAuthCredential credential) async {
-                    await firebaseAuth.signInWithCredential(credential);
-
-                    setState(() {
-                      isLoading = false;
-                    });
-                  };
-
-                  final PhoneVerificationFailed verificationFailed =
-                      (FirebaseAuthException authException) {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  };
-
-                  final PhoneCodeSent codeSent = (String verificationId,
-                      [int? forceResendingToken]) async {
+                  if (emailMatch) {
                     toastView(
-                      msg: "OTP is successfully sent to your mobile number",
+                      msg: "Email already exists",
                       context: context,
                     );
+                  } else if (phoneMatch) {
+                    toastView(
+                      msg: "Phone number already exists",
+                      context: context,
+                    );
+                  } else {
+                    log("-------- Else");
+                    showIndicator(context);
+                    try {
+                      log("------> First");
 
-                    setState(() {
-                      verificationId = verificationId;
-                      isLoading = false;
-                    });
+                      String phoneNumber = phoneNo.text.trim();
+                      if (!phoneNumber.startsWith("+91")) {
+                        phoneNumber = "+91" + phoneNumber;
+                      }
 
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => OTPScreen(
-                        name: name.text,
-                        email: email.text,
-                        password: password.text,
-                        phoneNo: phoneNo.text,
-                        verificationId: verificationId,
-                      ),
-                    ));
-                  };
+                      log("------> Second");
 
-                  final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-                      (String verificationId) {
-                    setState(() {
-                      verificationId = verificationId;
-                      isLoading = false;
-                    });
-                  };
+                      final PhoneVerificationCompleted verificationCompleted =
+                          (PhoneAuthCredential credential) async {
+                        await firebaseAuth.signInWithCredential(credential);
+                      };
 
-                  await firebaseAuth.verifyPhoneNumber(
-                    phoneNumber: phoneNumber,
-                    timeout: Duration(seconds: 60),
-                    verificationCompleted: verificationCompleted,
-                    verificationFailed: verificationFailed,
-                    codeSent: codeSent,
-                    codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-                  );
+                      log("------> Third");
+
+                      final PhoneVerificationFailed verificationFailed =
+                          (FirebaseAuthException authException) {
+                        log("Phone verification failed: ${authException.message}  $authException");
+                      };
+
+                      log("------> Fourth");
+
+                      final PhoneCodeSent codeSent = (String verificationId,
+                          [int? forceResendingToken]) async {
+                        toastView(
+                          msg: "OTP is successfully sent to your mobile number",
+                          context: context,
+                        );
+
+                        log("------> Fifth");
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => OTPScreen(
+                            name: name.text,
+                            email: email.text,
+                            password: password.text,
+                            phoneNo: phoneNo.text,
+                            verificationId: verificationId,
+                          ),
+                        ));
+
+                        log("------> Six");
+                      };
+
+                      log("------> Seven");
+
+                      final PhoneCodeAutoRetrievalTimeout
+                          codeAutoRetrievalTimeout = (String verificationId) {};
+
+                      log("------> eight");
+
+                      await firebaseAuth.verifyPhoneNumber(
+                        phoneNumber: phoneNumber,
+                        timeout: Duration(seconds: 120),
+                        verificationCompleted: verificationCompleted,
+                        verificationFailed: verificationFailed,
+                        codeSent: codeSent,
+                        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+                      );
+
+                      log("------> nine");
+                    } catch (e, st) {
+                      log("----> $e");
+                      log("======> $st");
+                    }
+                  }
                 }
               }
             },

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unused_local_variable
 
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
@@ -307,12 +306,12 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                           controller: gstNo,
-                          keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9A-Z]')),
                             LengthLimitingTextInputFormatter(15),
                           ],
-                          hintText: "123456789012345",
+                          hintText: "12ABCDE3456F",
                         ),
                         SizedBox(
                           height: 20,
@@ -420,9 +419,9 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                     keyboardType: TextInputType.number,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]')),
+                                          RegExp(r'[0-9\.]')),
                                     ],
-                                    hintText: "0",
+                                    hintText: "0.0",
                                   ),
                                 ),
                                 IconButton(
@@ -506,15 +505,6 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                   ],
                 ),
                 onTap: () {
-                  log("Company name-----> ${companyName.text}");
-                  log("GST number-----> ${gstNo.text}");
-                  log("Company email-----> ${companyEmail.text}");
-                  log("Company phoneNo-----> ${companyPhoneNo.text}");
-                  log("Address-----> ${address.text}");
-                  log("Client email-----> ${clientEmail.text}");
-                  log("Client phoneNo-----> ${clientPhoneNo.text}");
-                  log("Items-----> ${items.map((item) => "Name: ${item["name"]!.text}, Quantity: ${item["quantity"]!.text}, Price: ${item["price"]!.text}").toList()}");
-
                   List<Map<String, String>> itemList = items.map((item) {
                     return {
                       "name": item["name"]!.text,

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/controller/transaction_controller.dart';
@@ -94,6 +95,10 @@ class _AddExpensesCommonViewScreenState
                           title: "",
                           controller: amount,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
                           cursorHeight: 50,
                           style: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 50,
@@ -235,13 +240,11 @@ class _AddExpensesCommonViewScreenState
                           msg: "Please enter details",
                           context: context,
                         );
-                      } else if (transactionController
-                          .imagePath.value.isEmpty) {
-                        toastView(
-                          msg: "Please select image",
-                          context: context,
-                        );
                       } else {
+                        if (transactionController.imagePath.value.isEmpty) {
+                          transactionController.imagePath.value = "";
+                        }
+
                         transactionController.AllTransaction(
                           amount: amount.text,
                           title: title.text,

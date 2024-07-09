@@ -167,7 +167,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: employeeID,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "1234",
                         ),
@@ -195,7 +196,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: mealAllowance,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "300.00",
                         ),
@@ -211,7 +213,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: medicalAllowance,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "300.00",
                         ),
@@ -227,7 +230,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: tax,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "300.00",
                         ),
@@ -274,7 +278,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: salary,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "2000.00",
                         ),
@@ -290,7 +295,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: transportationAllowance,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "300.00",
                         ),
@@ -306,7 +312,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           controller: retirementInsurance,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
                           ],
                           hintText: "25.00",
                         ),
@@ -418,15 +425,23 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                   ],
                 ),
                 onTap: () {
-                  if (mealAllowance.text.isEmpty ||
-                      transportationAllowance.text.isEmpty ||
-                      medicalAllowance.text.isEmpty ||
-                      retirementInsurance.text.isEmpty ||
-                      tax.text.isEmpty) {
+                  if (mealAllowance.text.isEmpty) {
                     mealAllowance.text = "0";
+                  }
+
+                  if (transportationAllowance.text.isEmpty) {
                     transportationAllowance.text = "0";
+                  }
+
+                  if (medicalAllowance.text.isEmpty) {
                     medicalAllowance.text = "0";
+                  }
+
+                  if (retirementInsurance.text.isEmpty) {
                     retirementInsurance.text = "0";
+                  }
+
+                  if (tax.text.isEmpty) {
                     tax.text = "0";
                   }
 
@@ -441,28 +456,79 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                       context: context,
                     );
                   } else {
-                    SalaryMake.generateSalarySlip(
-                      companyName: companyName.text,
-                      employeeName: employeeName.text,
-                      employeeID: employeeID.text,
-                      department: department.text,
-                      designation: designation.text,
-                      salary: salary.text,
-                      mealAllowance: mealAllowance.text,
-                      transportationAllowance: transportationAllowance.text,
-                      medicalAllowance: medicalAllowance.text,
-                      retirementInsurance: retirementInsurance.text,
-                      tax: tax.text,
-                      paymentMethod: paymentMethod,
-                      bankName: paymentMethod == "Bank Transfer"
-                          ? bankName.text
-                          : null,
-                      bankAccountNumber: paymentMethod == "Bank Transfer"
-                          ? bankAccountNumber.text
-                          : null,
-                      upiID: paymentMethod == "UPI Payment" ? upiID.text : null,
-                      context: context,
-                    );
+                    if (paymentMethod == "Bank Transfer") {
+                      if (bankName.text.isEmpty ||
+                          bankAccountNumber.text.isEmpty) {
+                        toastView(
+                          msg: "Please fill bank details",
+                          context: context,
+                        );
+                      } else {
+                        SalaryMake.generateSalarySlip(
+                          companyName: companyName.text,
+                          employeeName: employeeName.text,
+                          employeeID: employeeID.text,
+                          department: department.text,
+                          designation: designation.text,
+                          salary: salary.text,
+                          mealAllowance: mealAllowance.text,
+                          transportationAllowance: transportationAllowance.text,
+                          medicalAllowance: medicalAllowance.text,
+                          retirementInsurance: retirementInsurance.text,
+                          tax: tax.text,
+                          paymentMethod: paymentMethod,
+                          bankName: bankName.text,
+                          bankAccountNumber: bankAccountNumber.text,
+                          upiID: null,
+                          context: context,
+                        );
+                      }
+                    } else if (paymentMethod == "UPI Payment") {
+                      if (upiID.text.isEmpty) {
+                        toastView(
+                          msg: "Please fill UPI ID",
+                          context: context,
+                        );
+                      } else {
+                        SalaryMake.generateSalarySlip(
+                          companyName: companyName.text,
+                          employeeName: employeeName.text,
+                          employeeID: employeeID.text,
+                          department: department.text,
+                          designation: designation.text,
+                          salary: salary.text,
+                          mealAllowance: mealAllowance.text,
+                          transportationAllowance: transportationAllowance.text,
+                          medicalAllowance: medicalAllowance.text,
+                          retirementInsurance: retirementInsurance.text,
+                          tax: tax.text,
+                          paymentMethod: paymentMethod,
+                          bankName: null,
+                          bankAccountNumber: null,
+                          upiID: upiID.text,
+                          context: context,
+                        );
+                      }
+                    } else {
+                      SalaryMake.generateSalarySlip(
+                        companyName: companyName.text,
+                        employeeName: employeeName.text,
+                        employeeID: employeeID.text,
+                        department: department.text,
+                        designation: designation.text,
+                        salary: salary.text,
+                        mealAllowance: mealAllowance.text,
+                        transportationAllowance: transportationAllowance.text,
+                        medicalAllowance: medicalAllowance.text,
+                        retirementInsurance: retirementInsurance.text,
+                        tax: tax.text,
+                        paymentMethod: paymentMethod,
+                        bankName: null,
+                        bankAccountNumber: null,
+                        upiID: null,
+                        context: context,
+                      );
+                    }
                   }
                 },
               ),
