@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genify/config/local_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,10 +36,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(fontFamily: "popins-regular"),
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+    return ScreenUtilInit(
+      designSize: kIsWeb ? Size(1920, 1080) : Size(480, 800),
+      child: GetMaterialApp(
+        theme: ThemeData(fontFamily: "popins-regular"),
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
+      ),
     );
   }
 }

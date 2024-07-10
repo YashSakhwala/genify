@@ -96,8 +96,12 @@ class _OTPCommonViewState extends State<OTPCommonView> {
                   smsCode: smsCode,
                 );
 
+                // setState(() {});
+
                 try {
                   await firebaseAuth.signInWithCredential(credential);
+
+                  // setState(() {});
 
                   authController.signUp(
                     name: widget.name,

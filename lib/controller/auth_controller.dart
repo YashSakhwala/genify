@@ -304,6 +304,6 @@ class AuthController extends GetxController {
       userID.add(email);
     });
 
-    log("All user id-----> $userID");
+    log("----> $userID");
   }
 }

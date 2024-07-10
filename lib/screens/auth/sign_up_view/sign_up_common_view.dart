@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_interpolation_to_compose_strings, unnecessary_brace_in_string_interps
+// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_interpolation_to_compose_strings, unnecessary_brace_in_string_interps, unused_local_variable
 
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -51,9 +50,6 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
 
     bool emailMatch = authController.userID.contains(email.text);
     bool phoneMatch = authController.userID.contains(phoneNo.text);
-
-    log("Email-----> ${emailMatch}");
-    log("phone-----> ${phoneMatch}");
 
     super.initState();
   }
@@ -281,9 +277,6 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                   bool phoneMatch =
                       authController.userID.contains(phoneNo.text);
 
-                  log("Email-----> ${emailMatch}");
-                  log("phone-----> ${phoneMatch}");
-
                   if (emailMatch) {
                     toastView(
                       msg: "Email already exists",
@@ -295,75 +288,49 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                       context: context,
                     );
                   } else {
-                    log("-------- Else");
                     showIndicator(context);
-                    try {
-                      log("------> First");
+                    String phoneNumber = phoneNo.text.trim();
+                    if (!phoneNumber.startsWith("+91")) {
+                      phoneNumber = "+91" + phoneNumber;
+                    }
 
-                      String phoneNumber = phoneNo.text.trim();
-                      if (!phoneNumber.startsWith("+91")) {
-                        phoneNumber = "+91" + phoneNumber;
-                      }
+                    final PhoneVerificationCompleted verificationCompleted =
+                        (PhoneAuthCredential credential) async {
+                      await firebaseAuth.signInWithCredential(credential);
+                    };
 
-                      log("------> Second");
+                    final PhoneVerificationFailed verificationFailed =
+                        (FirebaseAuthException authException) {};
 
-                      final PhoneVerificationCompleted verificationCompleted =
-                          (PhoneAuthCredential credential) async {
-                        await firebaseAuth.signInWithCredential(credential);
-                      };
-
-                      log("------> Third");
-
-                      final PhoneVerificationFailed verificationFailed =
-                          (FirebaseAuthException authException) {
-                        log("Phone verification failed: ${authException.message}  $authException");
-                      };
-
-                      log("------> Fourth");
-
-                      final PhoneCodeSent codeSent = (String verificationId,
-                          [int? forceResendingToken]) async {
-                        toastView(
-                          msg: "OTP is successfully sent to your mobile number",
-                          context: context,
-                        );
-
-                        log("------> Fifth");
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => OTPScreen(
-                            name: name.text,
-                            email: email.text,
-                            password: password.text,
-                            phoneNo: phoneNo.text,
-                            verificationId: verificationId,
-                          ),
-                        ));
-
-                        log("------> Six");
-                      };
-
-                      log("------> Seven");
-
-                      final PhoneCodeAutoRetrievalTimeout
-                          codeAutoRetrievalTimeout = (String verificationId) {};
-
-                      log("------> eight");
-
-                      await firebaseAuth.verifyPhoneNumber(
-                        phoneNumber: phoneNumber,
-                        timeout: Duration(seconds: 120),
-                        verificationCompleted: verificationCompleted,
-                        verificationFailed: verificationFailed,
-                        codeSent: codeSent,
-                        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+                    final PhoneCodeSent codeSent = (String verificationId,
+                        [int? forceResendingToken]) async {
+                      toastView(
+                        msg: "OTP is successfully sent to your mobile number",
+                        context: context,
                       );
 
-                      log("------> nine");
-                    } catch (e, st) {
-                      log("----> $e");
-                      log("======> $st");
-                    }
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OTPScreen(
+                          name: name.text,
+                          email: email.text,
+                          password: password.text,
+                          phoneNo: phoneNo.text,
+                          verificationId: verificationId,
+                        ),
+                      ));
+                    };
+
+                    final PhoneCodeAutoRetrievalTimeout
+                        codeAutoRetrievalTimeout = (String verificationId) {};
+
+                    await firebaseAuth.verifyPhoneNumber(
+                      phoneNumber: phoneNumber,
+                      timeout: Duration(seconds: 120),
+                      verificationCompleted: verificationCompleted,
+                      verificationFailed: verificationFailed,
+                      codeSent: codeSent,
+                      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+                    );
                   }
                 }
               }

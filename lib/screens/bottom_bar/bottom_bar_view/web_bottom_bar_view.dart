@@ -52,11 +52,19 @@ class _WebBottomBarScreenState extends State<WebBottomBarScreen> {
   ];
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          Container( 
+          Container(
             width: 240,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
