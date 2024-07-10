@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
+import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
@@ -183,35 +184,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           logOut();
                         }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          border: Border.all(
-                            width: 0.1,
-                            color: AppColors.primaryColor.withOpacity(0.5),
+                      child: FlipInX(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            border: Border.all(
+                              width: 0.1,
+                              color: AppColors.primaryColor.withOpacity(0.5),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            children: [
-                              Image(
-                                image: Image.asset(settingTools[index]["icons"])
-                                    .image,
-                                color: AppColors.primaryColor,
-                                height: 20,
-                              ),
-                              SizedBox(
-                                width: 17,
-                              ),
-                              Text(settingTools[index]["name"]),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 15,
-                                color: AppColors.primaryColor,
-                              ),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(13),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image:
+                                      Image.asset(settingTools[index]["icons"])
+                                          .image,
+                                  color: AppColors.primaryColor,
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  width: 17,
+                                ),
+                                Text(settingTools[index]["name"]),
+                                Spacer(),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 15,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

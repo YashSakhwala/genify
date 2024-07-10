@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_field, unused_local_variable, avoid_web_libraries_in_flutter, unused_element, file_names, avoid_print, use_build_context_synchronously, sized_box_for_whitespace
 
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -104,68 +105,82 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
             ),
       body: Padding(
         padding: const EdgeInsets.all(13),
-        child: ListView(
-          children: [
-            TextFieldView(
-              title: "Any Text / URL",
-              titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+        child: FlipInX(
+          child: ListView(
+            children: [
+              TextFieldView(
+                title: "Any Text / URL",
+                titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+                controller: text,
+                maxLines: 4,
+                vertical: 4,
+                hintText: "Hello genify user !!!",
+                onChanged: (value) {
+                  generateQrCode(value);
+                },
               ),
-              controller: text,
-              maxLines: 4,
-              vertical: 4,
-              hintText: "Hello genify user !!!",
-              onChanged: (value) {
-                generateQrCode(value);
-              },
-            ),
-            SizedBox(
-              height: 70,
-            ),
-            text.text.isEmpty
-                ? SizedBox()
-                : Center(
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      child: RepaintBoundary(
-                        key: qrKey,
-                        child: PrettyQrView(
-                          qrImage: qrImage,
-                          decoration: const PrettyQrDecoration(),
+              SizedBox(
+                height: 70,
+              ),
+              text.text.isEmpty
+                  ? SizedBox()
+                  : Center(
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        child: RepaintBoundary(
+                          key: qrKey,
+                          child: PrettyQrView(
+                            qrImage: qrImage,
+                            decoration: const PrettyQrDecoration(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-            SizedBox(
-              height: 70,
-            ),
-            kIsWeb
-                ? Align(
-                    alignment: Alignment.centerRight,
-                    child: ButtonView(
-                      height: 45,
-                      width: 200,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Download",
-                            style: AppTextStyle.smallTextStyle.copyWith(
-                              color: AppColors.whiteColor,
+              SizedBox(
+                height: 70,
+              ),
+              kIsWeb
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: ButtonView(
+                        height: 45,
+                        width: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Download",
+                              style: AppTextStyle.smallTextStyle.copyWith(
+                                color: AppColors.whiteColor,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_rounded,
-                            color: AppColors.whiteColor,
-                            size: 15,
-                          ),
-                        ],
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              color: AppColors.whiteColor,
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          if (text.text.isEmpty) {
+                            toastView(
+                              msg: "Please enter any detail",
+                              context: context,
+                            );
+                          } else {
+                            saveQrCode();
+                          }
+                        },
                       ),
+                    )
+                  : ButtonView(
                       onTap: () {
                         if (text.text.isEmpty) {
                           toastView(
@@ -176,22 +191,10 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
                           saveQrCode();
                         }
                       },
+                      title: "Download",
                     ),
-                  )
-                : ButtonView(
-                    onTap: () {
-                      if (text.text.isEmpty) {
-                        toastView(
-                          msg: "Please enter any detail",
-                          context: context,
-                        );
-                      } else {
-                        saveQrCode();
-                      }
-                    },
-                    title: "Download",
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );

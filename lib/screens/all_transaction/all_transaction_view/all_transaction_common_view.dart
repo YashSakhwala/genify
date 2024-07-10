@@ -680,8 +680,8 @@ class _AllTransactionCommonViewScreenState
                                                                             [
                                                                             'type'] ==
                                                                         'Incomes'
-                                                                    ? Colors.green
-                                                                    : Colors.red,
+                                                                    ? AppColors.greenColor
+                                                                    : AppColors.redColor
                                                               ),
                                                               overflow:
                                                                   TextOverflow

@@ -72,6 +72,5 @@ class _WebLoginViewScreenState extends State<WebSignUpViewScreen> {
         ),
       ),
     );
-  
   }
 }

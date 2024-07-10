@@ -1,8 +1,8 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_style.dart';
 import '../../../../widgets/common_widgets/appbar.dart';
@@ -91,49 +91,51 @@ class _DiscountCalculationScreenState extends State<DiscountCalculationScreen> {
         centerTitle: true,
         backgroundColor: AppColors.transparentColor,
       ),
-      body: Center(
-        child: Container(
-          width: 500,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                discountUnitInputField(
-                    "Original Price", originalPriceController),
-                SizedBox(
-                  height: 20,
-                ),
-                discountUnitInputField("Discount (% off)", discountController),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Final Price",
-                      style:
-                          AppTextStyle.regularTextStyle.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      finalPriceController.text,
-                      style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 19,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  "You save ${savingsController.text}",
-                  style: AppTextStyle.regularTextStyle.copyWith(
-                    color: AppColors.greyColor,
-                    fontSize: 17,
+      body: FlipInX(
+        child: Center(
+          child: Container(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  discountUnitInputField(
+                      "Original Price", originalPriceController),
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-              ],
+                  discountUnitInputField("Discount (% off)", discountController),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Final Price",
+                        style:
+                            AppTextStyle.regularTextStyle.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        finalPriceController.text,
+                        style: AppTextStyle.regularTextStyle.copyWith(
+                          fontSize: 19,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    "You save ${savingsController.text}",
+                    style: AppTextStyle.regularTextStyle.copyWith(
+                      color: AppColors.greyColor,
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

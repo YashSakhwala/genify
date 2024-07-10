@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -57,68 +58,66 @@ class _OTPCommonViewState extends State<OTPCommonView> {
             ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "Please enter the 6-digit OTP sent to your registered phone number",
-                style: AppTextStyle.regularTextStyle,
-                textAlign: TextAlign.center,
+        child: FlipInX(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  "Please enter the 6-digit OTP sent to your registered phone number",
+                  style: AppTextStyle.regularTextStyle,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Pinput(
-                controller: pinPutController,
-                focusNode: pinPutFocusNode,
-                length: 6,
-                autofocus: true,
-                closeKeyboardWhenCompleted: true,
+              SizedBox(
+                height: 50,
               ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            ButtonView(
-              height: 50,
-              title: "Continue",
-              onTap: () async {
-                showIndicator(context);
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Pinput(
+                  controller: pinPutController,
+                  focusNode: pinPutFocusNode,
+                  length: 6,
+                  autofocus: true,
+                  closeKeyboardWhenCompleted: true,
+                ),
+              ),
+              SizedBox(
+                height: 100,
+              ),
+              ButtonView(
+                height: 50,
+                title: "Continue",
+                onTap: () async {
+                  showIndicator(context);
 
-                String smsCode = pinPutController.text.trim();
+                  String smsCode = pinPutController.text.trim();
 
-                PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                  verificationId: widget.verificationId,
-                  smsCode: smsCode,
-                );
-
-                // setState(() {});
-
-                try {
-                  await firebaseAuth.signInWithCredential(credential);
-
-                  // setState(() {});
-
-                  authController.signUp(
-                    name: widget.name,
-                    email: widget.email,
-                    password: widget.password,
-                    phoneNo: widget.phoneNo,
-                    context: context,
+                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                    verificationId: widget.verificationId,
+                    smsCode: smsCode,
                   );
-                } catch (e) {
-                  toastView(
-                    msg: "Failed to sign in: $e",
-                    context: context,
-                  );
-                }
-              },
-            ),
-          ],
+
+                  try {
+                    await firebaseAuth.signInWithCredential(credential);
+
+                    authController.signUp(
+                      name: widget.name,
+                      email: widget.email,
+                      password: widget.password,
+                      phoneNo: widget.phoneNo,
+                      context: context,
+                    );
+                  } catch (e) {
+                    toastView(
+                      msg: "Failed to sign in: $e",
+                      context: context,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

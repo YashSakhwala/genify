@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
 import '../../widgets/layout_builder_view.dart';
 import 'show_income_view/show_income_common_view.dart';
 import 'show_income_view/web_show_income_view.dart';

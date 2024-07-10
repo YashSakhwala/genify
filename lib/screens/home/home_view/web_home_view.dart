@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, use_super_parameters
 
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_style.dart';
 import 'package:genify/screens/add_expenses/add_expenses_screen.dart';
@@ -152,22 +150,22 @@ class _WebHomeScreenState extends State<WebHomeScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: ZoomIn(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisExtent: 100,
-                      ),
-                      itemCount: homeTools.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  homeTools[index]["navigation"],
-                            ));
-                          },
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 100,
+                    ),
+                    itemCount: homeTools.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                homeTools[index]["navigation"],
+                          ));
+                        },
+                        child: ZoomIn(
                           child: Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 8),
@@ -208,9 +206,9 @@ class _WebHomeScreenState extends State<WebHomeScreen>
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(

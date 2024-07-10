@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_super_parameters
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -218,68 +218,71 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen>
                     );
                   },
                 ),
-                Stack(
-                  children: [
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () {
-                          bottomBarController.index.value = 1;
-                        },
-                        child: Container(
-                          height: 120,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppColors.primaryColor.withOpacity(0.85),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 150,
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Transactions",
-                                        style: AppTextStyle.regularTextStyle
-                                            .copyWith(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.whiteColor,
+                FlipInX(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: () {
+                            bottomBarController.index.value = 1;
+                          },
+                          child: Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColors.primaryColor.withOpacity(0.85),
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 150,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Transactions",
+                                          style: AppTextStyle.regularTextStyle
+                                              .copyWith(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.whiteColor,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Find your experience to take care of your transactions",
-                                        style: AppTextStyle.regularTextStyle
-                                            .copyWith(
-                                          fontSize: 10,
-                                          color: AppColors.whiteColor,
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ],
+                                        Text(
+                                          "Find your experience to take care of your transactions",
+                                          style: AppTextStyle.regularTextStyle
+                                              .copyWith(
+                                            fontSize: 10,
+                                            color: AppColors.whiteColor,
+                                          ),
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    flyingImage(AppImages.transfer),
-                  ],
+                      flyingImage(AppImages.transfer),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 30,

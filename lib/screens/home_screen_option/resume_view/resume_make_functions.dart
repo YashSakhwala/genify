@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_init_to_null, use_build_context_synchronously, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables
+// ignore_for_file: avoid_init_to_null, use_build_context_synchronously, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, unnecessary_to_list_in_spreads
 
 import "dart:io" as io;
 import "package:external_path/external_path.dart";

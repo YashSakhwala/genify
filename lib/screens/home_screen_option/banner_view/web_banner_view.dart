@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unused_local_variable, avoid_print
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -101,365 +102,367 @@ class _WebBannerScreenState extends State<WebBannerScreen> {
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 7,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppColors.greyColor.shade300,
-                            image: DecorationImage(
-                              image: BannerMake.imagePath.isEmpty
-                                  ? Image.asset(
-                                      AppImages.addImage,
-                                      color: AppColors.greyColor.shade300,
-                                      scale: 12,
-                                    ).image
-                                  : Image.network(
-                                      BannerMake.imagePath,
-                                    ).image,
-                              fit: BannerMake.imagePath.isEmpty
-                                  ? BoxFit.scaleDown
-                                  : BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Some companies require banner without logo, so check before adding one.",
-                          style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            html.FileUploadInputElement uploadInput =
-                                html.FileUploadInputElement();
-                            uploadInput.accept = 'image/*';
-                            uploadInput.click();
-
-                            uploadInput.onChange.listen((event) {
-                              final file = uploadInput.files!.first;
-                              final reader = html.FileReader();
-
-                              reader.readAsDataUrl(file);
-                              reader.onLoadEnd.listen((event) {
-                                setState(() {
-                                  BannerMake.imagePath =
-                                      reader.result as String;
-                                });
-                              });
-                            });
-                          },
-                          child: Container(
-                            height: 43,
+          child: FlipInX(
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 7,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 150,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(
-                                color: AppColors.primaryColor,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Upload Logo",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppColors.greyColor.shade300,
-                            image: DecorationImage(
-                              image: BannerMake.backgroundImagePath.isEmpty
-                                  ? Image.asset(
-                                      AppImages.addImage,
-                                      color: AppColors.greyColor.shade300,
-                                      scale: 12,
-                                    ).image
-                                  : Image.network(
-                                      BannerMake.backgroundImagePath,
-                                    ).image,
-                              fit: BannerMake.backgroundImagePath.isEmpty
-                                  ? BoxFit.scaleDown
-                                  : BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Some companies require banner without background image, so check before adding one.",
-                          style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            html.FileUploadInputElement uploadInput =
-                                html.FileUploadInputElement();
-                            uploadInput.accept = 'image/*';
-                            uploadInput.click();
-
-                            uploadInput.onChange.listen((event) {
-                              final file = uploadInput.files!.first;
-                              final reader = html.FileReader();
-
-                              reader.readAsDataUrl(file);
-                              reader.onLoadEnd.listen((event) {
-                                setState(() {
-                                  BannerMake.backgroundImagePath =
-                                      reader.result as String;
-                                });
-                              });
-                            });
-                          },
-                          child: Container(
-                            height: 43,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(
-                                color: AppColors.primaryColor,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    "Upload Background Image",
-                                    style:
-                                        AppTextStyle.regularTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                ),
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColors.greyColor.shade300,
+                              image: DecorationImage(
+                                image: BannerMake.imagePath.isEmpty
+                                    ? Image.asset(
+                                        AppImages.addImage,
+                                        color: AppColors.greyColor.shade300,
+                                        scale: 12,
+                                      ).image
+                                    : Image.network(
+                                        BannerMake.imagePath,
+                                      ).image,
+                                fit: BannerMake.imagePath.isEmpty
+                                    ? BoxFit.scaleDown
+                                    : BoxFit.cover,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 60,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        TextFieldView(
-                          title: "Name",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                          SizedBox(
+                            height: 10,
                           ),
-                          controller: name,
-                          hintText: "Varun Mishra",
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFieldView(
-                          title: "Phone Number",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: phoneNo,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                            LengthLimitingTextInputFormatter(10),
-                          ],
-                          hintText: "9876543210",
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFieldView(
-                          title: "Address",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: address,
-                          maxLines: 4,
-                          vertical: 4,
-                          hintText:
-                              "105-A, Ambar society, Neharu chock, surat.",
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 60,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextFieldView(
-                          title: "Profession",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: profession,
-                          hintText: "Software Engineer",
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFieldView(
-                          title: "Email",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: email,
-                          hintText: "mishra.varun@email.com",
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Text Color",
-                                controller: textColorController,
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(6),
-                                ],
-                              ),
+                          Text(
+                            "Some companies require banner without logo, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 13,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: InkWell(
-                                onTap: () {
-                                  pickColor(textColor, (color) {
-                                    setState(() {
-                                      textColor = color;
-                                      textColorController.text = color.value
-                                          .toRadixString(16)
-                                          .substring(2)
-                                          .toUpperCase();
-                                    });
+                            textAlign: TextAlign.justify,
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              html.FileUploadInputElement uploadInput =
+                                  html.FileUploadInputElement();
+                              uploadInput.accept = 'image/*';
+                              uploadInput.click();
+            
+                              uploadInput.onChange.listen((event) {
+                                final file = uploadInput.files!.first;
+                                final reader = html.FileReader();
+            
+                                reader.readAsDataUrl(file);
+                                reader.onLoadEnd.listen((event) {
+                                  setState(() {
+                                    BannerMake.imagePath =
+                                        reader.result as String;
                                   });
-                                },
-                                child: Container(
-                                  height: 47,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    color: textColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: AppColors.greyColor,
+                                });
+                              });
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload Logo",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColors.greyColor.shade300,
+                              image: DecorationImage(
+                                image: BannerMake.backgroundImagePath.isEmpty
+                                    ? Image.asset(
+                                        AppImages.addImage,
+                                        color: AppColors.greyColor.shade300,
+                                        scale: 12,
+                                      ).image
+                                    : Image.network(
+                                        BannerMake.backgroundImagePath,
+                                      ).image,
+                                fit: BannerMake.backgroundImagePath.isEmpty
+                                    ? BoxFit.scaleDown
+                                    : BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Some companies require banner without background image, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              html.FileUploadInputElement uploadInput =
+                                  html.FileUploadInputElement();
+                              uploadInput.accept = 'image/*';
+                              uploadInput.click();
+            
+                              uploadInput.onChange.listen((event) {
+                                final file = uploadInput.files!.first;
+                                final reader = html.FileReader();
+            
+                                reader.readAsDataUrl(file);
+                                reader.onLoadEnd.listen((event) {
+                                  setState(() {
+                                    BannerMake.backgroundImagePath =
+                                        reader.result as String;
+                                  });
+                                });
+                              });
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: SingleChildScrollView(
+                                    child: Text(
+                                      "Upload Background Image",
+                                      style:
+                                          AppTextStyle.regularTextStyle.copyWith(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryColor,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 265,
-                        ),
-                        ButtonView(
-                          height: 45,
-                          width: 200,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 60,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          TextFieldView(
+                            title: "Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: name,
+                            hintText: "Varun Mishra",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldView(
+                            title: "Phone Number",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: phoneNo,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                              LengthLimitingTextInputFormatter(10),
+                            ],
+                            hintText: "9876543210",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldView(
+                            title: "Address",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: address,
+                            maxLines: 4,
+                            vertical: 4,
+                            hintText:
+                                "105-A, Ambar society, Neharu chock, surat.",
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 60,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          TextFieldView(
+                            title: "Profession",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: profession,
+                            hintText: "Software Engineer",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldView(
+                            title: "Email",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            controller: email,
+                            hintText: "mishra.varun@email.com",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
                             children: [
-                              Text(
-                                "Continue",
-                                style: AppTextStyle.smallTextStyle.copyWith(
-                                  color: AppColors.whiteColor,
+                              Expanded(
+                                child: TextFieldView(
+                                  title: "Text Color",
+                                  controller: textColorController,
+                                  titleStyle:
+                                      AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(6),
+                                  ],
                                 ),
                               ),
                               SizedBox(
-                                width: 7,
+                                width: 13,
                               ),
-                              Icon(
-                                Icons.arrow_forward_rounded,
-                                color: AppColors.whiteColor,
-                                size: 15,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: InkWell(
+                                  onTap: () {
+                                    pickColor(textColor, (color) {
+                                      setState(() {
+                                        textColor = color;
+                                        textColorController.text = color.value
+                                            .toRadixString(16)
+                                            .substring(2)
+                                            .toUpperCase();
+                                      });
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 47,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: textColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.greyColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                          onTap: () {
-                            if (name.text.isEmpty ||
-                                profession.text.isEmpty ||
-                                email.text.isEmpty ||
-                                phoneNo.text.isEmpty ||
-                                address.text.isEmpty) {
-                              toastView(
-                                msg: "Please fill all details",
-                                context: context,
-                              );
-                            } else {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => WebAllBannerScreen(
-                                  name: name.text,
-                                  profession: profession.text,
-                                  email: email.text,
-                                  phoneNo: phoneNo.text,
-                                  address: address.text,
-                                  textColor: textColor,
+                          SizedBox(
+                            height: 265,
+                          ),
+                          ButtonView(
+                            height: 45,
+                            width: 200,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Continue",
+                                  style: AppTextStyle.smallTextStyle.copyWith(
+                                    color: AppColors.whiteColor,
+                                  ),
                                 ),
-                              ));
-                            }
-                          },
-                        ),
-                      ],
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  color: AppColors.whiteColor,
+                                  size: 15,
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              if (name.text.isEmpty ||
+                                  profession.text.isEmpty ||
+                                  email.text.isEmpty ||
+                                  phoneNo.text.isEmpty ||
+                                  address.text.isEmpty) {
+                                toastView(
+                                  msg: "Please fill all details",
+                                  context: context,
+                                );
+                              } else {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => WebAllBannerScreen(
+                                    name: name.text,
+                                    profession: profession.text,
+                                    email: email.text,
+                                    phoneNo: phoneNo.text,
+                                    address: address.text,
+                                    textColor: textColor,
+                                  ),
+                                ));
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

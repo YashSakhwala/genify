@@ -680,10 +680,10 @@ class _ShowIncomeCommonViewScreenState
                                                                             .w600,
                                                                     color: allData[allDataIndex]['type'] ==
                                                                             'Incomes'
-                                                                        ? Colors
-                                                                            .green
-                                                                        : Colors
-                                                                            .red,
+                                                                        ? AppColors
+                                                                            .greenColor
+                                                                        : AppColors
+                                                                            .redColor,
                                                                   ),
                                                                   overflow:
                                                                       TextOverflow

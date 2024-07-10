@@ -2,7 +2,6 @@
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/widgets/common_widgets/appbar.dart';
@@ -681,10 +680,10 @@ class _ShowExpensesCommonViewScreenState
                                                                             .w600,
                                                                     color: allData[allDataIndex]['type'] ==
                                                                             'Incomes'
-                                                                        ? Colors
-                                                                            .green
-                                                                        : Colors
-                                                                            .red,
+                                                                        ? AppColors
+                                                                            .greenColor
+                                                                        : AppColors
+                                                                            .redColor,
                                                                   ),
                                                                   overflow:
                                                                       TextOverflow

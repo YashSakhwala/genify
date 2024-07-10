@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
@@ -154,23 +155,25 @@ class _AllResumeCommonScreenState extends State<AllResumeCommonScreen> {
                             selectedIndex = index;
                           });
                         },
-                        child: Container(
-                          height: 500,
-                          width: 200,
-                          margin: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: selectedIndex == index
-                                ? Border.all(
-                                    color: AppColors.primaryColor,
-                                    width: 3,
-                                  )
-                                : null,
-                            image: DecorationImage(
-                              image: Image.asset(
-                                resume[index]["image"],
-                              ).image,
-                              fit: BoxFit.fill,
+                        child: FlipInX(
+                          child: Container(
+                            height: 500,
+                            width: 200,
+                            margin: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: selectedIndex == index
+                                  ? Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 3,
+                                    )
+                                  : null,
+                              image: DecorationImage(
+                                image: Image.asset(
+                                  resume[index]["image"],
+                                ).image,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/screens/home_screen_option/banner_view/banner_make_function.dart';
 import '../../../../config/app_colors.dart';
@@ -146,31 +147,33 @@ class _WebAllBannerScreenState extends State<WebAllBannerScreen> {
                             selectedIndex = index;
                           });
                         },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: selectedIndex == index
-                                ? Border.all(
-                                    color: AppColors.primaryColor,
-                                    width: 3,
-                                  )
-                                : null,
-                            image: DecorationImage(
-                              image: Image.asset(
-                                banner[index]["image"],
-                              ).image,
-                              fit: BoxFit.fill,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.blackColor.withOpacity(0.3),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: Offset(0, 3),
+                        child: FlipInX(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: selectedIndex == index
+                                  ? Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 3,
+                                    )
+                                  : null,
+                              image: DecorationImage(
+                                image: Image.asset(
+                                  banner[index]["image"],
+                                ).image,
+                                fit: BoxFit.fill,
                               ),
-                            ],
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.blackColor.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

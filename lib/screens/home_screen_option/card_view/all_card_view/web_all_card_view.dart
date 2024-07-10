@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_image.dart';
 import '../../../../config/app_style.dart';
@@ -149,31 +148,33 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
                             selectedIndex = index;
                           });
                         },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: selectedIndex == index
-                                ? Border.all(
-                                    color: AppColors.primaryColor,
-                                    width: 3,
-                                  )
-                                : null,
-                            image: DecorationImage(
-                              image: Image.asset(
-                                card[index]["image"],
-                              ).image,
-                              fit: BoxFit.fill,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.blackColor.withOpacity(0.3),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: Offset(0, 3),
+                        child: FlipInX(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: selectedIndex == index
+                                  ? Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 3,
+                                    )
+                                  : null,
+                              image: DecorationImage(
+                                image: Image.asset(
+                                  card[index]["image"],
+                                ).image,
+                                fit: BoxFit.fill,
                               ),
-                            ],
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.blackColor.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

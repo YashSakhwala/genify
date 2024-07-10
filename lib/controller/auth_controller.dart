@@ -1,7 +1,6 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, prefer_const_constructors, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_print, use_build_context_synchronously, prefer_const_constructors, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io' as io;
 import 'package:genify/screens/bottom_bar/bottom_bar_screen.dart';
 import "package:universal_html/html.dart" as html;
@@ -303,7 +302,5 @@ class AuthController extends GetxController {
       userID.add(phoneNo);
       userID.add(email);
     });
-
-    log("----> $userID");
   }
 }

@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genify/widgets/common_widgets/appbar.dart';
-
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_style.dart';
 import '../../../../widgets/common_widgets/text_field_view.dart';
@@ -106,7 +106,7 @@ class _BMICalculationScreenState extends State<BMICalculationScreen> {
               ),
               Icon(
                 Icons.arrow_drop_down_rounded,
-                color: Colors.grey,
+                color: AppColors.greyColor,
               ),
             ],
           ),
@@ -151,53 +151,55 @@ class _BMICalculationScreenState extends State<BMICalculationScreen> {
         centerTitle: true,
         backgroundColor: AppColors.transparentColor,
       ),
-      body: Center(
-        child: Container(
-          width: 500,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                bmiUnitInputField(weightUnit, weightController,
-                    () => showBMIUnitPicker("weight")),
-                SizedBox(height: 30),
-                bmiUnitInputField(heightUnit, heightController,
-                    () => showBMIUnitPicker("height")),
-                SizedBox(
-                  height: 70,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: AppColors.greyColor.shade400,
-                    ),
+      body: FlipInX(
+        child: Center(
+          child: Container(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  bmiUnitInputField(weightUnit, weightController,
+                      () => showBMIUnitPicker("weight")),
+                  SizedBox(height: 30),
+                  bmiUnitInputField(heightUnit, heightController,
+                      () => showBMIUnitPicker("height")),
+                  SizedBox(
+                    height: 70,
                   ),
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: bmiResult,
-                            style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 35,
-                              color: AppColors.primaryColor,
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: AppColors.greyColor.shade400,
+                      ),
+                    ),
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: bmiResult,
+                              style: AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 35,
+                                color: AppColors.primaryColor,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: " BMI",
-                            style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 20,
-                              color: AppColors.greyColor,
+                            TextSpan(
+                              text: " BMI",
+                              style: AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 20,
+                                color: AppColors.greyColor,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

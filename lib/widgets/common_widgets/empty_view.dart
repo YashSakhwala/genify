@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:genify/config/app_image.dart';
@@ -8,21 +9,23 @@ class EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          AppImages.empty,
-          scale: 2,
-        ),
-        Text(
-          "No Data Found",
-          style: AppTextStyle.largeTextStyle.copyWith(
-            color: AppColors.greyColor,
-            fontSize: 14,
+    return FlipInX(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            AppImages.empty,
+            scale: 2,
           ),
-        ),
-      ],
+          Text(
+            "No Data Found",
+            style: AppTextStyle.largeTextStyle.copyWith(
+              color: AppColors.greyColor,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

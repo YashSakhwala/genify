@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:genify/config/app_colors.dart';
 
 dialogBoxView(BuildContext context, {required Widget widget}) {
   showGeneralDialog(
     barrierLabel: "Label",
     barrierDismissible: true,
-    barrierColor: Colors.black.withOpacity(0.5),
+    barrierColor: AppColors.blackColor.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 700),
     context: context,
     pageBuilder: (context, ani1, ani2) {

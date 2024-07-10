@@ -1,8 +1,8 @@
 // ignore_for_file: unused_element, prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_style.dart';
 import '../../../../widgets/common_widgets/appbar.dart';
@@ -96,136 +96,138 @@ class _DateCalculationScreenState extends State<DateCalculationScreen> {
         centerTitle: true,
         backgroundColor: AppColors.transparentColor,
       ),
-      body: Center(
-        child: Container(
-          width: 500,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Date of birth",
-                      style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 18,
-                        color: AppColors.greyColor.shade800,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () => _selectDate(context, true),
-                          child: Text(
-                            selectedBirthDateString,
-                            style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 30,
-                          color: AppColors.greyColor,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Today",
-                      style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 18,
-                        color: AppColors.greyColor.shade800,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () => _selectDate(context, false),
-                          child: Text(
-                            selectedCurrentDateString,
-                            style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 30,
-                          color: AppColors.greyColor,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 100,
-                ),
-                Container(
-                  width: 200,
-                  height: 200,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: AppColors.greyColor.shade400,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: FlipInX(
+        child: Center(
+          child: Container(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Age",
+                        "Date of birth",
                         style: AppTextStyle.regularTextStyle.copyWith(
-                          fontSize: 30,
-                          color: AppColors.blackColor.withOpacity(0.5),
+                          fontSize: 18,
+                          color: AppColors.greyColor.shade800,
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      RichText(
-                        text: TextSpan(
+                      InkWell(
+                        onTap: () => _selectDate(context, true),
+                        child: Row(
                           children: [
-                            TextSpan(
-                              text: "${ageDifference["years"]} ",
+                            Text(
+                              selectedBirthDateString,
                               style: AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 35,
-                                color: AppColors.primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            TextSpan(
-                              text: "years\n",
-                              style: AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 20,
-                                color: AppColors.greyColor,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "${ageDifference["months"]} months | ${ageDifference["days"]} days",
-                              style: AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 13,
-                                color: AppColors.greyColor,
-                              ),
+                            Icon(
+                              Icons.arrow_drop_down_rounded,
+                              size: 30,
+                              color: AppColors.greyColor,
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Today",
+                        style: AppTextStyle.regularTextStyle.copyWith(
+                          fontSize: 18,
+                          color: AppColors.greyColor.shade800,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => _selectDate(context, false),
+                        child: Row(
+                          children: [
+                            Text(
+                              selectedCurrentDateString,
+                              style: AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down_rounded,
+                              size: 30,
+                              color: AppColors.greyColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Container(
+                    width: 200,
+                    height: 200,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: AppColors.greyColor.shade400,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Age",
+                          style: AppTextStyle.regularTextStyle.copyWith(
+                            fontSize: 30,
+                            color: AppColors.blackColor.withOpacity(0.5),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "${ageDifference["years"]} ",
+                                style: AppTextStyle.regularTextStyle.copyWith(
+                                  fontSize: 35,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "years\n",
+                                style: AppTextStyle.regularTextStyle.copyWith(
+                                  fontSize: 20,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "${ageDifference["months"]} months | ${ageDifference["days"]} days",
+                                style: AppTextStyle.regularTextStyle.copyWith(
+                                  fontSize: 13,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

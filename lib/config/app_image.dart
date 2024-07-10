@@ -6,7 +6,6 @@ class AppImages {
   static const String whiteLogo = "assets/images/white_logo.png";
   static const String logoBackground = "assets/images/logo_with_background.png";
 
-  
   static const String empty = "assets/images/empty.png";
   static const String noInternet = "assets/images/no_wifi.png";
 

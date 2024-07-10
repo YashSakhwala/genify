@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, use_key_in_widget_constructors, file_names, sized_box_for_whitespace
 
+import "package:animate_do/animate_do.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:genify/config/app_colors.dart";
@@ -716,17 +717,17 @@ class _OtherCalculationCommonViewScreenState
 
     calculators.forEach((_, calculator) {
       calculator["values"][0].addListener(() {
-        handleInputChange(calculator,0);
+        handleInputChange(calculator, 0);
       });
       calculator["values"][1].addListener(() {
-        handleInputChange(calculator,1);
+        handleInputChange(calculator, 1);
       });
     });
   }
 
   void handleInputChange(Map<String, dynamic> calculator, int index) {
     final fromController = calculator["values"][index];
-    final toController = calculator["values"][1-index];
+    final toController = calculator["values"][1 - index];
     if (fromController.text.isEmpty) {
       toController.text = '';
       return;
@@ -738,7 +739,7 @@ class _OtherCalculationCommonViewScreenState
     }
     calculator["calculate"](
       calculator["units"][index],
-      calculator["units"][1-index],
+      calculator["units"][1 - index],
       fromController,
       toController,
       calculator["conversionFactors"],
@@ -854,18 +855,20 @@ class _OtherCalculationCommonViewScreenState
       children: [
         titleBar(context, calculatorType),
         Center(
-          child: Container(
-            width: 500,
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                children: [
-                  unitInputField(calculatorType, 0),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  unitInputField(calculatorType, 1),
-                ],
+          child: FlipInX(
+            child: Container(
+              width: 500,
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    unitInputField(calculatorType, 0),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    unitInputField(calculatorType, 1),
+                  ],
+                ),
               ),
             ),
           ),
@@ -920,7 +923,7 @@ class _OtherCalculationCommonViewScreenState
         return buildCalculator("Energy");
       default:
         return Container(
-          color: Colors.grey,
+          color: AppColors.greyColor,
           height: 100,
           width: 100,
           child: Center(child: Text("Default Case")),

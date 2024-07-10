@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_style.dart';
 import '../../../../widgets/common_widgets/appbar.dart';
@@ -183,21 +183,23 @@ class _NumeralCalculationScreenState extends State<NumeralCalculationScreen> {
         centerTitle: true,
         backgroundColor: AppColors.transparentColor,
       ),
-      body: Center(
-        child: Container(
-          width: 500,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                numeralUnitInputField(numeralFirstUnit, numeralFirstValue,
-                    () => showNumeralUnitPicker("input")),
-                SizedBox(
-                  height: 30,
-                ),
-                numeralUnitInputField(numeralSecondUnit, numeralSecondValue,
-                    () => showNumeralUnitPicker("output")),
-              ],
+      body: FlipInX(
+        child: Center(
+          child: Container(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  numeralUnitInputField(numeralFirstUnit, numeralFirstValue,
+                      () => showNumeralUnitPicker("input")),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  numeralUnitInputField(numeralSecondUnit, numeralSecondValue,
+                      () => showNumeralUnitPicker("output")),
+                ],
+              ),
             ),
           ),
         ),

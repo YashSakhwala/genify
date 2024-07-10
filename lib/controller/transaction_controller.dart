@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, await_only_futures, non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, await_only_futures, prefer_const_constructors
 
 import "dart:convert";
 import "dart:io" as io;

@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, use_super_parameters
 
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
@@ -14,6 +16,7 @@ import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import "package:universal_html/html.dart" as html;
 
 class ProfileCommonViewScreen extends StatefulWidget {
   const ProfileCommonViewScreen({Key? key}) : super(key: key);
@@ -140,273 +143,302 @@ class _ProfileCommonViewScreenState extends State<ProfileCommonViewScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 0.4, color: AppColors.greyColor),
-                  color: AppColors.whiteColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.blackColor.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(13),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            color: AppColors.primaryColor,
-                            strokeWidth: 2,
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(150),
-                            child: authController.imagePath.value.isNotEmpty
-                                ? Image.file(
-                                    File(authController.imagePath.value),
-                                    height: 120,
-                                    width: 120,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    authController.userData["image"],
-                                    height: 120,
-                                    width: 120,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                        ],
+              FlipInX(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 0.4, color: AppColors.greyColor),
+                    color: AppColors.whiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.blackColor.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 3),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "Personalize your account with a photo. Your profile photo will appear on apps and devices that use your Genify account.",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 14,
-                          color: AppColors.blackColor.withOpacity(0.7),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(13),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                              strokeWidth: 2,
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(150),
+                              child: authController.imagePath.value.isNotEmpty
+                                  ? kIsWeb
+                                      ? Image.network(
+                                          authController.imagePath.value,
+                                        )
+                                      : Image.file(
+                                          File(authController.imagePath.value),
+                                          height: 120,
+                                          width: 120,
+                                          fit: BoxFit.cover,
+                                        )
+                                  : Image.network(
+                                      authController.userData["image"],
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          ImagePicker imagePicker = ImagePicker();
-
-                          XFile? xFile = await imagePicker.pickImage(
-                              source: ImageSource.gallery);
-
-                          if (xFile != null && xFile.path.isNotEmpty) {
-                            authController.imagePath.value = xFile.path;
-                          }
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: AppColors.greyColor),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Personalize your account with a photo. Your profile photo will appear on apps and devices that use your Genify account.",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 14,
+                            color: AppColors.blackColor.withOpacity(0.7),
                           ),
-                          child: Center(
-                            child: Text(
-                              "Change Photo",
-                              style: AppTextStyle.smallTextStyle,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            if (kIsWeb) {
+                              html.FileUploadInputElement uploadInput =
+                                  html.FileUploadInputElement();
+                              uploadInput.accept = 'image/*';
+                              uploadInput.click();
+
+                              uploadInput.onChange.listen((event) {
+                                final file = uploadInput.files!.first;
+                                final reader = html.FileReader();
+
+                                reader.readAsDataUrl(file);
+                                reader.onLoadEnd.listen((event) {
+                                  authController.webImageFile.value = file;
+                                  authController.imagePath.value =
+                                      reader.result as String;
+                                });
+                              });
+                            } else {
+                              ImagePicker imagePicker = ImagePicker();
+
+                              XFile? xFile = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+
+                              if (xFile != null && xFile.path.isNotEmpty) {
+                                authController.imagePath.value = xFile.path;
+                              }
+                            }
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: AppColors.greyColor),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Change Photo",
+                                style: AppTextStyle.smallTextStyle,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(),
-                      Text(
-                        "Full Name",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.greyColor,
+                        Divider(),
+                        Text(
+                          "Full Name",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 13,
+                            color: AppColors.greyColor,
+                          ),
                         ),
-                      ),
-                      TextFieldView(
-                        controller: name,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        title: "",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 0.4, color: AppColors.greyColor),
-                  color: AppColors.whiteColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.blackColor.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        "Account Info",
-                        style: AppTextStyle.regularTextStyle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Divider(),
-                      Text(
-                        "Email Address",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                      TextFieldView(
-                        controller: email,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        enabled: false,
-                        title: "",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Phone Number",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                      TextFieldView(
-                        controller: phoneNo,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.phone,
-                        enabled: false,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                        ],
-                        title: "",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 0.4, color: AppColors.greyColor),
-                  color: AppColors.whiteColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.blackColor.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        "Profile Info",
-                        style: AppTextStyle.regularTextStyle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Divider(),
-                      Text(
-                        "Date of Birth",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          DateTime? dateTime = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime.now(),
-                            builder: (BuildContext context, Widget? child) {
-                              return Theme(
-                                data: ThemeData.light().copyWith(
-                                  colorScheme: ColorScheme.light(
-                                      primary: AppColors.primaryColor),
-                                ),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (dateTime != null) {
-                            setState(() {
-                              birthDate.text =
-                                  dateTime.toString().split(' ').first;
-                            });
-                          }
-                        },
-                        child: TextFieldView(
-                          controller: birthDate,
+                        TextFieldView(
+                          controller: name,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                          hintText: "YYYY-MM-DD",
+                          title: "",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              FlipInX(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 0.4, color: AppColors.greyColor),
+                    color: AppColors.whiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.blackColor.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          "Account Info",
+                          style: AppTextStyle.regularTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Divider(),
+                        Text(
+                          "Email Address",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 13,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                        TextFieldView(
+                          controller: email,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
                           enabled: false,
                           title: "",
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Country or Region",
-                        style: AppTextStyle.smallTextStyle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.greyColor,
+                        SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      TextFieldView(
-                        controller: country,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+                        Text(
+                          "Phone Number",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 13,
+                            color: AppColors.greyColor,
+                          ),
                         ),
-                        title: "",
+                        TextFieldView(
+                          controller: phoneNo,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          keyboardType: TextInputType.phone,
+                          enabled: false,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
+                          title: "",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              FlipInX(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 0.4, color: AppColors.greyColor),
+                    color: AppColors.whiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.blackColor.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 3),
                       ),
                     ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          "Profile Info",
+                          style: AppTextStyle.regularTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Divider(),
+                        Text(
+                          "Date of Birth",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 13,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            DateTime? dateTime = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime.now(),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData.light().copyWith(
+                                    colorScheme: ColorScheme.light(
+                                        primary: AppColors.primaryColor),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (dateTime != null) {
+                              setState(() {
+                                birthDate.text =
+                                    dateTime.toString().split(' ').first;
+                              });
+                            }
+                          },
+                          child: TextFieldView(
+                            controller: birthDate,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            hintText: "YYYY-MM-DD",
+                            enabled: false,
+                            title: "",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Country or Region",
+                          style: AppTextStyle.smallTextStyle.copyWith(
+                            fontSize: 13,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                        TextFieldView(
+                          controller: country,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          title: "",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

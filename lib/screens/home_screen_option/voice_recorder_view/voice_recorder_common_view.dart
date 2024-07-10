@@ -1,7 +1,8 @@
-// ignore_for_file: deprecated_member_use, avoid_print, non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: use_super_parameters, library_private_types_in_public_api, prefer_const_constructors, avoid_print
 
 import 'dart:async';
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:genify/config/app_image.dart';
@@ -135,186 +136,188 @@ class _VoiceRecorderCommonViewScreenState
       ),
       body: Padding(
         padding: const EdgeInsets.all(13),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: size.height / 10,
-              child: Obx(
-                () => recordeController.isStart.value == false
-                    ? Image.asset(
-                        AppImages.audio_waves,
-                      )
-                    : recordeController.isStop.value
-                        ? Image.asset(
-                            AppImages.audio_waves,
-                          )
-                        : Image.asset(
-                            AppImages.audio_waves,
-                          ),
+        child: FlipInX(
+          child: ListView(
+            children: [
+              SizedBox(
+                height: size.height / 10,
+                child: Obx(
+                  () => recordeController.isStart.value == false
+                      ? Image.asset(
+                          AppImages.audio_waves,
+                        )
+                      : recordeController.isStop.value
+                          ? Image.asset(
+                              AppImages.audio_waves,
+                            )
+                          : Image.asset(
+                              AppImages.audio_waves,
+                            ),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Obx(
-              () => recordeController.isStart.value
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Obx(
-                            () => Text(
-                              "${recordeController.hours.value}:${recordeController.minutes.value}:${recordeController.seconds.value}",
+              SizedBox(
+                height: 50,
+              ),
+              Obx(
+                () => recordeController.isStart.value
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Obx(
+                              () => Text(
+                                "${recordeController.hours.value}:${recordeController.minutes.value}:${recordeController.seconds.value}",
+                                style: AppTextStyle.smallTextStyle
+                                    .copyWith(fontSize: 32),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height / 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  toastView(
+                                    msg: "Recording is not saved...",
+                                    context: context,
+                                  );
+
+                                  cancelTime();
+                                  await record.stop();
+                                  String musicDir = await ExternalPath
+                                      .getExternalStoragePublicDirectory(
+                                          ExternalPath.DIRECTORY_DOWNLOADS);
+                                  Directory folder = Directory(
+                                      "$musicDir/voice recorder/.private/tmp.mp3");
+                                  File file = File(folder.path);
+                                  try {
+                                    await file.delete();
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+                                  recordeController.isStart.value = false;
+                                  recordeController.isStop.value = false;
+                                },
+                                child: Container(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFFFFEEED),
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: Image.asset(
+                                      AppImages.cancel,
+                                      color: const Color(0xFFDB2726),
+                                      height: 25,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  showSaveDialogBox();
+                                },
+                                child: Container(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFFEFF3FF),
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: Image.asset(
+                                      AppImages.yes,
+                                      color: const Color(0xFF1F70FF),
+                                      height: 30,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: size.height / 2.7,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              if (recordeController.isStop.value) {
+                                resume();
+                              } else {
+                                pauseRecorde();
+                              }
+                              recordeController.isStop.value =
+                                  !recordeController.isStop.value;
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Obx(
+                                () => Center(
+                                  child: recordeController.isStop.value
+                                      ? Image.asset(
+                                          AppImages.play,
+                                          color: AppColors.whiteColor,
+                                          height: 30,
+                                        )
+                                      : Image.asset(
+                                          AppImages.pause,
+                                          color: AppColors.whiteColor,
+                                          height: 30,
+                                        ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text(
+                              "00 : 00 : 00",
                               style: AppTextStyle.smallTextStyle
                                   .copyWith(fontSize: 32),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: size.height / 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                toastView(
-                                  msg: "Recording is not saved...",
-                                  context: context,
-                                );
-
-                                cancelTime();
-                                await record.stop();
-                                String musicDir = await ExternalPath
-                                    .getExternalStoragePublicDirectory(
-                                        ExternalPath.DIRECTORY_DOWNLOADS);
-                                Directory folder = Directory(
-                                    "$musicDir/voice recorder/.private/tmp.mp3");
-                                File file = File(folder.path);
-                                try {
-                                  await file.delete();
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                                recordeController.isStart.value = false;
-                                recordeController.isStop.value = false;
-                              },
-                              child: Container(
-                                height: 55,
-                                width: 55,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFFFEEED),
-                                    shape: BoxShape.circle),
-                                child: Center(
-                                  child: Image.asset(
-                                    AppImages.cancel,
-                                    color: const Color(0xFFDB2726),
-                                    height: 25,
-                                  ),
+                          SizedBox(
+                            height: size.height / 2,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              recordeController.isStart.value = true;
+                              startRecord();
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  AppImages.recorder,
+                                  color: AppColors.whiteColor,
+                                  height: 30,
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                showSaveDialogBox();
-                              },
-                              child: Container(
-                                height: 55,
-                                width: 55,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFEFF3FF),
-                                    shape: BoxShape.circle),
-                                child: Center(
-                                  child: Image.asset(
-                                    AppImages.yes,
-                                    color: const Color(0xFF1F70FF),
-                                    height: 30,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: size.height / 2.7,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            if (recordeController.isStop.value) {
-                              resume();
-                            } else {
-                              pauseRecorde();
-                            }
-                            recordeController.isStop.value =
-                                !recordeController.isStop.value;
-                          },
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Obx(
-                              () => Center(
-                                child: recordeController.isStop.value
-                                    ? Image.asset(
-                                        AppImages.play,
-                                        color: AppColors.whiteColor,
-                                        height: 30,
-                                      )
-                                    : Image.asset(
-                                        AppImages.pause,
-                                        color: AppColors.whiteColor,
-                                        height: 30,
-                                      ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text(
-                            "00 : 00 : 00",
-                            style: AppTextStyle.smallTextStyle
-                                .copyWith(fontSize: 32),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height / 2,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            recordeController.isStart.value = true;
-                            startRecord();
-                          },
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                                AppImages.recorder,
-                                color: AppColors.whiteColor,
-                                height: 30,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-            ),
-            SizedBox(
-              height: 50,
-            )
-          ],
+                          )
+                        ],
+                      ),
+              ),
+              SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );

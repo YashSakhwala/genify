@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_string_interpolations, sized_box_for_whitespace
 
+import "package:animate_do/animate_do.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "../../../config/app_colors.dart";
@@ -292,38 +293,40 @@ class _FinancialCalculationCommonViewScreenState
         return Column(
           children: [
             titleBar(context, "GST"),
-            Center(
-              child: Container(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    children: [
-                      gstUnitInputField(
-                          "Original price", originalPriceController),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      gstUnitInputField("GST", gstController),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Final price",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Text(
-                            finalPriceController.text,
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 19),
-                          ),
-                        ],
-                      ),
-                    ],
+            FlipInX(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        gstUnitInputField(
+                            "Original price", originalPriceController),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        gstUnitInputField("GST", gstController),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Final price",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Text(
+                              finalPriceController.text,
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 19),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -334,166 +337,168 @@ class _FinancialCalculationCommonViewScreenState
         return Column(
           children: [
             titleBar(context, "Investment"),
-            Center(
-              child: Container(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Total Investment",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: investmentController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+            FlipInX(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Total Investment",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: investmentController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Interest (%)",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: investmentInterestController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Interest (%)",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: investmentInterestController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          RichText(
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Duration",
+                                    style: AppTextStyle.regularTextStyle
+                                        .copyWith(fontSize: 18),
+                                  ),
+                                  TextSpan(
+                                    text: " (year/month)",
+                                    style: AppTextStyle.regularTextStyle
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                DropdownButton<int>(
+                                  value: investmentSelectedYears,
+                                  items: List.generate(31, (index) => index)
+                                      .map((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(value.toString()),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      investmentSelectedYears = value!;
+                                      calculateMaturityAmount();
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                DropdownButton<int>(
+                                  value: investmentSelectedMonths,
+                                  items: List.generate(12, (index) => index)
+                                      .map((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(value.toString()),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      investmentSelectedMonths = value!;
+                                      calculateMaturityAmount();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 70,
+                        ),
+                        Center(
+                          child: RichText(
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Duration",
-                                  style: AppTextStyle.regularTextStyle
-                                      .copyWith(fontSize: 18),
+                                  text: "Total value: ",
+                                  style: AppTextStyle.regularTextStyle,
                                 ),
                                 TextSpan(
-                                  text: " (year/month)",
-                                  style: AppTextStyle.regularTextStyle
-                                      .copyWith(fontSize: 13),
+                                  text: "${maturityAmount.toStringAsFixed(2)}",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              DropdownButton<int>(
-                                value: investmentSelectedYears,
-                                items: List.generate(31, (index) => index)
-                                    .map((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    investmentSelectedYears = value!;
-                                    calculateMaturityAmount();
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              DropdownButton<int>(
-                                value: investmentSelectedMonths,
-                                items: List.generate(12, (index) => index)
-                                    .map((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    investmentSelectedMonths = value!;
-                                    calculateMaturityAmount();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 70,
-                      ),
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Total value: ",
-                                style: AppTextStyle.regularTextStyle,
-                              ),
-                              TextSpan(
-                                text: "${maturityAmount.toStringAsFixed(2)}",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -504,167 +509,169 @@ class _FinancialCalculationCommonViewScreenState
         return Column(
           children: [
             titleBar(context, "Loan"),
-            Center(
-              child: Container(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Principal Amount",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: principalController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+            FlipInX(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Principal Amount",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: principalController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Interest (%)",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: loanInterestController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Interest (%)",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: loanInterestController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          RichText(
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Loan tenure",
+                                    style: AppTextStyle.regularTextStyle
+                                        .copyWith(fontSize: 18),
+                                  ),
+                                  TextSpan(
+                                    text: " (year/month)",
+                                    style: AppTextStyle.regularTextStyle
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                DropdownButton<int>(
+                                  value: loanSelectedYears,
+                                  items: List.generate(31, (index) => index)
+                                      .map((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(value.toString()),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      loanSelectedYears = value!;
+                                      calculateMonthlyPayment();
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                DropdownButton<int>(
+                                  value: loanSelectedMonths,
+                                  items: List.generate(12, (index) => index)
+                                      .map((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(value.toString()),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      loanSelectedMonths = value!;
+                                      calculateMonthlyPayment();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 70,
+                        ),
+                        Center(
+                          child: RichText(
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Loan tenure",
-                                  style: AppTextStyle.regularTextStyle
-                                      .copyWith(fontSize: 18),
+                                  text: "EMI: ",
+                                  style: AppTextStyle.regularTextStyle,
                                 ),
                                 TextSpan(
-                                  text: " (year/month)",
-                                  style: AppTextStyle.regularTextStyle
-                                      .copyWith(fontSize: 13),
+                                  text: "${monthlyPayment.toStringAsFixed(2)}",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              DropdownButton<int>(
-                                value: loanSelectedYears,
-                                items: List.generate(31, (index) => index)
-                                    .map((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    loanSelectedYears = value!;
-                                    calculateMonthlyPayment();
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              DropdownButton<int>(
-                                value: loanSelectedMonths,
-                                items: List.generate(12, (index) => index)
-                                    .map((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    loanSelectedMonths = value!;
-                                    calculateMonthlyPayment();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 70,
-                      ),
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "EMI: ",
-                                style: AppTextStyle.regularTextStyle,
-                              ),
-                              TextSpan(
-                                text: "${monthlyPayment.toStringAsFixed(2)}",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -675,116 +682,118 @@ class _FinancialCalculationCommonViewScreenState
         return Column(
           children: [
             titleBar(context, "Dividend"),
-            Center(
-              child: Container(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Share price",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: sharePriceController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+            FlipInX(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Share price",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: sharePriceController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 30),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 30),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Annual dividend \nper share",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: annualDividendController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Annual dividend \nper share",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: annualDividendController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 30),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 30),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Dividend yield",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: dividendYieldController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Dividend yield",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: dividendYieldController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 30),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 30),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -795,143 +804,145 @@ class _FinancialCalculationCommonViewScreenState
         return Column(
           children: [
             titleBar(context, "Capital Gain"),
-            Center(
-              child: Container(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Bought price",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: boughtPriceController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+            FlipInX(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Bought price",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: boughtPriceController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Current price",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: currentPriceController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter value",
-                                  hintStyle: AppTextStyle.regularTextStyle
-                                      .copyWith(color: AppColors.greyColor),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Current price",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: currentPriceController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter value",
+                                    hintStyle: AppTextStyle.regularTextStyle
+                                        .copyWith(color: AppColors.greyColor),
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.regularTextStyle
+                                      .copyWith(fontSize: 19),
                                 ),
-                                textAlign: TextAlign.end,
-                                style: AppTextStyle.regularTextStyle
-                                    .copyWith(fontSize: 19),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Capital gains",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: capitalGainsController,
-                                enabled: false,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Capital gains",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: capitalGainsController,
+                                  enabled: false,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                  textAlign: TextAlign.end,
                                 ),
-                                textAlign: TextAlign.end,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Capital gains yield",
-                            style: AppTextStyle.regularTextStyle
-                                .copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Container(
-                              child: TextFieldView(
-                                title: "",
-                                controller: capitalGainsYieldController,
-                                enabled: false,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Capital gains yield",
+                              style: AppTextStyle.regularTextStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              child: Container(
+                                child: TextFieldView(
+                                  title: "",
+                                  controller: capitalGainsYieldController,
+                                  enabled: false,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                  textAlign: TextAlign.end,
                                 ),
-                                textAlign: TextAlign.end,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -940,7 +951,7 @@ class _FinancialCalculationCommonViewScreenState
         );
       default:
         return Container(
-          color: Colors.grey,
+          color: AppColors.greyColor,
           height: 100,
           width: 100,
           child: Center(child: Text("Default Case")),

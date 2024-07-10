@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_super_parameters
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';

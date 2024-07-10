@@ -810,8 +810,8 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                                                         [
                                                                         'type'] ==
                                                                     'Incomes'
-                                                                ? Colors.green
-                                                                : Colors.red,
+                                                                ? AppColors.greenColor
+                                                                : AppColors.redColor,
                                                           ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
