@@ -71,7 +71,7 @@ class _FinancialCalculationCommonViewScreenState
               controller: controller,
               keyboardType: TextInputType.number,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
               ],
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -361,7 +361,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -396,7 +396,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -534,7 +534,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -569,7 +569,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -706,7 +706,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -741,7 +741,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -776,7 +776,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -828,7 +828,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -863,7 +863,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -899,7 +899,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -930,7 +930,7 @@ class _FinancialCalculationCommonViewScreenState
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
+                                        RegExp(r'[0-9.]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
