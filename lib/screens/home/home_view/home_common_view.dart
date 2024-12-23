@@ -9,6 +9,8 @@ import 'package:genify/controller/calculator_controller.dart';
 import 'package:genify/screens/home_screen_option/banner_screen.dart';
 import 'package:genify/screens/home_screen_option/barcode_screen.dart';
 import 'package:genify/screens/home_screen_option/card_screen.dart';
+import 'package:genify/screens/home_screen_option/certificate_screen.dart';
+import 'package:genify/screens/home_screen_option/marksheet_screen.dart';
 import 'package:genify/screens/home_screen_option/resume_screen.dart';
 import 'package:genify/screens/home_screen_option/salary_slip_screen.dart';
 import 'package:get/get.dart';
@@ -61,6 +63,16 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen>
       "name": "Salary Slip",
       "image": AppImages.salary,
       "navigation": SalarySlipScreen(),
+    },
+    {
+      "name": "Marksheet",
+      "image": AppImages.marksheet,
+      "navigation": MarksheetScreen(),
+    },
+    {
+      "name": "Certificate",
+      "image": AppImages.certificate,
+      "navigation": CertificateScreen(),
     },
     {
       "name": "Voice Recorder",

@@ -19,7 +19,6 @@ import '../../../config/app_image.dart';
 import '../../../widgets/common_widgets/indicatior.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
 import "package:universal_html/html.dart" as html;
-import '../otp_screen.dart';
 
 class SignUpCommomView extends StatefulWidget {
   const SignUpCommomView({super.key});
@@ -292,48 +291,59 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
                       );
                     } else {
                       showIndicator(context);
-                      String phoneNumber = phoneNo.text.trim();
-                      if (!phoneNumber.startsWith("+91")) {
-                        phoneNumber = "+91" + phoneNumber;
-                      }
 
-                      final PhoneVerificationCompleted verificationCompleted =
-                          (PhoneAuthCredential credential) async {
-                        await firebaseAuth.signInWithCredential(credential);
-                      };
+                      //  await firebaseAuth.signInWithCredential(credential);
 
-                      final PhoneVerificationFailed verificationFailed =
-                          (FirebaseAuthException authException) {};
-
-                      final PhoneCodeSent codeSent = (String verificationId,
-                          [int? forceResendingToken]) async {
-                        toastView(
-                          msg: "OTP is successfully sent to your mobile number",
-                          context: context,
-                        );
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => OTPScreen(
-                            name: name.text,
-                            email: email.text,
-                            password: password.text,
-                            phoneNo: phoneNo.text,
-                            verificationId: verificationId,
-                          ),
-                        ));
-                      };
-
-                      final PhoneCodeAutoRetrievalTimeout
-                          codeAutoRetrievalTimeout = (String verificationId) {};
-
-                      await firebaseAuth.verifyPhoneNumber(
-                        phoneNumber: phoneNumber,
-                        timeout: Duration(seconds: 120),
-                        verificationCompleted: verificationCompleted,
-                        verificationFailed: verificationFailed,
-                        codeSent: codeSent,
-                        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+                      authController.signUp(
+                        name: name.text,
+                        email: email.text,
+                        password: password.text,
+                        phoneNo: phoneNo.text,
+                        context: context,
                       );
+
+                      // String phoneNumber = phoneNo.text.trim();
+                      // if (!phoneNumber.startsWith("+91")) {
+                      //   phoneNumber = "+91" + phoneNumber;
+                      // }
+
+                      // final PhoneVerificationCompleted verificationCompleted =
+                      //     (PhoneAuthCredential credential) async {
+                      //   await firebaseAuth.signInWithCredential(credential);
+                      // };
+
+                      // final PhoneVerificationFailed verificationFailed =
+                      //     (FirebaseAuthException authException) {};
+
+                      // final PhoneCodeSent codeSent = (String verificationId,
+                      //     [int? forceResendingToken]) async {
+                      //   toastView(
+                      //     msg: "OTP is successfully sent to your mobile number",
+                      //     context: context,
+                      //   );
+
+                      //   Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => OTPScreen(
+                      //       name: name.text,
+                      //       email: email.text,
+                      //       password: password.text,
+                      //       phoneNo: phoneNo.text,
+                      //       verificationId: verificationId,
+                      //     ),
+                      //   ));
+                      // };
+
+                      // final PhoneCodeAutoRetrievalTimeout
+                      //     codeAutoRetrievalTimeout = (String verificationId) {};
+
+                      // await firebaseAuth.verifyPhoneNumber(
+                      //   phoneNumber: phoneNumber,
+                      //   timeout: Duration(seconds: 120),
+                      //   verificationCompleted: verificationCompleted,
+                      //   verificationFailed: verificationFailed,
+                      //   codeSent: codeSent,
+                      //   codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+                      // );
                     }
                   }
                 }
