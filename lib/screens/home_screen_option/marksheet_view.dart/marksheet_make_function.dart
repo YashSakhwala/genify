@@ -1,9 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable, prefer_const_constructors, avoid_init_to_null, deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, prefer_const_constructors, avoid_init_to_null, deprecated_member_use, prefer_const_literals_to_create_immutables
 
 import "dart:io" as io;
 import "package:external_path/external_path.dart";
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import "package:genify/widgets/common_widgets/indicatior.dart";
 import "package:genify/widgets/common_widgets/toast_view.dart";
 import "package:intl/intl.dart";
@@ -14,484 +13,558 @@ import 'package:http/http.dart' as http;
 import "package:flutter/foundation.dart";
 import "../../../widgets/common_widgets/snackbar_view.dart";
 
-class InvoiceMake {
-  static String imagePath = "";
-  static String signatureImagePath = "";
+class MarksheetMake {
+  static String collegeLogoImagePath = "";
+  static String studentImagePath = "";
+  static String principalSignatureImagePath = "";
 
   static void generateMarksheet({
-    required String companyName,
-    required String gstNumber,
-    required String companyEmail,
-    required String companyPhoneNo,
-    required String address,
-    required String clientName,
-    required String clientEmail,
-    required String clientPhoneNo,
-    required List<Map<String, String>> items,
+    required String collegeName,
+    required String passignYear,
+    required String studentName,
+    required String course,
+    required String seatNumber,
+    required List<Map<String, String>> subjects,
     required BuildContext context,
   }) async {
     showIndicator(context);
 
     final pdf = pw.Document();
-    pw.MemoryImage? image;
-    pw.MemoryImage? signatureImage;
-    pw.MemoryImage? addressIcon;
-    pw.MemoryImage? phoneIcon;
-    pw.MemoryImage? emailIcon;
-    pw.MemoryImage? dateIcon;
-    pw.MemoryImage? timeIcon;
-    pw.MemoryImage? rupeeIcon;
+    pw.MemoryImage? collegeLogoImage;
+    pw.MemoryImage? studentImage;
+    pw.MemoryImage? principalSignatureImage;
 
-    if (imagePath.isNotEmpty) {
+    if (collegeLogoImagePath.isNotEmpty) {
       if (kIsWeb) {
         try {
-          final response = await http.get(Uri.parse(imagePath));
+          final response = await http.get(Uri.parse(collegeLogoImagePath));
           Uint8List imageBytes = response.bodyBytes;
-          image = pw.MemoryImage(imageBytes);
+          collegeLogoImage = pw.MemoryImage(imageBytes);
         } catch (e) {
-          image = null;
+          collegeLogoImage = null;
         }
       } else {
         try {
-          io.File imageFile = io.File(imagePath);
+          io.File imageFile = io.File(collegeLogoImagePath);
           Uint8List imageBytes = await imageFile.readAsBytes();
-          image = pw.MemoryImage(imageBytes);
+          collegeLogoImage = pw.MemoryImage(imageBytes);
         } catch (e) {
-          image = null;
+          collegeLogoImage = null;
         }
       }
     }
 
-    if (signatureImagePath.isNotEmpty) {
+    if (studentImagePath.isNotEmpty) {
       if (kIsWeb) {
         try {
-          final response = await http.get(Uri.parse(signatureImagePath));
+          final response = await http.get(Uri.parse(studentImagePath));
           Uint8List imageBytes = response.bodyBytes;
-          signatureImage = pw.MemoryImage(imageBytes);
+          studentImage = pw.MemoryImage(imageBytes);
         } catch (e) {
-          signatureImage = null;
+          studentImage = null;
         }
       } else {
         try {
-          io.File imageFile = io.File(signatureImagePath);
+          io.File imageFile = io.File(studentImagePath);
           Uint8List imageBytes = await imageFile.readAsBytes();
-          signatureImage = pw.MemoryImage(imageBytes);
+          studentImage = pw.MemoryImage(imageBytes);
         } catch (e) {
-          signatureImage = null;
+          studentImage = null;
         }
       }
     }
 
-    try {
-      addressIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_location.png"))
-            .buffer
-            .asUint8List(),
-      );
-      phoneIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_phone.png"))
-            .buffer
-            .asUint8List(),
-      );
-      emailIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_email.png"))
-            .buffer
-            .asUint8List(),
-      );
-      dateIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_date.png"))
-            .buffer
-            .asUint8List(),
-      );
-      timeIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_time.png"))
-            .buffer
-            .asUint8List(),
-      );
-      rupeeIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/rupee.png")).buffer.asUint8List(),
-      );
-    } catch (e) {
-      addressIcon = null;
-      phoneIcon = null;
-      emailIcon = null;
-      dateIcon = null;
-      timeIcon = null;
-      rupeeIcon = null;
+    if (principalSignatureImagePath.isNotEmpty) {
+      if (kIsWeb) {
+        try {
+          final response =
+              await http.get(Uri.parse(principalSignatureImagePath));
+          Uint8List imageBytes = response.bodyBytes;
+          principalSignatureImage = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          principalSignatureImage = null;
+        }
+      } else {
+        try {
+          io.File imageFile = io.File(principalSignatureImagePath);
+          Uint8List imageBytes = await imageFile.readAsBytes();
+          principalSignatureImage = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          principalSignatureImage = null;
+        }
+      }
     }
 
     final now = DateTime.now();
-    final formattedDate = DateFormat("dd-MM-yyyy").format(now);
-    final formattedTime = DateFormat("hh:mm a").format(now);
+    final formattedDate = DateFormat("dd MMMM, yyyy").format(now);
+
+    // Marks and Grade Total
+    int totalMarks = 0;
+    int qualifyingMarks = 0;
+    int obtainedMarks = 0;
+
+    for (var subject in subjects) {
+      totalMarks += int.tryParse(subject["totalMarks"] ?? "") ?? 0;
+      qualifyingMarks += int.tryParse(subject["qualifyingMarks"] ?? "") ?? 0;
+      obtainedMarks += int.tryParse(subject["obtainedMarks"] ?? "") ?? 0;
+    }
+
+    double percentage = (obtainedMarks / totalMarks) * 100;
+
+    // String grade;
+    // if (percentage >= 90 && percentage <= 100) {
+    //   grade = "O";
+    // } else if (percentage >= 80 && percentage <= 89) {
+    //   grade = "A";
+    // } else if (percentage >= 70 && percentage <= 79) {
+    //   grade = "B";
+    // } else if (percentage >= 60 && percentage <= 69) {
+    //   grade = "C";
+    // } else if (percentage >= 50 && percentage <= 59) {
+    //   grade = "D";
+    // } else if (percentage >= 36 && percentage <= 49) {
+    //   grade = "E";
+    // } else if (percentage <= 36) {
+    //   grade = "F";
+    // }
+
+    // Page size
+    // const double widthInInches = 10.5;
+    // const double heightInInches = 8.5;
+    const double widthInInches = 11.5;
+    const double heightInInches = 9;
+    final customLandscapeFormat = PdfPageFormat(
+      widthInInches * PdfPageFormat.inch,
+      heightInInches * PdfPageFormat.inch,
+    );
 
     pdf.addPage(
       pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(20),
+        pageFormat: customLandscapeFormat,
+        margin: pw.EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         build: (pw.Context context) => [
           pw.Row(
-            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
-              if (image != null)
+              if (collegeLogoImage != null)
                 pw.Image(
-                  image,
-                  height: 120,
-                  width: 120,
+                  collegeLogoImage,
+                  height: 70,
+                  width: 70,
+                  fit: pw.BoxFit.fill,
                 ),
               pw.Spacer(),
-              pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.end,
-                children: [
-                  pw.Text(
-                    companyName,
-                    style: pw.TextStyle(
-                      fontSize: 30,
-                      fontWeight: pw.FontWeight.bold,
-                      color: PdfColor.fromHex("#03335e"),
-                    ),
-                  ),
-                  pw.SizedBox(
-                    height: 15,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        gstNumber,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Text(
-                        "GST",
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColor.fromHex("#03335e"),
-                        ),
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(
-                    height: 7,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        companyEmail,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        emailIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(
-                    height: 7,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        "+91 $companyPhoneNo",
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        phoneIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(
-                    height: 7,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        address,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        addressIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          pw.SizedBox(
-            height: 20,
-          ),
-          pw.Container(
-            height: 1.5,
-            width: double.infinity,
-            color: PdfColor.fromHex("#03335e"),
-          ),
-          pw.SizedBox(
-            height: 20,
-          ),
-          pw.Row(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-            children: [
-              pw.Row(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(
-                    "To: ",
-                    style: pw.TextStyle(
-                      fontSize: 15,
-                      fontWeight: pw.FontWeight.bold,
-                      color: PdfColor.fromHex("#03335e"),
-                    ),
-                  ),
-                  pw.SizedBox(
-                    width: 10,
-                  ),
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.start,
-                    children: [
-                      pw.Text(
-                        clientName,
-                        style: pw.TextStyle(
-                          fontSize: 18,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColor.fromHex("#03335e"),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        height: 10,
-                      ),
-                      pw.Row(
-                        children: [
-                          pw.Image(
-                            emailIcon,
-                            height: 10,
-                            width: 10,
-                          ),
-                          pw.SizedBox(
-                            width: 8,
-                          ),
-                          pw.Text(
-                            clientEmail,
-                            style: pw.TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                      pw.SizedBox(
-                        height: 7,
-                      ),
-                      pw.Row(
-                        children: [
-                          pw.Image(
-                            phoneIcon,
-                            height: 10,
-                            width: 10,
-                          ),
-                          pw.SizedBox(
-                            width: 8,
-                          ),
-                          pw.Text(
-                            "+91 $clientPhoneNo",
-                            style: pw.TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              pw.Column(
-                mainAxisAlignment: pw.MainAxisAlignment.start,
-                crossAxisAlignment: pw.CrossAxisAlignment.end,
-                children: [
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        formattedDate,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        dateIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(
-                    height: 7,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        formattedTime,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        timeIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          pw.SizedBox(
-            height: 40,
-          ),
-          pw.Table.fromTextArray(
-            headers: ["Item No", "Item Name", "Quantity", "Price", "Total"],
-            data: List<List<String>>.generate(items.length, (index) {
-              final item = items[index];
-              final itemNo = (index + 1).toString();
-              final itemName = item["name"] ?? '';
-              final itemQuantity = int.tryParse(item["quantity"] ?? '') ?? 0;
-              final itemPrice = double.tryParse(item["price"] ?? '') ?? 0.0;
-              final total = itemQuantity * itemPrice;
-              return [
-                itemNo,
-                itemName,
-                itemQuantity.toString(),
-                itemPrice.toStringAsFixed(2),
-                total.toStringAsFixed(2)
-              ];
-            }),
-            border: pw.TableBorder.all(),
-            cellAlignment: pw.Alignment.center,
-            headerStyle: pw.TextStyle(
-              fontWeight: pw.FontWeight.bold,
-              color: PdfColor.fromHex("#ffffff"),
-            ),
-            headerDecoration: pw.BoxDecoration(
-              color: PdfColor.fromHex("#03335e"),
-            ),
-            cellStyle: pw.TextStyle(
-              fontSize: 12,
-            ),
-          ),
-          pw.SizedBox(
-            height: 20,
-          ),
-          pw.Align(
-            alignment: pw.Alignment.topRight,
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.end,
-              children: [
-                pw.Text(
-                  "Total",
-                  style: pw.TextStyle(
-                    fontSize: 10,
-                  ),
-                ),
-                pw.SizedBox(
-                  height: 5,
-                ),
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.end,
+              pw.Container(
+                width: 500,
+                child: pw.Column(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
                   children: [
-                    pw.Image(
-                      rupeeIcon!,
-                      height: 14,
-                      width: 14,
-                    ),
                     pw.Text(
-                      items
-                          .map((item) {
-                            final itemQuantity =
-                                int.tryParse(item["quantity"] ?? '') ?? 0;
-                            final itemPrice =
-                                double.tryParse(item["price"] ?? '') ?? 0.0;
-                            return itemQuantity * itemPrice;
-                          })
-                          .reduce((a, b) => a + b)
-                          .toStringAsFixed(2),
+                      "Shri Shambhubhai V. Patel College of Computer Science and Business Management",
                       style: pw.TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: pw.FontWeight.bold,
                         color: PdfColor.fromHex("#03335e"),
+                      ),
+                      textAlign: pw.TextAlign.center,
+                      maxLines: 2,
+                    ),
+                    pw.SizedBox(
+                      height: 13,
+                    ),
+                    pw.Text(
+                      "STATEMENT OF MARKS",
+                      style: pw.TextStyle(
+                        fontSize: 10,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                      textAlign: pw.TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+              pw.Spacer(),
+            ],
+          ),
+
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: pw.CrossAxisAlignment.end,
+            children: [
+              pw.RichText(
+                text: pw.TextSpan(
+                  children: [
+                    pw.TextSpan(
+                      text:
+                          "Certificate showing the number of marks obtained by Shri/Smt./Kumari ",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                      ),
+                    ),
+                    pw.TextSpan(
+                      text: "Sakhwala Yashkumar Jagdishbhai \n",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.TextSpan(
+                      text: "of ",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                      ),
+                    ),
+                    pw.TextSpan(
+                      text:
+                          "Shri Shambhubhai V. Patel College of Computer Science and Business Management, Surat \n",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.TextSpan(
+                      text: "in each head of passing at the ",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                      ),
+                    ),
+                    pw.TextSpan(
+                      text:
+                          "Bachelor of Computer Application (First Semester) December-2024",
+                      style: pw.TextStyle(
+                        fontSize: 10.5,
+                        fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-                pw.SizedBox(
-                  height: 5,
-                ),
-                pw.Container(
-                  height: 1.5,
-                  width: 80,
-                  color: PdfColor.fromHex("#03335e"),
-                ),
-              ],
-            ),
+              ),
+              pw.Column(
+                children: [
+                  if (studentImage != null)
+                    pw.Image(
+                      studentImage,
+                      height: 65,
+                      width: 60,
+                      fit: pw.BoxFit.fill,
+                    ),
+                  pw.SizedBox(
+                    height: 8,
+                  ),
+                  pw.RichText(
+                    text: pw.TextSpan(
+                      children: [
+                        pw.TextSpan(
+                          text: "Seat No.: ",
+                          style: pw.TextStyle(
+                            fontSize: 10.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "3780",
+                          style: pw.TextStyle(
+                            fontSize: 13,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           pw.SizedBox(
-            height: 40,
+            height: 13,
           ),
-          pw.Align(
-            alignment: pw.Alignment.topRight,
-            child: pw.Column(
-              children: [
-                if (signatureImage != null)
-                  pw.Image(
-                    signatureImage,
-                    height: 70,
-                    width: 120,
-                  ),
-                pw.SizedBox(
-                  height: 7,
-                ),
-                pw.Container(
-                  height: 1.5,
-                  width: 120,
-                  color: PdfColor.fromHex("#03335e"),
-                ),
-                pw.Text(
-                  "Authorised Signature",
-                  style: pw.TextStyle(
-                    fontSize: 9,
-                    fontWeight: pw.FontWeight.bold,
-                  ),
-                ),
-              ],
+
+          // Subjects Row
+          pw.Table.fromTextArray(
+            headers: [
+              "Subject Name",
+              "Total Marks",
+              "Passing Marks",
+              "Marks Obtained",
+              "GR",
+            ],
+            data: List<List<String>>.generate(subjects.length, (index) {
+              final subject = subjects[index];
+              final subjectName = subject["subjectName"] ?? '';
+              final totalMarks = int.tryParse(subject["totalMarks"] ?? '');
+              final qualifyingMarks =
+                  int.tryParse(subject["qualifyingMarks"] ?? '');
+              final obtainedMarks =
+                  int.tryParse(subject["obtainedMarks"] ?? '');
+              final grade = subject["grade"] ?? '';
+              return [
+                subjectName,
+                totalMarks.toString(),
+                qualifyingMarks.toString(),
+                obtainedMarks.toString(),
+                grade,
+              ];
+            }),
+            border: pw.TableBorder(
+              horizontalInside: pw.BorderSide.none,
+              verticalInside: pw.BorderSide(width: 1),
+              top: pw.BorderSide(width: 1),
+              bottom: pw.BorderSide(width: 1),
+              left: pw.BorderSide(width: 1),
+              right: pw.BorderSide(width: 1),
             ),
+            cellAlignment: pw.Alignment.center,
+            cellAlignments: {0: pw.Alignment.centerLeft},
+            columnWidths: {
+              0: pw.FlexColumnWidth(2),
+              1: pw.FlexColumnWidth(1),
+              2: pw.FlexColumnWidth(1),
+              3: pw.FlexColumnWidth(1),
+              4: pw.FlexColumnWidth(0.5),
+            },
+            cellStyle: pw.TextStyle(
+              fontSize: 12,
+              fontWeight: pw.FontWeight.bold,
+            ),
+            headerAlignments: {0: pw.Alignment.center},
+            headerPadding: pw.EdgeInsets.symmetric(vertical: 10),
+            headerStyle: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+            ),
+            headerDecoration: pw.BoxDecoration(
+              border: pw.Border.all(),
+            ),
+          ),
+
+          // Aggregate Row
+          pw.Table.fromTextArray(
+            data: [
+              [
+                "Aggregate Total",
+                totalMarks.toString(),
+                qualifyingMarks.toString(),
+                obtainedMarks.toString(),
+                "",
+              ],
+            ],
+            border: pw.TableBorder.all(),
+            cellAlignment: pw.Alignment.center,
+            cellAlignments: {0: pw.Alignment.centerLeft},
+            columnWidths: {
+              0: pw.FlexColumnWidth(2),
+              1: pw.FlexColumnWidth(1),
+              2: pw.FlexColumnWidth(1),
+              3: pw.FlexColumnWidth(1),
+              4: pw.FlexColumnWidth(0.5),
+            },
+            headerStyle: pw.TextStyle(
+              fontSize: 12,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
+
+          pw.SizedBox(
+            height: 5,
+          ),
+          pw.Spacer(),
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    "Issue Date : $formattedDate",
+                    style: pw.TextStyle(
+                      fontSize: 9.5,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.SizedBox(
+                    height: 10,
+                  ),
+                  pw.Row(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(
+                        "Note : ",
+                        style: pw.TextStyle(
+                          fontSize: 9.5,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            "1) No chnages in any entry is to be made except by the authority \nissuing the certificate. Any infingement will be severely dealt with.",
+                            style: pw.TextStyle(
+                              fontSize: 9.5,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 9,
+                          ),
+                          pw.Text(
+                            "2) GR / GP/ SGPA / YGPA/ CGPA are based on Total Marks.",
+                            style: pw.TextStyle(
+                              fontSize: 9.5,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              pw.SizedBox(
+                width: 5,
+              ),
+              pw.Container(
+                height: 140,
+                width: 380,
+                decoration: pw.BoxDecoration(
+                  border: pw.Border.all(),
+                ),
+                child: pw.Padding(
+                  padding: pw.EdgeInsets.all(5),
+                  child: pw.RichText(
+                    text: pw.TextSpan(
+                      children: [
+                        pw.TextSpan(
+                          text: "I certify that Shri/Smt./Kumari ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "SAKHWALA YASHKUMAR JAGDISHBHAI\n",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "has appeard at ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text:
+                              "BACHELOR OF COMPUTER APPLICATION (FIRST SEMESTER) DECEMBER-2024\n",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "Examintion held by the ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text:
+                              "Shri Shambhubhai V. Patel College of Computer Science and Business Management, Surat.\n",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text:
+                              "His/Her seat no. Month and Year of Examination and Class Obtained are as mentioned below:\n\n",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "Seat No.: ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "3780     ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "Month and Year of Examination ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "DECEMBER-2024\n",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "Class Obtained: ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "PASS     ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "Percantage: ",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                          ),
+                        ),
+                        pw.TextSpan(
+                          text: "${percentage.toStringAsFixed(2)}%",
+                          style: pw.TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              pw.SizedBox(
+                width: 5,
+              ),
+              pw.Column(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  if (principalSignatureImage != null)
+                    pw.Image(
+                      principalSignatureImage,
+                      height: 60,
+                      width: 85,
+                      fit: pw.BoxFit.fill,
+                    ),
+                  pw.SizedBox(
+                    height: 10,
+                  ),
+                  pw.Text(
+                    "REGISTRAR",
+                    style: pw.TextStyle(
+                      fontSize: 9.5,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
@@ -520,7 +593,7 @@ class InvoiceMake {
       html.Url.revokeObjectUrl(url);
 
       toastView(
-        msg: "Invoice download process is complete",
+        msg: "Marksheet download process is complete",
         context: context,
       );
 
@@ -534,8 +607,8 @@ class InvoiceMake {
       final io.File file = io.File(path);
       await file.writeAsBytes(uint8list);
 
-      showSnackbar(
-          "Invoice", "Your invoice download successfully !", "$dir/$name.pdf");
+      showSnackbar("Marksheet", "Your marksheet download successfully !",
+          "$dir/$name.pdf");
 
       Navigator.of(context).pop();
     }

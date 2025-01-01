@@ -11,8 +11,7 @@ import '../../../config/app_style.dart';
 import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
-import '../../../widgets/common_widgets/toast_view.dart';
-import '../resume_view/resume_make_functions.dart';
+import 'marksheet_make_function.dart';
 
 class MarksheetCommonViewScreen extends StatefulWidget {
   const MarksheetCommonViewScreen({super.key});
@@ -23,15 +22,19 @@ class MarksheetCommonViewScreen extends StatefulWidget {
 }
 
 class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController profession = TextEditingController();
+  final TextEditingController collegeName = TextEditingController();
+  final TextEditingController passingMonth = TextEditingController();
+  final TextEditingController passingYear = TextEditingController();
+  final TextEditingController studentName = TextEditingController();
+  final TextEditingController course = TextEditingController();
+  final TextEditingController seatNumber = TextEditingController();
   final List<Map<String, TextEditingController>> subjects = [];
 
-  @override
-  void initState() {
-    ResumeMake.imagePath = "";
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   MarksheetMake.studentImagePath = "";
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
         child: FlipInX(
           child: ListView(
             children: [
+              // College details
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,16 +65,155 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                       borderRadius: BorderRadius.circular(10),
                       color: AppColors.greyColor.shade300,
                       image: DecorationImage(
-                        image: ResumeMake.imagePath.isEmpty
+                        image: MarksheetMake.collegeLogoImagePath.isEmpty
                             ? Image.asset(
                                 AppImages.addImage,
                                 color: AppColors.greyColor.shade300,
                                 scale: 12,
                               ).image
                             : Image.file(
-                                File(ResumeMake.imagePath),
+                                File(MarksheetMake.collegeLogoImagePath),
                               ).image,
-                        fit: ResumeMake.imagePath.isEmpty
+                        fit: MarksheetMake.collegeLogoImagePath.isEmpty
+                            ? BoxFit.scaleDown
+                            : BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 17,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Add College Logo",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Some college require marksheet without logo, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle
+                                .copyWith(fontSize: 9),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+
+                              XFile? xFile = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+
+                              if (xFile != null && xFile.path.isNotEmpty) {
+                                MarksheetMake.collegeLogoImagePath = xFile.path;
+                              }
+
+                              setState(() {});
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload Logo",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              TextFieldView(
+                title: "College Name",
+                titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+                controller: collegeName,
+                hintText: "S.V. Patel College",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldView(
+                      title: "Passsing Month",
+                      titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      controller: passingMonth,
+                      hintText: "April",
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: TextFieldView(
+                      title: "Passsing Year",
+                      titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      controller: passingYear,
+                      hintText: "2024",
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+
+              // Student details
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.greyColor.shade300,
+                      image: DecorationImage(
+                        image: MarksheetMake.studentImagePath.isEmpty
+                            ? Image.asset(
+                                AppImages.addImage,
+                                color: AppColors.greyColor.shade300,
+                                scale: 12,
+                              ).image
+                            : Image.file(
+                                File(MarksheetMake.studentImagePath),
+                              ).image,
+                        fit: MarksheetMake.studentImagePath.isEmpty
                             ? BoxFit.scaleDown
                             : BoxFit.cover,
                       ),
@@ -109,7 +252,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                                   source: ImageSource.gallery);
 
                               if (xFile != null && xFile.path.isNotEmpty) {
-                                ResumeMake.imagePath = xFile.path;
+                                MarksheetMake.studentImagePath = xFile.path;
                               }
 
                               setState(() {});
@@ -150,20 +293,32 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
-                controller: name,
+                controller: studentName,
                 hintText: "Varun Mishra",
               ),
               SizedBox(
                 height: 20,
               ),
               TextFieldView(
-                title: "Profession",
+                title: "Course Name",
                 titleStyle: AppTextStyle.regularTextStyle.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
-                controller: profession,
-                hintText: "Software Engineer",
+                controller: course,
+                hintText: "Bachelor of Computer Application",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFieldView(
+                title: "Seat Number",
+                titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+                controller: seatNumber,
+                hintText: "123456",
               ),
               SizedBox(
                 height: 20,
@@ -172,7 +327,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
               // Subject List
               ...subjects.asMap().entries.map((entry) {
                 int index = entry.key;
-                Map<String, TextEditingController> item = entry.value;
+                Map<String, TextEditingController> subject = entry.value;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 15),
                   child: Row(
@@ -184,8 +339,8 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
-                          controller: item["name"]!,
-                          hintText: "Science",
+                          controller: subject["subjectName"]!,
+                          hintText: "Maths",
                         ),
                       ),
                       SizedBox(
@@ -198,13 +353,13 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
-                          controller: item["totalMarks"]!,
+                          controller: subject["totalMarks"]!,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'[0-9\.]')),
                           ],
-                          hintText: "0",
+                          hintText: "100",
                         ),
                       ),
                       SizedBox(
@@ -212,18 +367,37 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                       ),
                       Expanded(
                         child: TextFieldView(
-                          title: "Given Marks",
+                          title: "Qualifying Marks",
                           titleStyle: AppTextStyle.regularTextStyle.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
-                          controller: item["givenMarks"]!,
+                          controller: subject["qualifyingMarks"]!,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'[0-9\.]')),
                           ],
-                          hintText: "0",
+                          hintText: "33",
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: TextFieldView(
+                          title: "Obtained Marks",
+                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          controller: subject["obtainedMarks"]!,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
+                          hintText: "70",
                         ),
                       ),
                       IconButton(
@@ -269,12 +443,113 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 onTap: () {
                   setState(() {
                     subjects.add({
-                      "name": TextEditingController(),
+                      "subjectName": TextEditingController(),
                       "totalMarks": TextEditingController(),
-                      "givenMarks": TextEditingController()
+                      "qualifyingMarks": TextEditingController(),
+                      "obtainedMarks": TextEditingController(),
+                      "grade": TextEditingController()
                     });
                   });
                 },
+              ),
+              SizedBox(
+                height: 40,
+              ),
+
+              //Principal signature
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.greyColor.shade300,
+                      image: DecorationImage(
+                        image: MarksheetMake.principalSignatureImagePath.isEmpty
+                            ? Image.asset(
+                                AppImages.addImage,
+                                color: AppColors.greyColor.shade300,
+                                scale: 12,
+                              ).image
+                            : Image.file(
+                                File(MarksheetMake.principalSignatureImagePath),
+                              ).image,
+                        fit: MarksheetMake.principalSignatureImagePath.isEmpty
+                            ? BoxFit.scaleDown
+                            : BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 17,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Add Principal Signature",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Some college require marksheet without signature, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle
+                                .copyWith(fontSize: 9),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+
+                              XFile? xFile = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+
+                              if (xFile != null && xFile.path.isNotEmpty) {
+                                MarksheetMake.principalSignatureImagePath =
+                                    xFile.path;
+                              }
+
+                              setState(() {});
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload Signature",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
               ),
 
               SizedBox(
@@ -283,48 +558,75 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
               ButtonView(
                 title: "Continue",
                 onTap: () {
-                  List<Map<String, String>> subjectList = subjects.map((item) {
+                  List<Map<String, String>> subjectList =
+                      subjects.map((subject) {
+                    double? qualifyingMarks =
+                        double.tryParse(subject["qualifyingMarks"]!.text);
+                    double? obtainedMarks =
+                        double.tryParse(subject["obtainedMarks"]!.text);
+
+                    if (obtainedMarks! >= 90 && obtainedMarks <= 100) {
+                      subject["grade"]?.text = "O";
+                    } else if (obtainedMarks >= 80 && obtainedMarks <= 89) {
+                      subject["grade"]?.text = "A";
+                    } else if (obtainedMarks >= 70 && obtainedMarks <= 79) {
+                      subject["grade"]?.text = "B";
+                    } else if (obtainedMarks >= 60 && obtainedMarks <= 69) {
+                      subject["grade"]?.text = "C";
+                    } else if (obtainedMarks >= 50 && obtainedMarks <= 59) {
+                      subject["grade"]?.text = "D";
+                    } else if (obtainedMarks >= qualifyingMarks! && obtainedMarks <= 49) {
+                      subject["grade"]?.text = "E";
+                    } else {
+                      subject["grade"]?.text = "F";
+                    }
+
                     return {
-                      "name": item["name"]!.text,
-                      "totalMarks": item["totalMarks"]!.text,
-                      "givenMarks": item["givenMarks"]!.text
+                      "subjectName": subject["subjectName"]!.text,
+                      "totalMarks": subject["totalMarks"]!.text,
+                      "qualifyingMarks": subject["qualifyingMarks"]!.text,
+                      "obtainedMarks": subject["obtainedMarks"]!.text,
+                      "grade": subject["grade"]!.text
                     };
                   }).toList();
 
-                  if (name.text.isEmpty || profession.text.isEmpty) {
-                    toastView(
-                      msg: "Please fill all details",
-                      context: context,
-                    );
-                  } else if (subjects.isEmpty) {
-                    toastView(
-                      msg: "Please fill item details",
-                      context: context,
-                    );
-                  } else if (subjects
-                      .any((subject) => subject["name"]!.text.isEmpty)) {
-                    toastView(
-                      msg: "Please fill item name",
-                      context: context,
-                    );
-                  } else {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (context) => AllResumeCommonScreen(
-                    //     name: name.text,
-                    //     profession: profession.text,
-                    //     email: email.text,
-                    //     phoneNo: phoneNo.text,
-                    //     address: address.text,
-                    //     aboutMe: aboutMe.text,
-                    //     experience: exp,
-                    //     achivement: ach,
-                    //     language: lan,
-                    //     education: edu,
-                    //     skill: skill,
-                    //     project: prj,
-                    //   ),
-                    // ));
-                  }
+                  MarksheetMake.generateMarksheet(
+                    collegeName: "S.V. Patel College",
+                    passignYear: "April - 2024",
+                    studentName: "Yash Sakhwala",
+                    course: "Bachelor of Computer Application",
+                    seatNumber: "CG1706",
+                    subjects: subjectList,
+                    context: context,
+                  );
+
+                  // if (studentName.text.isEmpty || course.text.isEmpty) {
+                  //   toastView(
+                  //     msg: "Please fill all details",
+                  //     context: context,
+                  //   );
+                  // } else if (subjects.isEmpty) {
+                  //   toastView(
+                  //     msg: "Please fill subject details",
+                  //     context: context,
+                  //   );
+                  // } else if (subjects
+                  //     .any((subject) => subject["subjectName"]!.text.isEmpty)) {
+                  //   toastView(
+                  //     msg: "Please fill subject name",
+                  //     context: context,
+                  //   );
+                  // } else {
+                  //   MarksheetMake.generateMarksheet(
+                  //     collegeName: "S.V. Patel College",
+                  //     passignYear: "April - 2024",
+                  //     studentName: "Yash Sakhwala",
+                  //     course: "Bachelor of Computer Application",
+                  //     seatNumber: "CG1706",
+                  //     subjects: subjectList,
+                  //     context: context,
+                  //   );
+                  // }
                 },
               ),
             ],

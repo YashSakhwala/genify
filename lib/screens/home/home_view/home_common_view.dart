@@ -19,7 +19,6 @@ import '../../../widgets/common_widgets/appbar.dart';
 import '../../calculation/other_calculation_view/other_calculation/date_calculation_screen.dart';
 import '../../calculation/other_calculation_view/other_calculation_common_view.dart';
 import '../../home_screen_option/invoice_screen.dart';
-import '../../home_screen_option/voice_recorder_screen.dart';
 
 class HomeCommonViewScreen extends StatefulWidget {
   const HomeCommonViewScreen({Key? key}) : super(key: key);
@@ -65,20 +64,21 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen>
       "navigation": SalarySlipScreen(),
     },
     {
-      "name": "Marksheet",
-      "image": AppImages.marksheet,
-      "navigation": MarksheetScreen(),
-    },
-    {
       "name": "Certificate",
       "image": AppImages.certificate,
       "navigation": CertificateScreen(),
     },
     {
-      "name": "Voice Recorder",
-      "image": AppImages.microphone,
-      "navigation": VoiceRecorderScreen(),
+      "name": "Marksheet",
+      "image": AppImages.marksheet,
+      "navigation": MarksheetScreen(),
     },
+
+    // {
+    //   "name": "Voice Recorder",
+    //   "image": AppImages.microphone,
+    //   "navigation": VoiceRecorderScreen(),
+    // },
   ];
 
   List homeCalculator = [
