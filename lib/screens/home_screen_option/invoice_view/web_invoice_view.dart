@@ -97,11 +97,11 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                   html.FileUploadInputElement();
                               uploadInput.accept = 'image/*';
                               uploadInput.click();
-            
+
                               uploadInput.onChange.listen((event) {
                                 final file = uploadInput.files!.first;
                                 final reader = html.FileReader();
-            
+
                                 reader.readAsDataUrl(file);
                                 reader.onLoadEnd.listen((event) {
                                   setState(() {
@@ -177,11 +177,11 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                   html.FileUploadInputElement();
                               uploadInput.accept = 'image/*';
                               uploadInput.click();
-            
+
                               uploadInput.onChange.listen((event) {
                                 final file = uploadInput.files!.first;
                                 final reader = html.FileReader();
-            
+
                                 reader.readAsDataUrl(file);
                                 reader.onLoadEnd.listen((event) {
                                   setState(() {
@@ -287,7 +287,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             controller: clientPhoneNo,
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             hintText: "0123456789",
@@ -327,7 +328,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                             controller: companyPhoneNo,
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             hintText: "9876543210",
@@ -369,7 +371,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                           // Item List
                           ...items.asMap().entries.map((entry) {
                             int index = entry.key;
-                            Map<String, TextEditingController> item = entry.value;
+                            Map<String, TextEditingController> item =
+                                entry.value;
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 15),
                               child: Row(
@@ -377,8 +380,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                   Expanded(
                                     child: TextFieldView(
                                       title: "Item Name",
-                                      titleStyle:
-                                          AppTextStyle.regularTextStyle.copyWith(
+                                      titleStyle: AppTextStyle.regularTextStyle
+                                          .copyWith(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -392,8 +395,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                   Expanded(
                                     child: TextFieldView(
                                       title: "Quantity",
-                                      titleStyle:
-                                          AppTextStyle.regularTextStyle.copyWith(
+                                      titleStyle: AppTextStyle.regularTextStyle
+                                          .copyWith(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -412,8 +415,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                   Expanded(
                                     child: TextFieldView(
                                       title: "Price",
-                                      titleStyle:
-                                          AppTextStyle.regularTextStyle.copyWith(
+                                      titleStyle: AppTextStyle.regularTextStyle
+                                          .copyWith(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -514,7 +517,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                         "price": item["price"]!.text
                       };
                     }).toList();
-            
+
                     if (companyName.text.isEmpty ||
                         gstNo.text.isEmpty ||
                         companyEmail.text.isEmpty ||
@@ -532,7 +535,8 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                         msg: "Please fill item details",
                         context: context,
                       );
-                    } else if (items.any((item) => item["name"]!.text.isEmpty)) {
+                    } else if (items
+                        .any((item) => item["name"]!.text.isEmpty)) {
                       toastView(
                         msg: "Please fill item name",
                         context: context,

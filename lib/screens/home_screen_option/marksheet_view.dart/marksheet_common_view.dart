@@ -11,6 +11,7 @@ import '../../../config/app_style.dart';
 import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/button_view.dart';
 import '../../../widgets/common_widgets/text_field_view.dart';
+import '../../../widgets/common_widgets/toast_view.dart';
 import 'marksheet_make_function.dart';
 
 class MarksheetCommonViewScreen extends StatefulWidget {
@@ -28,13 +29,16 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
   final TextEditingController studentName = TextEditingController();
   final TextEditingController course = TextEditingController();
   final TextEditingController seatNumber = TextEditingController();
+  String? classObtained;
   final List<Map<String, TextEditingController>> subjects = [];
 
-  // @override
-  // void initState() {
-  //   MarksheetMake.studentImagePath = "";
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    MarksheetMake.collegeLogoImagePath = "";
+    MarksheetMake.studentImagePath = "";
+    MarksheetMake.principalSignatureImagePath = "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -321,7 +325,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 hintText: "123456",
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
 
               // Subject List
@@ -330,91 +334,100 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 Map<String, TextEditingController> subject = entry.value;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: TextFieldView(
-                          title: "Subject Name",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: subject["subjectName"]!,
-                          hintText: "Maths",
+                      TextFieldView(
+                        title: "Subject Name",
+                        titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
                         ),
+                        controller: subject["subjectName"]!,
+                        hintText: "Maths",
                       ),
                       SizedBox(
-                        width: 10,
+                        height: 10,
                       ),
-                      Expanded(
-                        child: TextFieldView(
-                          title: "Total Marks",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: TextFieldView(
+                              title: "Total Marks",
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              controller: subject["totalMarks"]!,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9\.]')),
+                              ],
+                              hintText: "100",
+                            ),
                           ),
-                          controller: subject["totalMarks"]!,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]')),
-                          ],
-                          hintText: "100",
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: TextFieldView(
-                          title: "Qualifying Marks",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: 10,
                           ),
-                          controller: subject["qualifyingMarks"]!,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]')),
-                          ],
-                          hintText: "33",
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: TextFieldView(
-                          title: "Obtained Marks",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: TextFieldView(
+                              title: "Qualifying Marks",
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              controller: subject["qualifyingMarks"]!,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9\.]')),
+                              ],
+                              hintText: "33",
+                            ),
                           ),
-                          controller: subject["obtainedMarks"]!,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]')),
-                          ],
-                          hintText: "70",
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: AppColors.primaryColor,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            subjects.removeAt(index);
-                          });
-                        },
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: TextFieldView(
+                              title: "Obtained Marks",
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              controller: subject["obtainedMarks"]!,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9\.]')),
+                              ],
+                              hintText: "70",
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: AppColors.primaryColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                subjects.removeAt(index);
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 );
               }).toList(),
+
               SizedBox(
                 height: 20,
               ),
@@ -565,20 +578,23 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                     double? obtainedMarks =
                         double.tryParse(subject["obtainedMarks"]!.text);
 
-                    if (obtainedMarks! >= 90 && obtainedMarks <= 100) {
-                      subject["grade"]?.text = "O";
-                    } else if (obtainedMarks >= 80 && obtainedMarks <= 89) {
-                      subject["grade"]?.text = "A";
-                    } else if (obtainedMarks >= 70 && obtainedMarks <= 79) {
-                      subject["grade"]?.text = "B";
-                    } else if (obtainedMarks >= 60 && obtainedMarks <= 69) {
-                      subject["grade"]?.text = "C";
-                    } else if (obtainedMarks >= 50 && obtainedMarks <= 59) {
-                      subject["grade"]?.text = "D";
-                    } else if (obtainedMarks >= qualifyingMarks! && obtainedMarks <= 49) {
-                      subject["grade"]?.text = "E";
-                    } else {
-                      subject["grade"]?.text = "F";
+                    if (obtainedMarks != null) {
+                      if (obtainedMarks >= 90 && obtainedMarks <= 100) {
+                        subject["grade"]?.text = "O";
+                      } else if (obtainedMarks >= 80 && obtainedMarks <= 89) {
+                        subject["grade"]?.text = "A";
+                      } else if (obtainedMarks >= 70 && obtainedMarks <= 79) {
+                        subject["grade"]?.text = "B";
+                      } else if (obtainedMarks >= 60 && obtainedMarks <= 69) {
+                        subject["grade"]?.text = "C";
+                      } else if (obtainedMarks >= 50 && obtainedMarks <= 59) {
+                        subject["grade"]?.text = "D";
+                      } else if (obtainedMarks >= qualifyingMarks! &&
+                          obtainedMarks <= 49) {
+                        subject["grade"]?.text = "E";
+                      } else {
+                        subject["grade"]?.text = "F";
+                      }
                     }
 
                     return {
@@ -590,43 +606,52 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                     };
                   }).toList();
 
-                  MarksheetMake.generateMarksheet(
-                    collegeName: "S.V. Patel College",
-                    passignYear: "April - 2024",
-                    studentName: "Yash Sakhwala",
-                    course: "Bachelor of Computer Application",
-                    seatNumber: "CG1706",
-                    subjects: subjectList,
-                    context: context,
-                  );
+                  classObtained = "PASS";
+                  for (var grade in subjectList) {
+                    if (grade["grade"] == "F") {
+                      classObtained = "FAIL";
+                      break;
+                    }
+                  }
 
-                  // if (studentName.text.isEmpty || course.text.isEmpty) {
-                  //   toastView(
-                  //     msg: "Please fill all details",
-                  //     context: context,
-                  //   );
-                  // } else if (subjects.isEmpty) {
-                  //   toastView(
-                  //     msg: "Please fill subject details",
-                  //     context: context,
-                  //   );
-                  // } else if (subjects
-                  //     .any((subject) => subject["subjectName"]!.text.isEmpty)) {
-                  //   toastView(
-                  //     msg: "Please fill subject name",
-                  //     context: context,
-                  //   );
-                  // } else {
-                  //   MarksheetMake.generateMarksheet(
-                  //     collegeName: "S.V. Patel College",
-                  //     passignYear: "April - 2024",
-                  //     studentName: "Yash Sakhwala",
-                  //     course: "Bachelor of Computer Application",
-                  //     seatNumber: "CG1706",
-                  //     subjects: subjectList,
-                  //     context: context,
-                  //   );
-                  // }
+                  if (collegeName.text.isEmpty ||
+                      passingYear.text.isEmpty ||
+                      passingMonth.text.isEmpty ||
+                      studentName.text.isEmpty ||
+                      course.text.isEmpty ||
+                      seatNumber.text.isEmpty) {
+                    toastView(
+                      msg: "Please fill all details",
+                      context: context,
+                    );
+                  } else if (subjects.isEmpty) {
+                    toastView(
+                      msg: "Please add subjects",
+                      context: context,
+                    );
+                  } else if (subjects.any((subject) =>
+                      subject["subjectName"]!.text.isEmpty ||
+                      subject["totalMarks"]!.text.isEmpty ||
+                      subject["qualifyingMarks"]!.text.isEmpty ||
+                      subject["obtainedMarks"]!.text.isEmpty ||
+                      subject["grade"]!.text.isEmpty)) {
+                    toastView(
+                      msg: "Please fill all subject fields",
+                      context: context,
+                    );
+                  } else {
+                    MarksheetMake.generateMarksheet(
+                      collegeName: collegeName.text,
+                      passignYear: passingYear.text,
+                      passignMonth: passingMonth.text,
+                      studentName: studentName.text,
+                      course: course.text,
+                      seatNumber: seatNumber.text,
+                      classObtained: classObtained!,
+                      subjects: subjectList,
+                      context: context,
+                    );
+                  }
                 },
               ),
             ],
