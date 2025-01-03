@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:genify/screens/home_screen_option/marksheet_view.dart/marksheet_common_view.dart';
+import 'package:genify/screens/home_screen_option/marksheet_view.dart/web_marksheet_view.dart';
 import 'package:genify/widgets/layout_builder_view.dart';
 
 class MarksheetScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MarksheetScreenState extends State<MarksheetScreen> {
     return LayoutBuilderView(
       mobileView: MarksheetCommonViewScreen(),
       tabletView: MarksheetCommonViewScreen(),
-      webView: MarksheetCommonViewScreen(),
+      webView: WebMarksheetScreen(),
     );
   }
 }

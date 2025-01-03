@@ -104,7 +104,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                             height: 5,
                           ),
                           Text(
-                            "Some college require marksheet without logo, so check before adding one.",
+                            "Some school/college require marksheet without logo, so check before adding one.",
                             style: AppTextStyle.regularTextStyle
                                 .copyWith(fontSize: 9),
                           ),
@@ -515,7 +515,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                             height: 5,
                           ),
                           Text(
-                            "Some college require marksheet without signature, so check before adding one.",
+                            "Some school/college require marksheet without signature, so check before adding one.",
                             style: AppTextStyle.regularTextStyle
                                 .copyWith(fontSize: 9),
                           ),
