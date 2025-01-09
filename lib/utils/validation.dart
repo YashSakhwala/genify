@@ -11,7 +11,7 @@ class TextFieldValidation {
   }) {
     if (isPhoneNumberValidator == true) {
       if (value!.isEmpty) {
-        return "Phone Number is required";
+        return "Phone Number is required!";
       } else if (value.length < 10 || value.length > 10) {
         return 'Phone number must be 10 character';
       } else if (value.isNotEmpty) {

@@ -157,6 +157,7 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen>
         return Scaffold(
           backgroundColor: AppColors.backgroundColor,
           appBar: AppBarView(
+            isWhiteLogo: true,
             title: "Genify",
             style: AppTextStyle.largeTextStyle.copyWith(
               color: AppColors.whiteColor,

@@ -31,6 +31,8 @@ class TextFieldView extends StatelessWidget {
   final int? maxLines;
   final TextStyle? titleStyle;
   final Widget? anyWidget;
+  final List<String>? dropdownItems;
+  final bool? isDropDownItem;
 
   const TextFieldView({
     super.key,
@@ -58,6 +60,58 @@ class TextFieldView extends StatelessWidget {
     this.maxLines,
     this.titleStyle,
     this.anyWidget,
+    this.isDropDownItem = false,
+    this.dropdownItems = const [
+      'Software Engineer',
+      'Doctor',
+      'Teacher',
+      'Artist',
+      'Designer',
+      'Business Owner',
+      'Developer',
+      'Writer',
+      'Architect',
+      'Accountant',
+      'Engineer',
+      'Scientist',
+      'Nurse',
+      'Lawyer',
+      'Chef',
+      'Photographer',
+      'Musician',
+      'Psychologist',
+      'Marketing Specialist',
+      'Project Manager',
+      'Data Analyst',
+      'Researcher',
+      'HR Specialist',
+      'Sales Executive',
+      'Social Worker',
+      'Consultant',
+      'Entrepreneur',
+      'Mechanic',
+      'Electrician',
+      'Plumber',
+      'Pharmacist',
+      'Veterinarian',
+      'Pilot',
+      'Firefighter',
+      'Police Officer',
+      'Graphic Designer',
+      'Application Developer',
+      'Web Developer',
+      'SEO Specialist',
+      'UI/UX Designer',
+      'Financial Analyst',
+      'Writer/Journalist',
+      'Event Planner',
+      'Interpreter/Translator',
+      'Farmer',
+      'Fitness Trainer',
+      'Public Relations Specialist',
+      'Content Creator',
+      'Digital Marketer',
+    ],
   });
 
   @override
@@ -116,7 +170,32 @@ class TextFieldView extends StatelessWidget {
                 ),
                 hintText: hintText,
                 hintStyle: TextStyle(color: AppColors.greyColor),
-                suffixIcon: suffixIcon,
+                suffixIcon: isDropDownItem == true
+                    ? PopupMenuButton<String>(
+                        color: AppColors.greyColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        icon: Icon(Icons.keyboard_arrow_down_rounded),
+                        onSelected: (value) {
+                          controller.text = value;
+                        },
+                        itemBuilder: (context) {
+                          return dropdownItems!
+                              .map((item) => PopupMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style:
+                                          AppTextStyle.smallTextStyle.copyWith(
+                                        color: AppColors.whiteColor,
+                                      ),
+                                    ),
+                                  ))
+                              .toList();
+                        },
+                      )
+                    : suffixIcon,
                 labelText: labelText,
                 labelStyle: TextStyle(color: AppColors.greyColor),
               ),
