@@ -145,7 +145,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount:
                         MediaQuery.of(context).size.width >= 900 ? 2 : 1,
-                    mainAxisExtent: 50,
+                    // mainAxisExtent: 50,
+                    mainAxisExtent: 65,
                   ),
                   shrinkWrap: true,
                   itemCount: settingTools.length,
@@ -185,36 +186,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }
                       },
                       child: FlipInX(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            border: Border.all(
-                              width: 0.1,
-                              color: AppColors.primaryColor.withOpacity(0.5),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 3, horizontal: 13),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                              border: Border.all(
+                                width: 0.1,
+                                color: AppColors.primaryColor.withOpacity(0.5),
+                              ),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(13),
-                            child: Row(
-                              children: [
-                                Image(
-                                  image:
-                                      Image.asset(settingTools[index]["icons"])
-                                          .image,
-                                  color: AppColors.primaryColor,
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  width: 17,
-                                ),
-                                Text(settingTools[index]["name"]),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 15,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(13),
+                              child: Row(
+                                children: [
+                                  Image(
+                                    image: Image.asset(
+                                            settingTools[index]["icons"])
+                                        .image,
+                                    color: AppColors.primaryColor,
+                                    height: 23,
+                                  ),
+                                  SizedBox(
+                                    width: 18,
+                                  ),
+                                  Text(
+                                    settingTools[index]["name"],
+                                    style: AppTextStyle.smallTextStyle.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 15,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

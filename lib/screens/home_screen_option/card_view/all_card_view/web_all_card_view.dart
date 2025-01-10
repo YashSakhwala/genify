@@ -127,9 +127,11 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
                 children: [
                   Text(
                     "--- Select any one card ---",
-                    style: AppTextStyle.smallTextStyle
-                        .copyWith(color: AppColors.greyColor),
+                    style: AppTextStyle.smallTextStyle,
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   GridView.builder(
                     shrinkWrap: true,

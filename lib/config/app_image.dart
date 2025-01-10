@@ -94,6 +94,13 @@ class AppImages {
   static const String expensesImage =
       "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image.png?alt=media&token=89251556-bd3f-492d-8e0d-8b8ec41fe5bd";
 
+
+  static const String incomeImage_1 =
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fincome_image_1.png?alt=media&token=cc467046-57fb-461c-9f7c-856605c2de3d";
+  static const String expensesImage_1 =
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image_1.png?alt=media&token=fc4e9b6d-dc8a-45e8-8634-2c3f9bf6e1fb";
+
+
   // Calculator screen icon
   static const String blankEqual = "assets/icons/blank_equal.png";
   static const String fillEqual = "assets/icons/fill_equal.png";

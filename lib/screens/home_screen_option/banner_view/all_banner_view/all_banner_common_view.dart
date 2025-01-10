@@ -128,9 +128,11 @@ class _AllBannerCommonScreenState extends State<AllBannerCommonScreen> {
                 children: [
                   Text(
                     "--- Select any one banner ---",
-                    style: AppTextStyle.smallTextStyle
-                        .copyWith(color: AppColors.greyColor),
+                    style: AppTextStyle.smallTextStyle,
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   ListView.builder(
                     shrinkWrap: true,

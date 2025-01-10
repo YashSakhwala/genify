@@ -128,9 +128,11 @@ class _AllCardCommonScreenState extends State<AllCardCommonScreen> {
                 children: [
                   Text(
                     "--- Select any one card ---",
-                    style: AppTextStyle.smallTextStyle
-                        .copyWith(color: AppColors.greyColor),
+                    style: AppTextStyle.smallTextStyle,
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   ListView.builder(
                     shrinkWrap: true,

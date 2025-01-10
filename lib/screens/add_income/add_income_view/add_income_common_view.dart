@@ -255,6 +255,10 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                         },
                       ),
                       SizedBox(
+                        height: 16,
+                      ),
+                      Text("REAL TIME / MANUAL TIME"),
+                      SizedBox(
                         height: 130,
                       ),
                       ButtonView(

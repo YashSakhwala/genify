@@ -52,26 +52,26 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                 child: ListView(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
                     Text(
                       "Account Balance",
                       style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 13,
-                        color: AppColors.greyColor,
+                        fontSize: 11,
+                        color: AppColors.greyColor.shade500,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
                       "₹${transactionController.totalAmount.value.toStringAsFixed(2)}",
                       style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 33,
+                        fontSize: 31,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 12,
                     ),
                     Row(
                       children: [
@@ -85,18 +85,19 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(28),
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(15),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 8),
                                 child: Row(
                                   children: [
                                     Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: 45,
+                                      width: 45,
                                       decoration: BoxDecoration(
                                         color: AppColors.backgroundColor,
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8),
@@ -104,7 +105,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 10,
+                                      width: 8,
                                     ),
                                     Expanded(
                                       child: Column(
@@ -115,7 +116,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                             "Incomes",
                                             style: AppTextStyle.regularTextStyle
                                                 .copyWith(
-                                              fontSize: 13,
+                                              fontSize: 12,
                                               color: AppColors.whiteColor,
                                             ),
                                           ),
@@ -123,7 +124,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                             "₹${transactionController.totalIncome.value.toStringAsFixed(2)}",
                                             style: AppTextStyle.regularTextStyle
                                                 .copyWith(
-                                              fontSize: 22,
+                                              fontSize: 20,
                                               color: AppColors.whiteColor,
                                             ),
                                             overflow: TextOverflow.ellipsis,
@@ -138,7 +139,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 9,
+                          width: 8,
                         ),
                         Expanded(
                           child: InkWell(
@@ -150,18 +151,19 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(28),
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(15),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 8),
                                 child: Row(
                                   children: [
                                     Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: 45,
+                                      width: 45,
                                       decoration: BoxDecoration(
                                         color: AppColors.backgroundColor,
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8),
@@ -169,7 +171,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 10,
+                                      width: 8,
                                     ),
                                     Expanded(
                                       child: Column(
@@ -180,7 +182,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                             "Expenses",
                                             style: AppTextStyle.regularTextStyle
                                                 .copyWith(
-                                              fontSize: 13,
+                                              fontSize: 12,
                                               color: AppColors.whiteColor,
                                             ),
                                           ),
@@ -188,7 +190,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                             "₹${transactionController.totalExpenses.value.toStringAsFixed(2)}",
                                             style: AppTextStyle.regularTextStyle
                                                 .copyWith(
-                                              fontSize: 22,
+                                              fontSize: 20,
                                               color: AppColors.whiteColor,
                                             ),
                                             overflow: TextOverflow.ellipsis,
@@ -205,7 +207,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 25,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,7 +215,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                         Text(
                           "Recent Transactions",
                           style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -225,7 +227,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                           },
                           child: Container(
                             height: 30,
-                            width: 78,
+                            width: 76,
                             decoration: BoxDecoration(
                               color: AppColors.primaryColor,
                               borderRadius: BorderRadius.circular(40),
@@ -234,7 +236,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                               child: Text(
                                 "See All",
                                 style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   color: AppColors.whiteColor,
                                 ),
                               ),
@@ -810,8 +812,10 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                                                         [
                                                                         'type'] ==
                                                                     'Incomes'
-                                                                ? AppColors.greenColor
-                                                                : AppColors.redColor,
+                                                                ? AppColors
+                                                                    .greenColor
+                                                                : AppColors
+                                                                    .redColor,
                                                           ),
                                                           overflow: TextOverflow
                                                               .ellipsis,

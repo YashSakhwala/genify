@@ -140,9 +140,11 @@ class _AllResumeCommonScreenState extends State<AllResumeCommonScreen> {
                 children: [
                   Text(
                     "--- Select any one resume ---",
-                    style: AppTextStyle.smallTextStyle
-                        .copyWith(color: AppColors.greyColor),
+                    style: AppTextStyle.smallTextStyle,
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   ListView.builder(
                     shrinkWrap: true,
