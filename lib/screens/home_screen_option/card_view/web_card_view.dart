@@ -32,7 +32,6 @@ class _WebCardScreenState extends State<WebCardScreen> {
       TextEditingController();
 
   Color textColor = AppColors.blackColor;
-  Color backgroundColor = AppColors.whiteColor;
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -44,21 +43,11 @@ class _WebCardScreenState extends State<WebCardScreen> {
 
     textColorController.text =
         textColor.value.toRadixString(16).substring(2).toUpperCase();
-    backgroundColorController.text =
-        backgroundColor.value.toRadixString(16).substring(2).toUpperCase();
 
     textColorController.addListener(() {
       applyColorCode(textColorController, (color) {
         setState(() {
           textColor = color;
-        });
-      });
-    });
-
-    backgroundColorController.addListener(() {
-      applyColorCode(backgroundColorController, (color) {
-        setState(() {
-          backgroundColor = color;
         });
       });
     });
@@ -329,6 +318,8 @@ class _WebCardScreenState extends State<WebCardScreen> {
                                     RegExp(r'[0-9]')),
                                 LengthLimitingTextInputFormatter(10),
                               ],
+                              needValidator: true,
+                              phoneNoValidator: true,
                               hintText: "9876543210",
                             ),
                             SizedBox(
@@ -347,14 +338,45 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               hintText:
                                   "105-A, Ambar society, Neharu chock, surat.",
                             ),
-                            SizedBox(
-                              height: 10,
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 60,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            TextFieldView(
+                              title: "Profession",
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              controller: profession,
+                              isDropDownItem: true,
+                              hintText: "Software Engineer",
                             ),
-                            Divider(
-                              thickness: 1.5,
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFieldView(
+                              title: "Email",
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              controller: email,
+                              keyboardType: TextInputType.emailAddress,
+                              needValidator: true,
+                              emailValidator: true,
+                              hintText: "mishra.varun@email.com",
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Row(
                               children: [
@@ -404,99 +426,8 @@ class _WebCardScreenState extends State<WebCardScreen> {
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 60,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            TextFieldView(
-                              title: "Profession",
-                              titleStyle:
-                                  AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              controller: profession,
-                              hintText: "Software Engineer",
-                            ),
                             SizedBox(
-                              height: 20,
-                            ),
-                            TextFieldView(
-                              title: "Email",
-                              titleStyle:
-                                  AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              controller: email,
-                              hintText: "mishra.varun@email.com",
-                            ),
-                            SizedBox(
-                              height: 144,
-                            ),
-                            Divider(
-                              thickness: 1.5,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextFieldView(
-                                    title: "Background Color",
-                                    controller: backgroundColorController,
-                                    titleStyle:
-                                        AppTextStyle.regularTextStyle.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(6),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 13,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20),
-                                  child: InkWell(
-                                    onTap: () {
-                                      pickColor(backgroundColor, (color) {
-                                        setState(() {
-                                          backgroundColor = color;
-                                          backgroundColorController.text = color
-                                              .value
-                                              .toRadixString(16)
-                                              .substring(2)
-                                              .toUpperCase();
-                                        });
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 47,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        color: backgroundColor,
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          color: AppColors.greyColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 120,
+                              height: 265,
                             ),
                             ButtonView(
                               height: 45,
@@ -531,17 +462,19 @@ class _WebCardScreenState extends State<WebCardScreen> {
                                     context: context,
                                   );
                                 } else {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => WebAllCardScreen(
-                                      name: name.text,
-                                      profession: profession.text,
-                                      email: email.text,
-                                      phoneNo: phoneNo.text,
-                                      address: address.text,
-                                      textColor: textColor,
-                                      backgroundColor: backgroundColor,
-                                    ),
-                                  ));
+                                  if (_formKey.currentState!.validate()) {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => WebAllCardScreen(
+                                        name: name.text,
+                                        profession: profession.text,
+                                        email: email.text,
+                                        phoneNo: phoneNo.text,
+                                        address: address.text,
+                                        textColor: textColor,
+                                      ),
+                                    ));
+                                  }
                                 }
                               },
                             ),

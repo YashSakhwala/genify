@@ -24,7 +24,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -38,10 +37,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -112,7 +107,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -274,7 +268,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -288,10 +281,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -362,7 +351,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -544,7 +532,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -558,10 +545,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -632,7 +615,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -772,7 +754,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -786,10 +767,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -860,7 +837,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1011,7 +987,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1025,10 +1000,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1099,7 +1070,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1264,7 +1234,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1278,10 +1247,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1352,7 +1317,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1513,7 +1477,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1527,10 +1490,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1601,7 +1560,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -1642,7 +1600,8 @@ class CardMake {
                           height: 45,
                           width: 30,
                           decoration: pw.BoxDecoration(
-                            color: pdfBackgroundColor,
+                            // Want changes--------------------
+                            color: PdfColor.fromHex("#03335e"),
                             border: pw.Border(
                               left: pw.BorderSide(
                                 color: PdfColor.fromHex("#03335e"),
@@ -1779,7 +1738,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -1793,10 +1751,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -1867,7 +1821,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -2042,7 +1995,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -2056,10 +2008,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -2130,7 +2078,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(
@@ -2281,7 +2228,6 @@ class CardMake {
     required String phoneNo,
     required String address,
     Color? textColor,
-    Color? backgroundColor,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -2295,10 +2241,6 @@ class CardMake {
 
     final PdfColor pdfTextColor =
         textColor != null ? PdfColor.fromInt(textColor.value) : PdfColors.black;
-
-    final PdfColor pdfBackgroundColor = backgroundColor != null
-        ? PdfColor.fromInt(backgroundColor.value)
-        : PdfColors.white;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -2369,7 +2311,6 @@ class CardMake {
         build: (pw.Context context) {
           return pw.Container(
             decoration: pw.BoxDecoration(
-              color: pdfBackgroundColor,
               image: backgroundImage != null
                   ? pw.DecorationImage(
                       image: pw.Image(

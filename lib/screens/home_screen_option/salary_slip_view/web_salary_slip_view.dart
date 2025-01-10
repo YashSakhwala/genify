@@ -104,11 +104,11 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                                   html.FileUploadInputElement();
                               uploadInput.accept = 'image/*';
                               uploadInput.click();
-            
+
                               uploadInput.onChange.listen((event) {
                                 final file = uploadInput.files!.first;
                                 final reader = html.FileReader();
-            
+
                                 reader.readAsDataUrl(file);
                                 reader.onLoadEnd.listen((event) {
                                   setState(() {
@@ -167,11 +167,6 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                             controller: employeeID,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9\.]')),
-                            ],
                             hintText: "1234",
                           ),
                           SizedBox(
@@ -325,7 +320,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           if (paymentMethod == "Bank Transfer") ...[
                             TextFieldView(
                               title: "Bank Name",
-                              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -337,7 +333,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             TextFieldView(
                               title: "Bank Account Number",
-                              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -352,7 +349,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                           if (paymentMethod == "UPI Payment") ...[
                             TextFieldView(
                               title: "UPI ID",
-                              titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              titleStyle:
+                                  AppTextStyle.regularTextStyle.copyWith(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -379,6 +377,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               ),
                             ),
                             child: DropdownButton(
+                              icon: Icon(Icons.keyboard_arrow_down_rounded),
                               value: paymentMethod,
                               isExpanded: true,
                               underline: SizedBox(),
@@ -430,23 +429,23 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                     if (mealAllowance.text.isEmpty) {
                       mealAllowance.text = "0";
                     }
-            
+
                     if (transportationAllowance.text.isEmpty) {
                       transportationAllowance.text = "0";
                     }
-            
+
                     if (medicalAllowance.text.isEmpty) {
                       medicalAllowance.text = "0";
                     }
-            
+
                     if (retirementInsurance.text.isEmpty) {
                       retirementInsurance.text = "0";
                     }
-            
+
                     if (tax.text.isEmpty) {
                       tax.text = "0";
                     }
-            
+
                     if (companyName.text.isEmpty ||
                         employeeName.text.isEmpty ||
                         employeeID.text.isEmpty ||
@@ -474,7 +473,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             designation: designation.text,
                             salary: salary.text,
                             mealAllowance: mealAllowance.text,
-                            transportationAllowance: transportationAllowance.text,
+                            transportationAllowance:
+                                transportationAllowance.text,
                             medicalAllowance: medicalAllowance.text,
                             retirementInsurance: retirementInsurance.text,
                             tax: tax.text,
@@ -500,7 +500,8 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             designation: designation.text,
                             salary: salary.text,
                             mealAllowance: mealAllowance.text,
-                            transportationAllowance: transportationAllowance.text,
+                            transportationAllowance:
+                                transportationAllowance.text,
                             medicalAllowance: medicalAllowance.text,
                             retirementInsurance: retirementInsurance.text,
                             tax: tax.text,

@@ -97,7 +97,6 @@ class _SalarySlipCommonViewScreenState
                   fontWeight: FontWeight.w600,
                 ),
                 controller: employeeID,
-                keyboardType: TextInputType.number,
                 hintText: "1234",
               ),
               SizedBox(
@@ -280,6 +279,7 @@ class _SalarySlipCommonViewScreenState
                   ),
                 ),
                 child: DropdownButton(
+                  icon: Icon(Icons.keyboard_arrow_down_rounded),
                   value: paymentMethod,
                   isExpanded: true,
                   underline: SizedBox(),
@@ -353,14 +353,14 @@ class _SalarySlipCommonViewScreenState
                           InkWell(
                             onTap: () async {
                               ImagePicker imagePicker = ImagePicker();
-          
+
                               XFile? xFile = await imagePicker.pickImage(
                                   source: ImageSource.gallery);
-          
+
                               if (xFile != null && xFile.path.isNotEmpty) {
                                 SalaryMake.signatureImagePath = xFile.path;
                               }
-          
+
                               setState(() {});
                             },
                             child: Container(
@@ -399,23 +399,23 @@ class _SalarySlipCommonViewScreenState
                   if (mealAllowance.text.isEmpty) {
                     mealAllowance.text = "0";
                   }
-          
+
                   if (transportationAllowance.text.isEmpty) {
                     transportationAllowance.text = "0";
                   }
-          
+
                   if (medicalAllowance.text.isEmpty) {
                     medicalAllowance.text = "0";
                   }
-          
+
                   if (retirementInsurance.text.isEmpty) {
                     retirementInsurance.text = "0";
                   }
-          
+
                   if (tax.text.isEmpty) {
                     tax.text = "0";
                   }
-          
+
                   if (companyName.text.isEmpty ||
                       employeeName.text.isEmpty ||
                       employeeID.text.isEmpty ||

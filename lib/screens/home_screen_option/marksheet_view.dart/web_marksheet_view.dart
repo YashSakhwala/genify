@@ -396,6 +396,11 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                             controller: passingYear,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'[0-9]')),
+                                            ],
                                             hintText: "2024",
                                           ),
                                         ),

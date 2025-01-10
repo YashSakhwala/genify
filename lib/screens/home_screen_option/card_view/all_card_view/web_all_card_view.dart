@@ -16,7 +16,6 @@ class WebAllCardScreen extends StatefulWidget {
   final String phoneNo;
   final String address;
   final Color textColor;
-  final Color backgroundColor;
 
   const WebAllCardScreen({
     super.key,
@@ -26,7 +25,6 @@ class WebAllCardScreen extends StatefulWidget {
     required this.phoneNo,
     required this.address,
     required this.textColor,
-    required this.backgroundColor,
   });
 
   @override
@@ -201,7 +199,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 1) {
@@ -212,7 +209,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 2) {
@@ -223,7 +219,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 3) {
@@ -234,7 +229,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 4) {
@@ -245,7 +239,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 5) {
@@ -256,7 +249,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 6) {
@@ -267,7 +259,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 7) {
@@ -278,7 +269,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 8) {
@@ -289,7 +279,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     } else if (index == 9) {
@@ -300,7 +289,6 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
         phoneNo: widget.phoneNo,
         address: widget.address,
         textColor: widget.textColor,
-        backgroundColor: widget.backgroundColor,
         context: context,
       );
     }

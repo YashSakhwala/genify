@@ -34,7 +34,6 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
       TextEditingController();
 
   Color textColor = AppColors.blackColor;
-  Color backgroundColor = AppColors.whiteColor;
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -46,21 +45,11 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
 
     textColorController.text =
         textColor.value.toRadixString(16).substring(2).toUpperCase();
-    backgroundColorController.text =
-        backgroundColor.value.toRadixString(16).substring(2).toUpperCase();
 
     textColorController.addListener(() {
       applyColorCode(textColorController, (color) {
         setState(() {
           textColor = color;
-        });
-      });
-    });
-
-    backgroundColorController.addListener(() {
-      applyColorCode(backgroundColorController, (color) {
-        setState(() {
-          backgroundColor = color;
         });
       });
     });
@@ -245,6 +234,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
+                  isDropDownItem: true,
                   hintText: "Insurance Advisor",
                 ),
                 SizedBox(
@@ -257,6 +247,9 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  needValidator: true,
+                  emailValidator: true,
                   hintText: "mkconsultancy@gmail.com",
                 ),
                 SizedBox(
@@ -274,6 +267,8 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
+                  needValidator: true,
+                  phoneNoValidator: true,
                   hintText: "9876543210",
                 ),
                 SizedBox(
@@ -334,56 +329,6 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                           width: 50,
                           decoration: BoxDecoration(
                             color: textColor,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.greyColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFieldView(
-                        title: "Background Color",
-                        controller: backgroundColorController,
-                        titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(6),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 13,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: InkWell(
-                        onTap: () {
-                          pickColor(backgroundColor, (color) {
-                            setState(() {
-                              backgroundColor = color;
-                              backgroundColorController.text = color.value
-                                  .toRadixString(16)
-                                  .substring(2)
-                                  .toUpperCase();
-                            });
-                          });
-                        },
-                        child: Container(
-                          height: 47,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: backgroundColor,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: AppColors.greyColor,
@@ -504,17 +449,18 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                         context: context,
                       );
                     } else {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllCardCommonScreen(
-                          name: name.text,
-                          profession: profession.text,
-                          email: email.text,
-                          phoneNo: phoneNo.text,
-                          address: address.text,
-                          textColor: textColor,
-                          backgroundColor: backgroundColor,
-                        ),
-                      ));
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => AllCardCommonScreen(
+                            name: name.text,
+                            profession: profession.text,
+                            email: email.text,
+                            phoneNo: phoneNo.text,
+                            address: address.text,
+                            textColor: textColor,
+                          ),
+                        ));
+                      }
                     }
                   },
                 ),
