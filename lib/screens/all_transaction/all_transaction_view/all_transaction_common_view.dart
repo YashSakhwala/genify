@@ -468,9 +468,9 @@ class _AllTransactionCommonViewScreenState
                                                             : allData[
                                                                     allDataIndex]
                                                                 ["image"],
-                                                        uniqueTime: allData[
+                                                        uniqueNumber: allData[
                                                                 allDataIndex]
-                                                            ["uniqueTime"],
+                                                            ["uniqueNumber"],
                                                       ),
                                                     ));
                                                   },
@@ -513,9 +513,9 @@ class _AllTransactionCommonViewScreenState
                                                       (BuildContext con) {
                                                     transactionController
                                                         .removeTransactionData(
-                                                      uniqueTime:
+                                                      uniqueNumber:
                                                           allData[allDataIndex]
-                                                              ["uniqueTime"],
+                                                              ["uniqueNumber"],
                                                       context: context,
                                                     );
                                                   },
@@ -562,10 +562,10 @@ class _AllTransactionCommonViewScreenState
                                                       BorderRadius.circular(24),
                                                 ),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 17,
-                                                          vertical: 14),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 17,
+                                                      vertical: 14),
                                                   child: Row(
                                                     children: [
                                                       Stack(
@@ -591,8 +591,8 @@ class _AllTransactionCommonViewScreenState
                                                                       .primaryColor),
                                                               image:
                                                                   DecorationImage(
-                                                                image:
-                                                                    Image.network(
+                                                                image: Image
+                                                                    .network(
                                                                   allData[allDataIndex]
                                                                               [
                                                                               "image"] ==
@@ -608,7 +608,8 @@ class _AllTransactionCommonViewScreenState
                                                                           [
                                                                           "image"],
                                                                 ).image,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
@@ -670,19 +671,18 @@ class _AllTransactionCommonViewScreenState
                                                           children: [
                                                             Text(
                                                               "${allData[allDataIndex]['type'] == 'Incomes' ? '+' : '-'} ₹${allData[allDataIndex]['amount']}",
-                                                              style: AppTextStyle
-                                                                  .regularTextStyle
-                                                                  .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: allData[allDataIndex]
-                                                                            [
-                                                                            'type'] ==
-                                                                        'Incomes'
-                                                                    ? AppColors.greenColor
-                                                                    : AppColors.redColor
-                                                              ),
+                                                              style: AppTextStyle.regularTextStyle.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: allData[allDataIndex]
+                                                                              [
+                                                                              'type'] ==
+                                                                          'Incomes'
+                                                                      ? AppColors
+                                                                          .greenColor
+                                                                      : AppColors
+                                                                          .redColor),
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,

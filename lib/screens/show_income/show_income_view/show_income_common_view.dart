@@ -471,9 +471,10 @@ class _ShowIncomeCommonViewScreenState
                                                                 : allData[
                                                                         allDataIndex]
                                                                     ["image"],
-                                                            uniqueTime: allData[
+                                                            uniqueNumber: allData[
                                                                     allDataIndex]
-                                                                ["uniqueTime"],
+                                                                [
+                                                                "uniqueNumber"],
                                                           ),
                                                         ));
                                                       },
@@ -517,9 +518,9 @@ class _ShowIncomeCommonViewScreenState
                                                           (BuildContext con) {
                                                         transactionController
                                                             .removeTransactionData(
-                                                          uniqueTime: allData[
+                                                          uniqueNumber: allData[
                                                                   allDataIndex]
-                                                              ["uniqueTime"],
+                                                              ["uniqueNumber"],
                                                           context: context,
                                                         );
                                                       },

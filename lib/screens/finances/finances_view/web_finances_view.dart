@@ -277,7 +277,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                         onEnter: (_) {
                                           setState(() {
                                             hoveredIndex = allData[allDataIndex]
-                                                    ["uniqueTime"]
+                                                    ["uniqueNumber"]
                                                 .toString();
                                           });
                                         },
@@ -724,7 +724,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                             ),
                                             if (hoveredIndex ==
                                                 allData[allDataIndex]
-                                                        ["uniqueTime"]
+                                                        ["uniqueNumber"]
                                                     .toString())
                                               Align(
                                                 alignment: Alignment.topRight,
@@ -778,10 +778,10 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                                   : allData[
                                                                           allDataIndex]
                                                                       ["image"],
-                                                              uniqueTime: allData[
+                                                              uniqueNumber: allData[
                                                                       allDataIndex]
                                                                   [
-                                                                  "uniqueTime"],
+                                                                  "uniqueNumber"],
                                                             ),
                                                           ));
                                                         },
@@ -814,9 +814,10 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                         onTap: () {
                                                           transactionController
                                                               .removeTransactionData(
-                                                            uniqueTime: allData[
+                                                            uniqueNumber: allData[
                                                                     allDataIndex]
-                                                                ["uniqueTime"],
+                                                                [
+                                                                "uniqueNumber"],
                                                             context: context,
                                                           );
                                                         },

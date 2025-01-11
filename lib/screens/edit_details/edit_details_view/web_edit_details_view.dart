@@ -22,7 +22,7 @@ class WebEditDetailsScreen extends StatefulWidget {
   final String subtitle;
   final String wallet;
   final String image;
-  final String uniqueTime;
+  final String uniqueNumber;
   const WebEditDetailsScreen({
     super.key,
     required this.type,
@@ -31,7 +31,7 @@ class WebEditDetailsScreen extends StatefulWidget {
     required this.subtitle,
     required this.wallet,
     required this.image,
-    required this.uniqueTime,
+    required this.uniqueNumber,
   });
 
   @override
@@ -326,7 +326,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                       title: title.text,
                                       subTitle: subTitle.text,
                                       payment: wallet,
-                                      uniqueTime: widget.uniqueTime,
+                                      uniqueNumber: widget.uniqueNumber,
                                       image: widget.image,
                                       context: context,
                                     );

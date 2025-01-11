@@ -142,7 +142,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                               setState(() {
                                                 hoveredIndex =
                                                     allData[allDataIndex]
-                                                            ["uniqueTime"]
+                                                            ["uniqueNumber"]
                                                         .toString();
                                               });
                                             },
@@ -570,7 +570,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                 ),
                                                 if (hoveredIndex ==
                                                     allData[allDataIndex]
-                                                            ["uniqueTime"]
+                                                            ["uniqueNumber"]
                                                         .toString())
                                                   Align(
                                                     alignment:
@@ -629,10 +629,10 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                               allDataIndex]
                                                                           [
                                                                           "image"],
-                                                                  uniqueTime: allData[
-                                                                          allDataIndex]
-                                                                      [
-                                                                      "uniqueTime"],
+                                                                  uniqueNumber:
+                                                                      allData[allDataIndex]
+                                                                          [
+                                                                          "uniqueNumber"],
                                                                 ),
                                                               ));
                                                             },
@@ -665,10 +665,10 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                             onTap: () {
                                                               transactionController
                                                                   .removeTransactionData(
-                                                                uniqueTime: allData[
+                                                                uniqueNumber: allData[
                                                                         allDataIndex]
                                                                     [
-                                                                    "uniqueTime"],
+                                                                    "uniqueNumber"],
                                                                 context:
                                                                     context,
                                                               );

@@ -136,7 +136,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                         onEnter: (_) {
                                           setState(() {
                                             hoveredIndex = allData[allDataIndex]
-                                                    ["uniqueTime"]
+                                                    ["uniqueNumber"]
                                                 .toString();
                                           });
                                         },
@@ -583,7 +583,7 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                             ),
                                             if (hoveredIndex ==
                                                 allData[allDataIndex]
-                                                        ["uniqueTime"]
+                                                        ["uniqueNumber"]
                                                     .toString())
                                               Align(
                                                 alignment: Alignment.topRight,
@@ -637,10 +637,10 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                   : allData[
                                                                           allDataIndex]
                                                                       ["image"],
-                                                              uniqueTime: allData[
+                                                              uniqueNumber: allData[
                                                                       allDataIndex]
                                                                   [
-                                                                  "uniqueTime"],
+                                                                  "uniqueNumber"],
                                                             ),
                                                           ));
                                                         },
@@ -673,9 +673,10 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                         onTap: () {
                                                           transactionController
                                                               .removeTransactionData(
-                                                            uniqueTime: allData[
+                                                            uniqueNumber: allData[
                                                                     allDataIndex]
-                                                                ["uniqueTime"],
+                                                                [
+                                                                "uniqueNumber"],
                                                             context: context,
                                                           );
                                                         },

@@ -23,7 +23,7 @@ class EditDetailsCommonViewScreen extends StatefulWidget {
   final String subtitle;
   final String wallet;
   final String image;
-  final String uniqueTime;
+  final String uniqueNumber;
 
   const EditDetailsCommonViewScreen({
     super.key,
@@ -33,7 +33,7 @@ class EditDetailsCommonViewScreen extends StatefulWidget {
     required this.subtitle,
     required this.wallet,
     required this.image,
-    required this.uniqueTime,
+    required this.uniqueNumber,
   });
 
   @override
@@ -314,7 +314,7 @@ class _EditDetailsCommonViewScreenState
                               payment: wallet,
                               context: context,
                               image: widget.image,
-                              uniqueTime: widget.uniqueTime,
+                              uniqueNumber: widget.uniqueNumber,
                             );
                           }
                         },

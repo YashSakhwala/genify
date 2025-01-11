@@ -33,6 +33,8 @@ class TextFieldView extends StatelessWidget {
   final Widget? anyWidget;
   final List<String>? dropdownItems;
   final bool? isDropDownItem;
+  final bool? readOnly;
+  final VoidCallback? onTap;
 
   const TextFieldView({
     super.key,
@@ -112,6 +114,8 @@ class TextFieldView extends StatelessWidget {
       'Content Creator',
       'Digital Marketer',
     ],
+    this.readOnly,
+    this.onTap,
   });
 
   @override
@@ -134,7 +138,9 @@ class TextFieldView extends StatelessWidget {
         TextFormField(
           controller: controller,
           onChanged: onChanged,
+          onTap: onTap,
           maxLines: maxLines ?? 1,
+          readOnly: readOnly ?? false,
           obscureText: obscureText!,
           enabled: enabled,
           inputFormatters: inputFormatters,

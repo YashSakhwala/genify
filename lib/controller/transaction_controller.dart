@@ -20,6 +20,8 @@ class TransactionController extends GetxController {
   RxString imagePath = "".obs;
   final Rx<html.File?> webImageFile = Rx<html.File?>(null);
 
+  final RxInt timeValue = 0.obs;
+
   RxList combinedList = [].obs;
 
   RxList dataEntries = [].obs;
@@ -43,8 +45,10 @@ class TransactionController extends GetxController {
     required String title,
     required String subTitle,
     required String payment,
-    required BuildContext context,
+    required String date,
+    required String time,
     required String type,
+    required BuildContext context,
   }) async {
     showIndicator(context);
 
@@ -55,11 +59,13 @@ class TransactionController extends GetxController {
         LocalStorage.sharedPreferences.getString(LocalStorage.userId);
 
     DateTime now = DateTime.now();
+
+    // Remove date and time
     String realDate = "${now.day}-${now.month}-${now.year}";
     String realTime = DateFormat("hh:mm:ss a").format(now);
 
     String dateTimeString = now.toString();
-    String uniqueTime = RegExp(r"\d+$").stringMatch(dateTimeString) ?? "";
+    String uniqueNumber = RegExp(r"\d+$").stringMatch(dateTimeString) ?? "";
 
     String url = "";
 
@@ -126,7 +132,7 @@ class TransactionController extends GetxController {
       "payment": payment,
       "date": realDate,
       "time": realTime,
-      "uniqueTime": uniqueTime,
+      "uniqueNumber": uniqueNumber,
       "type": type,
     };
 
@@ -321,7 +327,7 @@ class TransactionController extends GetxController {
     required String title,
     required String subTitle,
     required String payment,
-    required String uniqueTime,
+    required String uniqueNumber,
     required String image,
     required BuildContext context,
   }) async {
@@ -395,7 +401,7 @@ class TransactionController extends GetxController {
     }
 
     for (var i = 0; i < expenses.length; i++) {
-      if (expenses[i]["uniqueTime"] == uniqueTime) {
+      if (expenses[i]["uniqueNumber"] == uniqueNumber) {
         expenses[i] = {
           ...expenses[i] as Map<String, dynamic>,
           "amount": amount,
@@ -409,7 +415,7 @@ class TransactionController extends GetxController {
     }
 
     for (var i = 0; i < income.length; i++) {
-      if (income[i]["uniqueTime"] == uniqueTime) {
+      if (income[i]["uniqueNumber"] == uniqueNumber) {
         income[i] = {
           ...income[i] as Map<String, dynamic>,
           "amount": amount,
@@ -435,7 +441,7 @@ class TransactionController extends GetxController {
   }
 
   Future<void> removeTransactionData({
-    required String uniqueTime,
+    required String uniqueNumber,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -454,9 +460,9 @@ class TransactionController extends GetxController {
     List expenses = data["Expenses"] ?? [];
     List income = data["Incomes"] ?? [];
 
-    expenses.removeWhere((expense) => expense["uniqueTime"] == uniqueTime);
+    expenses.removeWhere((expense) => expense["uniqueNumber"] == uniqueNumber);
 
-    income.removeWhere((income) => income["uniqueTime"] == uniqueTime);
+    income.removeWhere((income) => income["uniqueNumber"] == uniqueNumber);
 
     await docRef.update({
       "Expenses": expenses,

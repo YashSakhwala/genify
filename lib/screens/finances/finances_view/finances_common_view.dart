@@ -608,9 +608,9 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                                                 .expensesImage
                                                         : allData[allDataIndex]
                                                             ["image"],
-                                                    uniqueTime:
+                                                    uniqueNumber:
                                                         allData[allDataIndex]
-                                                            ["uniqueTime"],
+                                                            ["uniqueNumber"],
                                                   ),
                                                 ));
                                               },
@@ -651,9 +651,9 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                               onPressed: (BuildContext con) {
                                                 transactionController
                                                     .removeTransactionData(
-                                                  uniqueTime:
+                                                  uniqueNumber:
                                                       allData[allDataIndex]
-                                                          ["uniqueTime"],
+                                                          ["uniqueNumber"],
                                                   context: context,
                                                 );
                                               },

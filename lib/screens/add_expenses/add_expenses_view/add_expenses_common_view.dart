@@ -34,6 +34,10 @@ class _AddExpensesCommonViewScreenState
   final TextEditingController title = TextEditingController();
   final TextEditingController subTitle = TextEditingController();
 
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
+  List timeValue = ["Real-Time", "Manually"];
+
   String wallet = "Google pay";
   List walletList = [
     "Cash",
@@ -280,6 +284,8 @@ class _AddExpensesCommonViewScreenState
                               title: title.text,
                               subTitle: subTitle.text,
                               payment: wallet,
+                              date: dateController.text,
+                              time: timeController.text,
                               context: context,
                               type: "Expenses",
                             );

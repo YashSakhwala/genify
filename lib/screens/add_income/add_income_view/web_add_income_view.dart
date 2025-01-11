@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors, deprecated_member_use
 
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
@@ -31,6 +32,10 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
   final TextEditingController title = TextEditingController();
   final TextEditingController subTitle = TextEditingController();
 
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
+  List timeValue = ["Real-Time", "Manually"];
+
   String wallet = "Google pay";
   List walletList = [
     "Cash",
@@ -47,6 +52,9 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
   @override
   void initState() {
     transactionController.imagePath.value = "";
+
+    transactionController.timeValue.value = 0;
+
     super.initState();
   }
 
@@ -266,8 +274,151 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                 });
                               },
                             ),
+                            SizedBox(
+                              height: 13,
+                            ),
+                            Obx(
+                              () => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (transactionController.timeValue.value ==
+                                      2)
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFieldView(
+                                            title: "",
+                                            controller: dateController,
+                                            onTap: () async {
+                                              final DateTime? selectedDate =
+                                                  await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(2000),
+                                                lastDate: DateTime(2100),
+                                              );
+
+                                              dateController.text =
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(selectedDate!);
+                                            },
+                                            vertical: 15,
+                                            readOnly: true,
+                                            hintText: "Select Date",
+                                            suffixIcon:
+                                                Icon(Icons.date_range_rounded),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: TextFieldView(
+                                            title: "",
+                                            controller: timeController,
+                                            onTap: () async {
+                                              TimeOfDay? timeOfDay =
+                                                  await showTimePicker(
+                                                      context: context,
+                                                      initialTime:
+                                                          TimeOfDay.now());
+
+                                              timeController.text =
+                                                  DateFormat('hh:mm a').format(
+                                                      DateTime(
+                                                          0,
+                                                          1,
+                                                          1,
+                                                          timeOfDay!.hour,
+                                                          timeOfDay.minute));
+                                            },
+                                            vertical: 15,
+                                            readOnly: true,
+                                            hintText: "Select Time",
+                                            suffixIcon:
+                                                Icon(Icons.access_time_rounded),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  if (transactionController.timeValue.value ==
+                                      2)
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+
+                                  // Time Selection
+                                  Container(
+                                    height: 30,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: timeValue.length,
+                                        itemBuilder: (context, index) {
+                                          return Obx(
+                                            () => GestureDetector(
+                                              onTap: () {
+                                                transactionController.timeValue
+                                                    .value = index + 1;
+
+                                                if (timeValue[index] ==
+                                                    "Manually") {
+                                                  dateController.text = "";
+                                                  timeController.text = "";
+                                                }
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Radio(
+                                                    fillColor:
+                                                        MaterialStateColor
+                                                            .resolveWith(
+                                                      (states) =>
+                                                          transactionController
+                                                                      .timeValue
+                                                                      .value ==
+                                                                  index + 1
+                                                              ? AppColors
+                                                                  .primaryColor
+                                                              : AppColors
+                                                                  .greyColor,
+                                                    ),
+                                                    value: index + 1,
+                                                    groupValue:
+                                                        transactionController
+                                                            .timeValue.value,
+                                                    onChanged: (value) {
+                                                      transactionController
+                                                          .timeValue
+                                                          .value = value!;
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    timeValue[index],
+                                                    style: AppTextStyle
+                                                        .regularTextStyle
+                                                        .copyWith(
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             Container(
-                              height: 140,
+                              height: 50,
                             ),
                             ButtonView(
                               height: 50,
@@ -292,6 +443,8 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     title: title.text,
                                     subTitle: subTitle.text,
                                     payment: wallet,
+                                    date: dateController.text,
+                                    time: timeController.text,
                                     context: context,
                                     type: "Incomes",
                                   );
