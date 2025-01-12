@@ -48,6 +48,7 @@ class TransactionController extends GetxController {
     required String date,
     required String time,
     required String type,
+    required String timeType,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -58,12 +59,8 @@ class TransactionController extends GetxController {
     String? userId =
         LocalStorage.sharedPreferences.getString(LocalStorage.userId);
 
+    // For unique numbers
     DateTime now = DateTime.now();
-
-    // Remove date and time
-    String realDate = "${now.day}-${now.month}-${now.year}";
-    String realTime = DateFormat("hh:mm:ss a").format(now);
-
     String dateTimeString = now.toString();
     String uniqueNumber = RegExp(r"\d+$").stringMatch(dateTimeString) ?? "";
 
@@ -130,10 +127,11 @@ class TransactionController extends GetxController {
       "title": title,
       "subTitle": subTitle,
       "payment": payment,
-      "date": realDate,
-      "time": realTime,
+      "date": date,
+      "time": time,
       "uniqueNumber": uniqueNumber,
       "type": type,
+      "timeType": timeType,
     };
 
     var data = await firebaseFirestore.collection("Transactions").doc(userId);
@@ -185,19 +183,16 @@ class TransactionController extends GetxController {
 
     Map transactionData = data.data() ?? {};
 
-    List expensesList = [];
-    List incomeList = [];
-
-    expensesList = transactionData["Expenses"] ?? [];
-    incomeList = transactionData["Incomes"] ?? [];
+    List expensesList = transactionData["Expenses"] ?? [];
+    List incomeList = transactionData["Incomes"] ?? [];
 
     // Sorting by time
     DateTime now = DateTime.now();
-    String todayDate = "${now.day}-${now.month}-${now.year}";
+    String todayDate = DateFormat('dd-MM-yyyy').format(now);
 
     DateTime parseDateTime(String dateString, String timeString) {
       String dateTimeString = "$dateString $timeString";
-      DateFormat dateFormat = DateFormat("d-M-yyyy hh:mm:ss a");
+      DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm:ss a");
       return dateFormat.parse(dateTimeString);
     }
 
@@ -264,13 +259,15 @@ class TransactionController extends GetxController {
 
     incomeEntries.value = incomeDateWiseData.entries.toList();
 
-    // Today transactions
+    // Today's transactions
     todayTransactions.clear();
     todayIncomeList.clear();
     todayExpensesList.clear();
 
     for (var transaction in combinedList) {
-      if (transaction["date"] == todayDate) {
+      if (DateFormat('dd-MM-yyyy').format(
+              parseDateTime(transaction["date"], transaction["time"])) ==
+          todayDate) {
         todayTransactions.add(transaction);
 
         if (transaction["type"] == "Expenses") {
@@ -329,6 +326,9 @@ class TransactionController extends GetxController {
     required String payment,
     required String uniqueNumber,
     required String image,
+    required String date,
+    required String time,
+    required String timeType,
     required BuildContext context,
   }) async {
     showIndicator(context);
@@ -409,6 +409,9 @@ class TransactionController extends GetxController {
           "title": title,
           "subTitle": subTitle,
           "payment": payment,
+          "date": date,
+          "time": time,
+          "timeType": timeType,
         };
         break;
       }
@@ -423,6 +426,9 @@ class TransactionController extends GetxController {
           "title": title,
           "subTitle": subTitle,
           "payment": payment,
+          "date": date,
+          "time": time,
+          "timeType": timeType,
         };
         break;
       }

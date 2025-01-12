@@ -14,6 +14,7 @@ import 'package:genify/widgets/common_widgets/text_field_view.dart';
 import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../../config/app_image.dart';
 import "package:universal_html/html.dart" as html;
 
@@ -54,6 +55,9 @@ class _AddExpensesCommonViewScreenState
   @override
   void initState() {
     transactionController.imagePath.value = "";
+
+    transactionController.timeValue.value = 0;
+
     super.initState();
   }
 
@@ -260,7 +264,140 @@ class _AddExpensesCommonViewScreenState
                         },
                       ),
                       SizedBox(
-                        height: 130,
+                        height: 16,
+                      ),
+                      Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (transactionController.timeValue.value == 2)
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFieldView(
+                                      title: "",
+                                      controller: dateController,
+                                      onTap: () async {
+                                        final DateTime? selectedDate =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime.now(),
+                                        );
+
+                                        dateController.text =
+                                            DateFormat('dd-MM-yyyy')
+                                                .format(selectedDate!);
+                                      },
+                                      vertical: 15,
+                                      readOnly: true,
+                                      hintText: "Select Date",
+                                      suffixIcon:
+                                          Icon(Icons.date_range_rounded),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: TextFieldView(
+                                      title: "",
+                                      controller: timeController,
+                                      onTap: () async {
+                                        TimeOfDay? timeOfDay =
+                                            await showTimePicker(
+                                                context: context,
+                                                initialTime: TimeOfDay.now());
+
+                                        if (timeOfDay != null) {
+                                          timeController.text =
+                                              DateFormat('hh:mm:ss a').format(
+                                            DateTime(0, 1, 1, timeOfDay.hour,
+                                                timeOfDay.minute),
+                                          );
+                                        }
+                                      },
+                                      vertical: 15,
+                                      readOnly: true,
+                                      hintText: "Select Time",
+                                      suffixIcon:
+                                          Icon(Icons.access_time_rounded),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (transactionController.timeValue.value == 2)
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                            // Time Selection
+                            Container(
+                              height: 30,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: timeValue.length,
+                                  itemBuilder: (context, index) {
+                                    return Obx(
+                                      () => GestureDetector(
+                                        onTap: () {
+                                          transactionController
+                                              .timeValue.value = index + 1;
+
+                                          if (timeValue[index] == "Manually") {
+                                            dateController.text = "";
+                                            timeController.text = "";
+                                          }
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Radio(
+                                              fillColor: MaterialStateColor
+                                                  .resolveWith(
+                                                (states) =>
+                                                    transactionController
+                                                                .timeValue
+                                                                .value ==
+                                                            index + 1
+                                                        ? AppColors.primaryColor
+                                                        : AppColors.greyColor,
+                                              ),
+                                              value: index + 1,
+                                              groupValue: transactionController
+                                                  .timeValue.value,
+                                              onChanged: (value) {
+                                                transactionController
+                                                    .timeValue.value = value!;
+                                              },
+                                            ),
+                                            Text(
+                                              timeValue[index],
+                                              style: AppTextStyle
+                                                  .regularTextStyle
+                                                  .copyWith(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100,
                       ),
                       ButtonView(
                         height: 50,
@@ -269,7 +406,8 @@ class _AddExpensesCommonViewScreenState
                         onTap: () {
                           if (amount.text.isEmpty ||
                               title.text.isEmpty ||
-                              subTitle.text.isEmpty) {
+                              subTitle.text.isEmpty ||
+                              transactionController.timeValue.value == 0) {
                             toastView(
                               msg: "Please enter details",
                               context: context,
@@ -279,16 +417,50 @@ class _AddExpensesCommonViewScreenState
                               transactionController.imagePath.value = "";
                             }
 
-                            transactionController.AllTransaction(
-                              amount: amount.text,
-                              title: title.text,
-                              subTitle: subTitle.text,
-                              payment: wallet,
-                              date: dateController.text,
-                              time: timeController.text,
-                              context: context,
-                              type: "Expenses",
-                            );
+                            DateTime now = DateTime.now();
+                            String realDate =
+                                DateFormat('dd-MM-yyyy').format(DateTime.now());
+                            String realTime =
+                                DateFormat("hh:mm:ss a").format(now);
+
+                            String timeType =
+                                transactionController.timeValue.value == 1
+                                    ? "RealTime"
+                                    : "Manual";
+
+                            if (transactionController.timeValue.value == 1) {
+                              transactionController.AllTransaction(
+                                amount: amount.text,
+                                title: title.text,
+                                subTitle: subTitle.text,
+                                payment: wallet,
+                                date: realDate,
+                                time: realTime,
+                                context: context,
+                                type: "Expenses",
+                                timeType: timeType,
+                              );
+                            } else {
+                              if (dateController.text.isEmpty ||
+                                  timeController.text.isEmpty) {
+                                toastView(
+                                  msg: "Please fill date/time",
+                                  context: context,
+                                );
+                              } else {
+                                transactionController.AllTransaction(
+                                  amount: amount.text,
+                                  title: title.text,
+                                  subTitle: subTitle.text,
+                                  payment: wallet,
+                                  date: dateController.text,
+                                  time: timeController.text,
+                                  context: context,
+                                  type: "Expenses",
+                                  timeType: timeType,
+                                );
+                              }
+                            }
                           }
                         },
                       ),

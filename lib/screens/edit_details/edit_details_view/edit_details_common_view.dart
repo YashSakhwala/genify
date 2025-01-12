@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, sized_box_for_whitespace
 
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:genify/config/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
 import '../../../widgets/common_widgets/appbar.dart';
@@ -22,8 +23,11 @@ class EditDetailsCommonViewScreen extends StatefulWidget {
   final String title;
   final String subtitle;
   final String wallet;
+  final String date;
+  final String time;
   final String image;
   final String uniqueNumber;
+  final String timeType;
 
   const EditDetailsCommonViewScreen({
     super.key,
@@ -34,6 +38,9 @@ class EditDetailsCommonViewScreen extends StatefulWidget {
     required this.wallet,
     required this.image,
     required this.uniqueNumber,
+    required this.date,
+    required this.time,
+    required this.timeType,
   });
 
   @override
@@ -49,6 +56,10 @@ class _EditDetailsCommonViewScreenState
   final TextEditingController amount = TextEditingController();
   final TextEditingController title = TextEditingController();
   final TextEditingController subTitle = TextEditingController();
+
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
+  List timeValue = ["Old Real-Time", "New Real-Time", "Manually"];
 
   String wallet = "";
   List walletList = [
@@ -69,6 +80,13 @@ class _EditDetailsCommonViewScreenState
     title.text = widget.title;
     subTitle.text = widget.subtitle;
     wallet = widget.wallet;
+    dateController.text = widget.date;
+    timeController.text = widget.time;
+
+    widget.timeType == "RealTime"
+        ? transactionController.timeValue.value = 1
+        : transactionController.timeValue.value = 3;
+
     transactionController.imagePath.value = "";
     super.initState();
   }
@@ -292,7 +310,168 @@ class _EditDetailsCommonViewScreenState
                         },
                       ),
                       SizedBox(
-                        height: 130,
+                        height: 16,
+                      ),
+                      Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            transactionController.timeValue.value == 3
+                                ? Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFieldView(
+                                          title: "",
+                                          controller: dateController,
+                                          onTap: () async {
+                                            final DateTime? selectedDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime.now(),
+                                            );
+
+                                            dateController.text =
+                                                DateFormat('dd-MM-yyyy')
+                                                    .format(selectedDate!);
+                                          },
+                                          vertical: 15,
+                                          readOnly: true,
+                                          hintText: "Select Date",
+                                          suffixIcon:
+                                              Icon(Icons.date_range_rounded),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: TextFieldView(
+                                          title: "",
+                                          controller: timeController,
+                                          onTap: () async {
+                                            TimeOfDay? timeOfDay =
+                                                await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now());
+
+                                            if (timeOfDay != null) {
+                                              timeController.text =
+                                                  DateFormat('hh:mm:ss a')
+                                                      .format(
+                                                DateTime(
+                                                    0,
+                                                    1,
+                                                    1,
+                                                    timeOfDay.hour,
+                                                    timeOfDay.minute),
+                                              );
+                                            }
+                                          },
+                                          vertical: 15,
+                                          readOnly: true,
+                                          hintText: "Select Time",
+                                          suffixIcon:
+                                              Icon(Icons.access_time_rounded),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFieldView(
+                                          title: "",
+                                          controller: dateController,
+                                          vertical: 15,
+                                          readOnly: true,
+                                          suffixIcon:
+                                              Icon(Icons.date_range_rounded),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: TextFieldView(
+                                          title: "",
+                                          controller: timeController,
+                                          vertical: 15,
+                                          readOnly: true,
+                                          suffixIcon:
+                                              Icon(Icons.access_time_rounded),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            // Time Selection
+                            Container(
+                              height: 30,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: timeValue.length,
+                                  itemBuilder: (context, index) {
+                                    return Obx(
+                                      () => GestureDetector(
+                                        onTap: () {
+                                          transactionController
+                                              .timeValue.value = index + 1;
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Radio(
+                                              fillColor: MaterialStateColor
+                                                  .resolveWith(
+                                                (states) =>
+                                                    transactionController
+                                                                .timeValue
+                                                                .value ==
+                                                            index + 1
+                                                        ? AppColors.primaryColor
+                                                        : AppColors.greyColor,
+                                              ),
+                                              value: index + 1,
+                                              groupValue: transactionController
+                                                  .timeValue.value,
+                                              onChanged: (value) {
+                                                transactionController
+                                                    .timeValue.value = value!;
+                                              },
+                                            ),
+                                            Text(
+                                              timeValue[index],
+                                              style: AppTextStyle
+                                                  .regularTextStyle
+                                                  .copyWith(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100,
                       ),
                       ButtonView(
                         height: 50,
@@ -307,15 +486,61 @@ class _EditDetailsCommonViewScreenState
                               context: context,
                             );
                           } else {
-                            transactionController.updateTransactionData(
-                              amount: amount.text,
-                              title: title.text,
-                              subTitle: subTitle.text,
-                              payment: wallet,
-                              context: context,
-                              image: widget.image,
-                              uniqueNumber: widget.uniqueNumber,
-                            );
+                            DateTime now = DateTime.now();
+                            String realDate =
+                                DateFormat('dd-MM-yyyy').format(DateTime.now());
+                            String realTime =
+                                DateFormat("hh:mm:ss a").format(now);
+
+                            String timeType =
+                                transactionController.timeValue.value == 1
+                                    ? "RealTime"
+                                    : transactionController.timeValue.value == 2
+                                        ? "RealTime"
+                                        : "Manual";
+
+                            // Real time issue----------------
+                            if (transactionController.timeValue.value == 1) {
+                              transactionController.updateTransactionData(
+                                amount: amount.text,
+                                title: title.text,
+                                subTitle: subTitle.text,
+                                payment: wallet,
+                                image: widget.image,
+                                uniqueNumber: widget.uniqueNumber,
+                                date: dateController.text,
+                                time: timeController.text,
+                                timeType: timeType,
+                                context: context,
+                              );
+                            } else if (transactionController.timeValue.value ==
+                                2) {
+                              transactionController.updateTransactionData(
+                                amount: amount.text,
+                                title: title.text,
+                                subTitle: subTitle.text,
+                                payment: wallet,
+                                image: widget.image,
+                                uniqueNumber: widget.uniqueNumber,
+                                date: realDate,
+                                time: realTime,
+                                timeType: timeType,
+                                context: context,
+                              );
+                            } else {
+                              transactionController.updateTransactionData(
+                                amount: amount.text,
+                                title: title.text,
+                                subTitle: subTitle.text,
+                                payment: wallet,
+                                image: widget.image,
+                                uniqueNumber: widget.uniqueNumber,
+                                date: dateController.text,
+                                time: timeController.text,
+                                timeType: timeType,
+                                context: context,
+                              );
+                            }
                           }
                         },
                       ),

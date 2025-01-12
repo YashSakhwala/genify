@@ -94,12 +94,18 @@ class _AllTransactionCommonViewScreenState
                                     ? 0
                                     : 20,
                           ),
-                          Text(
-                            "All Transactions",
-                            style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "All Transactions",
+                                style: AppTextStyle.regularTextStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Icon(Icons.search_rounded),
+                            ],
                           ),
                           SizedBox(
                             height: 10,
@@ -471,6 +477,15 @@ class _AllTransactionCommonViewScreenState
                                                         uniqueNumber: allData[
                                                                 allDataIndex]
                                                             ["uniqueNumber"],
+                                                        date: allData[
+                                                                allDataIndex]
+                                                            ["date"],
+                                                        time: allData[
+                                                                allDataIndex]
+                                                            ["time"],
+                                                        timeType: allData[
+                                                                allDataIndex]
+                                                            ["timeType"],
                                                       ),
                                                     ));
                                                   },

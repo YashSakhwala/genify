@@ -295,7 +295,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(2000),
-                                                lastDate: DateTime(2100),
+                                                lastDate: DateTime.now(),
                                               );
 
                                               dateController.text =
@@ -323,14 +323,18 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                                       initialTime:
                                                           TimeOfDay.now());
 
-                                              timeController.text =
-                                                  DateFormat('hh:mm a').format(
-                                                      DateTime(
-                                                          0,
-                                                          1,
-                                                          1,
-                                                          timeOfDay!.hour,
-                                                          timeOfDay.minute));
+                                              if (timeOfDay != null) {
+                                                timeController.text =
+                                                    DateFormat('hh:mm:ss a')
+                                                        .format(
+                                                  DateTime(
+                                                      0,
+                                                      1,
+                                                      1,
+                                                      timeOfDay.hour,
+                                                      timeOfDay.minute),
+                                                );
+                                              }
                                             },
                                             vertical: 15,
                                             readOnly: true,
@@ -427,9 +431,11 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                               onTap: () {
                                 if (amount.text.isEmpty ||
                                     title.text.isEmpty ||
-                                    subTitle.text.isEmpty) {
+                                    subTitle.text.isEmpty ||
+                                    transactionController.timeValue.value ==
+                                        0) {
                                   toastView(
-                                    msg: "Please enter details",
+                                    msg: "Please fill all details",
                                     context: context,
                                   );
                                 } else {
@@ -438,16 +444,51 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                     transactionController.imagePath.value = "";
                                   }
 
-                                  transactionController.AllTransaction(
-                                    amount: amount.text,
-                                    title: title.text,
-                                    subTitle: subTitle.text,
-                                    payment: wallet,
-                                    date: dateController.text,
-                                    time: timeController.text,
-                                    context: context,
-                                    type: "Incomes",
-                                  );
+                                  DateTime now = DateTime.now();
+                                  String realDate = DateFormat('dd-MM-yyyy')
+                                      .format(DateTime.now());
+                                  String realTime =
+                                      DateFormat("hh:mm:ss a").format(now);
+
+                                  String timeType =
+                                      transactionController.timeValue.value == 1
+                                          ? "RealTime"
+                                          : "Manual";
+
+                                  if (transactionController.timeValue.value ==
+                                      1) {
+                                    transactionController.AllTransaction(
+                                      amount: amount.text,
+                                      title: title.text,
+                                      subTitle: subTitle.text,
+                                      payment: wallet,
+                                      date: realDate,
+                                      time: realTime,
+                                      context: context,
+                                      type: "Incomes",
+                                      timeType: timeType,
+                                    );
+                                  } else {
+                                    if (dateController.text.isEmpty ||
+                                        timeController.text.isEmpty) {
+                                      toastView(
+                                        msg: "Please fill date/time",
+                                        context: context,
+                                      );
+                                    } else {
+                                      transactionController.AllTransaction(
+                                        amount: amount.text,
+                                        title: title.text,
+                                        subTitle: subTitle.text,
+                                        payment: wallet,
+                                        date: dateController.text,
+                                        time: timeController.text,
+                                        context: context,
+                                        type: "Incomes",
+                                        timeType: timeType,
+                                      );
+                                    }
+                                  }
                                 }
                               },
                             ),

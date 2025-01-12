@@ -246,7 +246,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     Center(
                       child: Text(
@@ -255,12 +255,12 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                             : "--- Swipe for edit and delete ---",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 12,
-                          color: AppColors.greyColor,
+                          // color: AppColors.greyColor,
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 15,
                     ),
                     transactionController.todayTransactions.isEmpty
                         ? Center(child: EmptyView())
@@ -611,6 +611,13 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                                     uniqueNumber:
                                                         allData[allDataIndex]
                                                             ["uniqueNumber"],
+                                                    date: allData[allDataIndex]
+                                                        ["date"],
+                                                    time: allData[allDataIndex]
+                                                        ["time"],
+                                                    timeType:
+                                                        allData[allDataIndex]
+                                                            ["timeType"],
                                                   ),
                                                 ));
                                               },

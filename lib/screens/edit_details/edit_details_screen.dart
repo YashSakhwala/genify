@@ -11,8 +11,11 @@ class EditDetailsScreen extends StatefulWidget {
   final String title;
   final String subtitle;
   final String wallet;
+  final String date;
+  final String time;
   final String image;
   final String uniqueNumber;
+  final String timeType;
 
   const EditDetailsScreen({
     super.key,
@@ -23,6 +26,9 @@ class EditDetailsScreen extends StatefulWidget {
     required this.wallet,
     required this.image,
     required this.uniqueNumber,
+    required this.date,
+    required this.time,
+    required this.timeType,
   });
 
   @override
@@ -41,6 +47,9 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
         wallet: widget.wallet,
         image: widget.image,
         uniqueNumber: widget.uniqueNumber,
+        date: widget.date,
+        time: widget.time,
+        timeType: widget.timeType,
       ),
       tabletView: EditDetailsCommonViewScreen(
         type: widget.type,
@@ -50,6 +59,9 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
         wallet: widget.wallet,
         image: widget.image,
         uniqueNumber: widget.uniqueNumber,
+        date: widget.date,
+        time: widget.time,
+        timeType: widget.timeType,
       ),
       mobileView: EditDetailsCommonViewScreen(
         type: widget.type,
@@ -59,6 +71,9 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
         wallet: widget.wallet,
         image: widget.image,
         uniqueNumber: widget.uniqueNumber,
+        date: widget.date,
+        time: widget.time,
+        timeType: widget.timeType,
       ),
     );
   }

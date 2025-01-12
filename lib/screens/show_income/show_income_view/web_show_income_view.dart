@@ -633,6 +633,16 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                                                       allData[allDataIndex]
                                                                           [
                                                                           "uniqueNumber"],
+                                                                  date: allData[
+                                                                          allDataIndex]
+                                                                      ["date"],
+                                                                  time: allData[
+                                                                          allDataIndex]
+                                                                      ["time"],
+                                                                  timeType: allData[
+                                                                          allDataIndex]
+                                                                      [
+                                                                      "timeType"],
                                                                 ),
                                                               ));
                                                             },

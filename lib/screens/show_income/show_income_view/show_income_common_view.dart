@@ -475,6 +475,15 @@ class _ShowIncomeCommonViewScreenState
                                                                     allDataIndex]
                                                                 [
                                                                 "uniqueNumber"],
+                                                            date: allData[
+                                                                    allDataIndex]
+                                                                ["date"],
+                                                            time: allData[
+                                                                    allDataIndex]
+                                                                ["time"],
+                                                            timeType: allData[
+                                                                    allDataIndex]
+                                                                ["timeType"],
                                                           ),
                                                         ));
                                                       },

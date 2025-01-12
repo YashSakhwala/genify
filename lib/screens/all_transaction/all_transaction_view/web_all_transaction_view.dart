@@ -641,6 +641,15 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                                                       allDataIndex]
                                                                   [
                                                                   "uniqueNumber"],
+                                                              date: allData[
+                                                                      allDataIndex]
+                                                                  ["date"],
+                                                              time: allData[
+                                                                      allDataIndex]
+                                                                  ["time"],
+                                                              timeType: allData[
+                                                                      allDataIndex]
+                                                                  ["timeType"],
                                                             ),
                                                           ));
                                                         },

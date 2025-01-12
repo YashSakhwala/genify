@@ -282,7 +282,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                                           context: context,
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime(2000),
-                                          lastDate: DateTime(2100),
+                                          lastDate: DateTime.now(),
                                         );
 
                                         dateController.text =
@@ -309,14 +309,13 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                                                 context: context,
                                                 initialTime: TimeOfDay.now());
 
-                                        timeController.text =
-                                            DateFormat('hh:mm a').format(
-                                                DateTime(
-                                                    0,
-                                                    1,
-                                                    1,
-                                                    timeOfDay!.hour,
-                                                    timeOfDay.minute));
+                                        if (timeOfDay != null) {
+                                          timeController.text =
+                                              DateFormat('hh:mm:ss a').format(
+                                            DateTime(0, 1, 1, timeOfDay.hour,
+                                                timeOfDay.minute),
+                                          );
+                                        }
                                       },
                                       vertical: 15,
                                       readOnly: true,
@@ -397,7 +396,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 100,
                       ),
                       ButtonView(
                         height: 50,
@@ -419,9 +418,14 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
 
                             DateTime now = DateTime.now();
                             String realDate =
-                                "${now.day}-${now.month}-${now.year}";
+                                DateFormat('dd-MM-yyyy').format(DateTime.now());
                             String realTime =
                                 DateFormat("hh:mm:ss a").format(now);
+
+                            String timeType =
+                                transactionController.timeValue.value == 1
+                                    ? "RealTime"
+                                    : "Manual";
 
                             if (transactionController.timeValue.value == 1) {
                               transactionController.AllTransaction(
@@ -433,18 +437,28 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                                 time: realTime,
                                 context: context,
                                 type: "Incomes",
+                                timeType: timeType,
                               );
                             } else {
-                              transactionController.AllTransaction(
-                                amount: amount.text,
-                                title: title.text,
-                                subTitle: subTitle.text,
-                                payment: wallet,
-                                date: dateController.text,
-                                time: timeController.text,
-                                context: context,
-                                type: "Incomes",
-                              );
+                              if (dateController.text.isEmpty ||
+                                  timeController.text.isEmpty) {
+                                toastView(
+                                  msg: "Please fill date/time",
+                                  context: context,
+                                );
+                              } else {
+                                transactionController.AllTransaction(
+                                  amount: amount.text,
+                                  title: title.text,
+                                  subTitle: subTitle.text,
+                                  payment: wallet,
+                                  date: dateController.text,
+                                  time: timeController.text,
+                                  context: context,
+                                  type: "Incomes",
+                                  timeType: timeType,
+                                );
+                              }
                             }
                           }
                         },

@@ -782,6 +782,15 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                                                       allDataIndex]
                                                                   [
                                                                   "uniqueNumber"],
+                                                              date: allData[
+                                                                      allDataIndex]
+                                                                  ["date"],
+                                                              time: allData[
+                                                                      allDataIndex]
+                                                                  ["time"],
+                                                              timeType: allData[
+                                                                      allDataIndex]
+                                                                  ["timeType"],
                                                             ),
                                                           ));
                                                         },
