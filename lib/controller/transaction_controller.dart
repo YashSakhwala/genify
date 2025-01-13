@@ -40,6 +40,9 @@ class TransactionController extends GetxController {
   RxDouble totalExpenses = 0.0.obs;
   RxDouble totalIncome = 0.0.obs;
 
+  RxBool isSearching = false.obs;
+  RxList filteredData = [].obs;
+
   Future<void> AllTransaction({
     required String amount,
     required String title,

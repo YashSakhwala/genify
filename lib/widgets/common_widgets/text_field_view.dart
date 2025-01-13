@@ -34,6 +34,7 @@ class TextFieldView extends StatelessWidget {
   final List<String>? dropdownItems;
   final bool? isDropDownItem;
   final bool? readOnly;
+  final bool? autofocus;
   final VoidCallback? onTap;
 
   const TextFieldView({
@@ -116,6 +117,7 @@ class TextFieldView extends StatelessWidget {
     ],
     this.readOnly,
     this.onTap,
+    this.autofocus,
   });
 
   @override
@@ -139,6 +141,7 @@ class TextFieldView extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           onTap: onTap,
+          autofocus: autofocus ?? false,
           maxLines: maxLines ?? 1,
           readOnly: readOnly ?? false,
           obscureText: obscureText!,

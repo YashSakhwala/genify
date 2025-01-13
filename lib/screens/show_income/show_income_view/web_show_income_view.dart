@@ -10,6 +10,7 @@ import '../../../config/app_style.dart';
 import '../../../controller/transaction_controller.dart';
 import '../../../widgets/common_widgets/appbar.dart';
 import '../../../widgets/common_widgets/empty_view.dart';
+import '../../../widgets/common_widgets/text_field_view.dart';
 import '../../edit_details/edit_details_screen.dart';
 
 class WebShowIncomeScreen extends StatefulWidget {
@@ -24,6 +25,19 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
       Get.put(TransactionController());
 
   String? hoveredIndex;
+
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    transactionController.filteredData.value = [];
+
+    transactionController.filteredData.value =
+        List.from(transactionController.incomeEntries);
+    transactionController.isSearching.value = false;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,12 +108,95 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                     ? 0
                                     : 20,
                               ),
-                              Text(
-                                "All Incomes",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (!transactionController.isSearching.value)
+                                    Text(
+                                      "All Incomes",
+                                      style: AppTextStyle.regularTextStyle
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  if (transactionController.isSearching.value)
+                                    Expanded(
+                                      child: TextFieldView(
+                                        title: "",
+                                        controller: searchController,
+                                        autofocus: true,
+                                        hintText: 'Search Incomes',
+                                        onChanged: (value) {
+                                          if (value.isEmpty) {
+                                            transactionController
+                                                    .filteredData.value =
+                                                List.from(transactionController
+                                                    .incomeEntries);
+                                          } else {
+                                            transactionController
+                                                    .filteredData.value =
+                                                transactionController
+                                                    .incomeEntries
+                                                    .map((entry) {
+                                                      final filteredValues =
+                                                          entry.value
+                                                              .where((map) {
+                                                        return map['title'].toString().toLowerCase().startsWith(value.toLowerCase()) ||
+                                                            map['subTitle']
+                                                                .toString()
+                                                                .toLowerCase()
+                                                                .startsWith(value
+                                                                    .toLowerCase()) ||
+                                                            map['payment']
+                                                                .toString()
+                                                                .toLowerCase()
+                                                                .startsWith(value
+                                                                    .toLowerCase()) ||
+                                                            map['amount']
+                                                                .toString()
+                                                                .toLowerCase()
+                                                                .startsWith(value
+                                                                    .toLowerCase());
+                                                      }).toList();
+
+                                                      return filteredValues
+                                                              .isNotEmpty
+                                                          ? MapEntry(
+                                                              entry.key
+                                                                  .toString(),
+                                                              filteredValues)
+                                                          : null;
+                                                    })
+                                                    .where((entry) =>
+                                                        entry != null)
+                                                    .cast()
+                                                    .toList();
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  IconButton(
+                                    icon: Icon(
+                                        transactionController.isSearching.value
+                                            ? Icons.close
+                                            : Icons.search),
+                                    onPressed: () {
+                                      transactionController.isSearching.value =
+                                          !transactionController
+                                              .isSearching.value;
+                                      if (!transactionController
+                                          .isSearching.value) {
+                                        searchController.clear();
+                                        transactionController
+                                                .filteredData.value =
+                                            List.from(transactionController
+                                                .incomeEntries);
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 10,
@@ -107,10 +204,10 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                               ListView.builder(
                                 shrinkWrap: true,
                                 itemCount:
-                                    transactionController.incomeEntries.length,
+                                    transactionController.filteredData.length,
                                 itemBuilder: (context, index) {
                                   List allData = transactionController
-                                      .incomeEntries[index].value;
+                                      .filteredData[index].value;
 
                                   return Column(
                                     crossAxisAlignment:

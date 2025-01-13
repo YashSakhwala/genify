@@ -3,6 +3,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:genify/widgets/common_widgets/text_field_view.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../../../config/app_colors.dart';
@@ -25,6 +26,19 @@ class _AllTransactionCommonViewScreenState
     extends State<AllTransactionCommonViewScreen> {
   TransactionController transactionController =
       Get.put(TransactionController());
+
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    transactionController.filteredData.value = [];
+
+    transactionController.filteredData.value =
+        List.from(transactionController.dataEntries);
+    transactionController.isSearching.value = false;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,14 +111,83 @@ class _AllTransactionCommonViewScreenState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "All Transactions",
-                                style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                              if (!transactionController.isSearching.value)
+                                Text(
+                                  "All Transactions",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
+                              if (transactionController.isSearching.value)
+                                Expanded(
+                                  child: TextFieldView(
+                                    title: "",
+                                    controller: searchController,
+                                    autofocus: true,
+                                    hintText: 'Search Transactions',
+                                    onChanged: (value) {
+                                      if (value.isEmpty) {
+                                        transactionController
+                                                .filteredData.value =
+                                            List.from(transactionController
+                                                .dataEntries);
+                                      } else {
+                                        transactionController.filteredData
+                                                .value =
+                                            transactionController.dataEntries
+                                                .map((entry) {
+                                                  final filteredValues =
+                                                      entry.value.where((map) {
+                                                    return map['title'].toString().toLowerCase().startsWith(value.toLowerCase()) ||
+                                                        map['subTitle']
+                                                            .toString()
+                                                            .toLowerCase()
+                                                            .startsWith(value
+                                                                .toLowerCase()) ||
+                                                        map['payment']
+                                                            .toString()
+                                                            .toLowerCase()
+                                                            .startsWith(value
+                                                                .toLowerCase()) ||
+                                                        map['amount']
+                                                            .toString()
+                                                            .toLowerCase()
+                                                            .startsWith(value
+                                                                .toLowerCase());
+                                                  }).toList();
+
+                                                  return filteredValues
+                                                          .isNotEmpty
+                                                      ? MapEntry(
+                                                          entry.key.toString(),
+                                                          filteredValues)
+                                                      : null;
+                                                })
+                                                .where((entry) => entry != null)
+                                                .cast()
+                                                .toList();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              IconButton(
+                                icon: Icon(
+                                    transactionController.isSearching.value
+                                        ? Icons.close
+                                        : Icons.search),
+                                onPressed: () {
+                                  transactionController.isSearching.value =
+                                      !transactionController.isSearching.value;
+                                  if (!transactionController
+                                      .isSearching.value) {
+                                    searchController.clear();
+                                    transactionController.filteredData.value =
+                                        List.from(
+                                            transactionController.dataEntries);
+                                  }
+                                },
                               ),
-                              Icon(Icons.search_rounded),
                             ],
                           ),
                           SizedBox(
@@ -113,10 +196,11 @@ class _AllTransactionCommonViewScreenState
                           ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: transactionController.dataEntries.length,
+                            itemCount:
+                                transactionController.filteredData.length,
                             itemBuilder: (context, index) {
                               List allData = transactionController
-                                  .dataEntries[index].value;
+                                  .filteredData[index].value;
 
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
