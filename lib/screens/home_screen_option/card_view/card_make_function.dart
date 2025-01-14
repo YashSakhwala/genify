@@ -76,6 +76,16 @@ class CardMake {
           backgroundImage = null;
         }
       }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_1.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
+      }
     }
 
     try {
@@ -319,6 +329,16 @@ class CardMake {
         } catch (e) {
           backgroundImage = null;
         }
+      }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_2.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
       }
     }
 
@@ -584,6 +604,16 @@ class CardMake {
           backgroundImage = null;
         }
       }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_3.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
+      }
     }
 
     try {
@@ -805,6 +835,16 @@ class CardMake {
         } catch (e) {
           backgroundImage = null;
         }
+      }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_4.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
       }
     }
 
@@ -1038,6 +1078,16 @@ class CardMake {
         } catch (e) {
           backgroundImage = null;
         }
+      }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_5.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
       }
     }
 
@@ -1286,6 +1336,16 @@ class CardMake {
           backgroundImage = null;
         }
       }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_6.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
+      }
     }
 
     try {
@@ -1529,6 +1589,16 @@ class CardMake {
           backgroundImage = null;
         }
       }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_7.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
+      }
     }
 
     try {
@@ -1571,48 +1641,28 @@ class CardMake {
             child: pw.Row(
               children: [
                 pw.SizedBox(
+                  width: 20,
+                ),
+                if (image != null)
+                  pw.ClipOval(
+                    child: pw.Container(
+                      height: 50,
+                      width: 50,
+                      child: pw.Image(
+                        image,
+                        height: 50,
+                        width: 50,
+                        fit: pw.BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                pw.SizedBox(
                   width: 10,
                 ),
                 pw.Container(
-                  height: 200,
-                  width: 90,
+                  height: 65,
+                  width: 1,
                   color: PdfColor.fromHex("#03335e"),
-                  child: pw.Stack(
-                    children: [
-                      if (image != null)
-                        pw.Container(
-                          height: 100,
-                          width: 70,
-                          decoration: pw.BoxDecoration(
-                            image: pw.DecorationImage(
-                              image: pw.Image(
-                                image,
-                                height: 100,
-                                width: 90,
-                                fit: pw.BoxFit.fill,
-                              ).image,
-                            ),
-                          ),
-                        ),
-                      pw.Positioned(
-                        bottom: 0,
-                        child: pw.Container(
-                          height: 45,
-                          width: 30,
-                          decoration: pw.BoxDecoration(
-                            // Want changes--------------------
-                            color: PdfColor.fromHex("#03335e"),
-                            border: pw.Border(
-                              left: pw.BorderSide(
-                                color: PdfColor.fromHex("#03335e"),
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 pw.SizedBox(
                   width: 10,
@@ -1789,6 +1839,16 @@ class CardMake {
         } catch (e) {
           backgroundImage = null;
         }
+      }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_8.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
       }
     }
 
@@ -2047,6 +2107,16 @@ class CardMake {
           backgroundImage = null;
         }
       }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_9.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
+      }
     }
 
     try {
@@ -2097,25 +2167,52 @@ class CardMake {
                     mainAxisAlignment: pw.MainAxisAlignment.center,
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text(
-                        name,
-                        style: pw.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pw.FontWeight.bold,
-                          color: pdfTextColor == PdfColors.black
-                              ? PdfColor.fromHex("#03335e")
-                              : pdfTextColor,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        height: 5,
-                      ),
-                      pw.Text(
-                        profession,
-                        style: pw.TextStyle(
-                          fontSize: 6,
-                          color: pdfTextColor,
-                        ),
+                      pw.Row(
+                        children: [
+                          if (image != null)
+                            pw.Container(
+                              height: 55,
+                              width: 55,
+                              decoration: pw.BoxDecoration(
+                                borderRadius: pw.BorderRadius.circular(10),
+                                image: pw.DecorationImage(
+                                  image: pw.Image(
+                                    image,
+                                    // height: 100,
+                                    // width: 90,
+                                    fit: pw.BoxFit.fill,
+                                  ).image,
+                                ),
+                              ),
+                            ),
+                          pw.SizedBox(
+                            width: 15,
+                          ),
+                          pw.Column(
+                            children: [
+                              pw.Text(
+                                name,
+                                style: pw.TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: pdfTextColor == PdfColors.black
+                                      ? PdfColor.fromHex("#03335e")
+                                      : pdfTextColor,
+                                ),
+                              ),
+                              pw.SizedBox(
+                                height: 5,
+                              ),
+                              pw.Text(
+                                profession,
+                                style: pw.TextStyle(
+                                  fontSize: 6,
+                                  color: pdfTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       pw.SizedBox(
                         height: 20,
@@ -2190,22 +2287,22 @@ class CardMake {
                     ],
                   ),
                 ),
-                pw.SizedBox(
-                  width: 10,
-                ),
-                if (image != null)
-                  pw.Container(
-                    height: double.infinity,
-                    width: 120,
-                    decoration: pw.BoxDecoration(
-                      image: pw.DecorationImage(
-                        image: pw.Image(
-                          image,
-                          fit: pw.BoxFit.fill,
-                        ).image,
-                      ),
-                    ),
-                  ),
+                // pw.SizedBox(
+                //   width: 10,
+                // ),
+                // if (image != null)
+                //   pw.Container(
+                //     height: double.infinity,
+                //     width: 130,
+                //     decoration: pw.BoxDecoration(
+                //       image: pw.DecorationImage(
+                //         image: pw.Image(
+                //           image,
+                //           // fit: pw.BoxFit.fill,
+                //         ).image,
+                //       ),
+                //     ),
+                //   ),
               ],
             ),
           );
@@ -2279,6 +2376,16 @@ class CardMake {
         } catch (e) {
           backgroundImage = null;
         }
+      }
+    } else {
+      try {
+        backgroundImage = pw.MemoryImage(
+          (await rootBundle.load("assets/images/card_bg_10.png"))
+              .buffer
+              .asUint8List(),
+        );
+      } catch (e) {
+        backgroundImage = null;
       }
     }
 

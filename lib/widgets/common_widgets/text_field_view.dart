@@ -36,6 +36,7 @@ class TextFieldView extends StatelessWidget {
   final bool? readOnly;
   final bool? autofocus;
   final VoidCallback? onTap;
+  final bool? isCompulsory;
 
   const TextFieldView({
     super.key,
@@ -118,6 +119,7 @@ class TextFieldView extends StatelessWidget {
     this.readOnly,
     this.onTap,
     this.autofocus,
+    this.isCompulsory,
   });
 
   @override
@@ -128,7 +130,7 @@ class TextFieldView extends StatelessWidget {
         title == ""
             ? Container()
             : Text(
-                title,
+                isCompulsory == true ? "$title *" : title,
                 style: MediaQuery.of(context).size.width >= 900
                     ? titleStyle ??
                         AppTextStyle.regularTextStyle.copyWith(fontSize: 13)
@@ -191,7 +193,7 @@ class TextFieldView extends StatelessWidget {
                         },
                         itemBuilder: (context) {
                           return dropdownItems!
-                              .map((item) => PopupMenuItem<String>(
+                              .map((item) => PopupMenuItem(
                                     value: item,
                                     child: Text(
                                       item,

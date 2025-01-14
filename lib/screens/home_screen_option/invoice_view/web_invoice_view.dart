@@ -236,6 +236,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               ),
                               controller: companyName,
                               hintText: "MD Pharma",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -252,6 +253,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               needValidator: true,
                               emailValidator: true,
                               hintText: "md.infotech@gmail.com",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -268,6 +270,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               vertical: 4,
                               hintText:
                                   "105-A, Ambar society, Neharu chock, surat.",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 10,
@@ -287,6 +290,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               ),
                               controller: clientName,
                               hintText: "Varun Mishra",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -308,6 +312,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                 LengthLimitingTextInputFormatter(10),
                               ],
                               hintText: "0123456789",
+                              isCompulsory: true,
                             ),
                           ],
                         ),
@@ -332,6 +337,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                 LengthLimitingTextInputFormatter(15),
                               ],
                               hintText: "12ABCDE3456F",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -353,6 +359,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                 LengthLimitingTextInputFormatter(10),
                               ],
                               hintText: "9876543210",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 144,
@@ -375,6 +382,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                               needValidator: true,
                               emailValidator: true,
                               hintText: "mishra.varun@email.com",
+                              isCompulsory: true,
                             ),
                           ],
                         ),
@@ -412,6 +420,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                         ),
                                         controller: item["name"]!,
                                         hintText: "Paracetamol",
+                                        isCompulsory: true,
                                       ),
                                     ),
                                     SizedBox(
@@ -433,6 +442,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                               RegExp(r'[0-9]')),
                                         ],
                                         hintText: "0",
+                                        isCompulsory: true,
                                       ),
                                     ),
                                     SizedBox(
@@ -454,6 +464,7 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                                               RegExp(r'[0-9\.]')),
                                         ],
                                         hintText: "0.0",
+                                        isCompulsory: true,
                                       ),
                                     ),
                                     IconButton(
@@ -560,13 +571,15 @@ class _WebInvoiceScreenState extends State<WebInvoiceScreen> {
                         );
                       } else if (items.isEmpty) {
                         toastView(
-                          msg: "Please fill item details",
+                          msg: "Please add items",
                           context: context,
                         );
-                      } else if (items
-                          .any((item) => item["name"]!.text.isEmpty)) {
+                      } else if (items.any((item) =>
+                          item["name"]!.text.isEmpty ||
+                          item["quantity"]!.text.isEmpty ||
+                          item["price"]!.text.isEmpty)) {
                         toastView(
-                          msg: "Please fill item name",
+                          msg: "Please fill all item fields",
                           context: context,
                         );
                       } else {

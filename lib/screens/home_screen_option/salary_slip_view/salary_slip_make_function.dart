@@ -14,6 +14,7 @@ import "package:flutter/foundation.dart";
 import "../../../widgets/common_widgets/snackbar_view.dart";
 
 class SalaryMake {
+  static String imagePath = "";
   static String signatureImagePath = "";
 
   static void generateSalarySlip({
@@ -37,7 +38,28 @@ class SalaryMake {
     showIndicator(context);
 
     final pdf = pw.Document();
+    pw.MemoryImage? image;
     pw.MemoryImage? signatureImage;
+
+    if (imagePath.isNotEmpty) {
+      if (kIsWeb) {
+        try {
+          final response = await http.get(Uri.parse(imagePath));
+          Uint8List imageBytes = response.bodyBytes;
+          image = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          image = null;
+        }
+      } else {
+        try {
+          io.File imageFile = io.File(imagePath);
+          Uint8List imageBytes = await imageFile.readAsBytes();
+          image = pw.MemoryImage(imageBytes);
+        } catch (e) {
+          image = null;
+        }
+      }
+    }
 
     if (signatureImagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -74,29 +96,51 @@ class SalaryMake {
             ),
             child: pw.Column(
               children: [
-                pw.SizedBox(
-                  height: 15,
-                ),
-                pw.Text(
-                  companyName,
-                  style: pw.TextStyle(
-                    fontSize: 25,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColor.fromHex("#03335e"),
-                  ),
-                ),
-                pw.SizedBox(
-                  height: 5,
-                ),
-                pw.Text(
-                  formattedMonth,
-                  style: pw.TextStyle(
-                    fontSize: 12,
-                    fontWeight: pw.FontWeight.bold,
-                  ),
-                ),
-                pw.SizedBox(
-                  height: 15,
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    if (image != null)
+                      pw.Padding(
+                        padding: pw.EdgeInsets.all(15),
+                        child: pw.Image(
+                          image,
+                          height: 70,
+                          width: 70,
+                          fit: pw.BoxFit.fill,
+                        ),
+                      ),
+                    pw.Spacer(),
+                    pw.Container(
+                      child: pw.Column(
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
+                        crossAxisAlignment: pw.CrossAxisAlignment.center,
+                        children: [
+                          pw.Text(
+                            companyName,
+                            style: pw.TextStyle(
+                              fontSize: 25,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromHex("#03335e"),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 5,
+                          ),
+                          pw.Text(
+                            formattedMonth,
+                            style: pw.TextStyle(
+                              fontSize: 12,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Spacer(),
+                    pw.SizedBox(
+                      width: 80,
+                    ),
+                  ],
                 ),
                 pw.Row(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors, deprecated_member_use
 
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
@@ -49,6 +49,33 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
     "Debit card",
   ];
 
+  List<String> expenseList = [
+    "Fixed Expenses",
+    "Rent/Mortgage",
+    "Utilities",
+    "Internet/Phone bills",
+    "Insurance",
+    "Loan Payments",
+    "Subscription Services",
+    "Taxes",
+    "Variable Expenses",
+    "Groceries",
+    "Transportation",
+    "Dining Out",
+    "Entertainment",
+    "Shopping",
+    "Healthcare",
+    "Education",
+    "Childcare",
+    "Personal Care",
+    "Travel & Vacation",
+    "Gifts & Donations",
+    "Pet Expenses",
+    "Miscellaneous Expenses",
+    "Emergency Fund",
+    "Miscellaneous"
+  ];
+
   @override
   void initState() {
     transactionController.imagePath.value = "";
@@ -83,8 +110,7 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                   Text(
                     "How Much?",
                     style: AppTextStyle.regularTextStyle.copyWith(
-                      fontSize: 15,
-                      color: AppColors.whiteColor.withOpacity(0.7),
+                      color: AppColors.whiteColor,
                     ),
                   ),
                   Row(
@@ -224,6 +250,8 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                               controller: title,
                               vertical: 18,
                               hintText: "Category",
+                              isDropDownItem: true,
+                              dropdownItems: expenseList,
                             ),
                             SizedBox(
                               height: 13,

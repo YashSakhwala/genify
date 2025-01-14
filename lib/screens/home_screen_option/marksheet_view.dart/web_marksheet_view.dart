@@ -326,6 +326,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                       ),
                                       controller: collegeName,
                                       hintText: "S.V. Patel College",
+                                      isCompulsory: true,
                                     ),
                                     SizedBox(
                                       height: 20,
@@ -345,6 +346,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                       ),
                                       controller: studentName,
                                       hintText: "Varun Mishra",
+                                      isCompulsory: true,
                                     ),
                                     SizedBox(
                                       height: 20,
@@ -358,6 +360,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                       ),
                                       controller: seatNumber,
                                       hintText: "123456",
+                                      isCompulsory: true,
                                     ),
                                   ],
                                 ),
@@ -381,6 +384,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                             ),
                                             controller: passingMonth,
                                             hintText: "April",
+                                            isCompulsory: true,
                                           ),
                                         ),
                                         SizedBox(
@@ -402,6 +406,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                                   RegExp(r'[0-9]')),
                                             ],
                                             hintText: "2024",
+                                            isCompulsory: true,
                                           ),
                                         ),
                                       ],
@@ -425,6 +430,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                       controller: course,
                                       hintText:
                                           "Bachelor of Computer Application",
+                                      isCompulsory: true,
                                     ),
                                     SizedBox(
                                       height: 60,
@@ -461,6 +467,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                           ),
                                           controller: subject["subjectName"]!,
                                           hintText: "Maths",
+                                          isCompulsory: true,
                                         ),
                                       ),
                                       SizedBox(
@@ -482,6 +489,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                                 RegExp(r'[0-9\.]')),
                                           ],
                                           hintText: "100",
+                                          isCompulsory: true,
                                         ),
                                       ),
                                       SizedBox(
@@ -504,6 +512,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                                 RegExp(r'[0-9\.]')),
                                           ],
                                           hintText: "33",
+                                          isCompulsory: true,
                                         ),
                                       ),
                                       SizedBox(
@@ -525,6 +534,7 @@ class _WebMarksheetScreenState extends State<WebMarksheetScreen> {
                                                 RegExp(r'[0-9\.]')),
                                           ],
                                           hintText: "70",
+                                          isCompulsory: true,
                                         ),
                                       ),
                                       SizedBox(

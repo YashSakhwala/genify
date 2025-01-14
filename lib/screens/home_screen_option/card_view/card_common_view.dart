@@ -223,6 +223,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   hintText: "MK Consulting",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -236,6 +237,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                   ),
                   isDropDownItem: true,
                   hintText: "Insurance Advisor",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -251,6 +253,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                   needValidator: true,
                   emailValidator: true,
                   hintText: "mkconsultancy@gmail.com",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -270,6 +273,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                   needValidator: true,
                   phoneNoValidator: true,
                   hintText: "9876543210",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -284,6 +288,7 @@ class _CardCommonViewScreenState extends State<CardCommonViewScreen> {
                   maxLines: 4,
                   vertical: 4,
                   hintText: "119, Silver line, K.M. chock, Surat - 395006",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,

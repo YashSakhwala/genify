@@ -66,6 +66,99 @@ class _SalarySlipCommonViewScreenState
         child: FlipInX(
           child: ListView(
             children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.greyColor.shade300,
+                      image: DecorationImage(
+                        image: SalaryMake.imagePath.isEmpty
+                            ? Image.asset(
+                                AppImages.addImage,
+                                color: AppColors.greyColor.shade300,
+                                scale: 12,
+                              ).image
+                            : Image.file(
+                                File(SalaryMake.imagePath),
+                              ).image,
+                        fit: SalaryMake.imagePath.isEmpty
+                            ? BoxFit.scaleDown
+                            : BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 17,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Add Company Logo",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Some companies require salary slip without logo, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle
+                                .copyWith(fontSize: 9),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+
+                              XFile? xFile = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+
+                              if (xFile != null && xFile.path.isNotEmpty) {
+                                SalaryMake.imagePath = xFile.path;
+                              }
+
+                              setState(() {});
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload logo",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
               TextFieldView(
                 title: "Company Name",
                 titleStyle: AppTextStyle.regularTextStyle.copyWith(
@@ -74,6 +167,7 @@ class _SalarySlipCommonViewScreenState
                 ),
                 controller: companyName,
                 hintText: "MD Pharma",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -86,6 +180,7 @@ class _SalarySlipCommonViewScreenState
                 ),
                 controller: employeeName,
                 hintText: "Varun Mishra",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -98,6 +193,7 @@ class _SalarySlipCommonViewScreenState
                 ),
                 controller: employeeID,
                 hintText: "1234",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -110,6 +206,7 @@ class _SalarySlipCommonViewScreenState
                 ),
                 controller: department,
                 hintText: "General affairs",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -122,6 +219,7 @@ class _SalarySlipCommonViewScreenState
                 ),
                 controller: designation,
                 hintText: "Manager",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -138,6 +236,7 @@ class _SalarySlipCommonViewScreenState
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                 ],
                 hintText: "2000.00",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -231,6 +330,7 @@ class _SalarySlipCommonViewScreenState
                   ),
                   controller: bankName,
                   hintText: "State bank of india",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -244,6 +344,7 @@ class _SalarySlipCommonViewScreenState
                   controller: bankAccountNumber,
                   keyboardType: TextInputType.number,
                   hintText: "1234567890",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -258,6 +359,7 @@ class _SalarySlipCommonViewScreenState
                   ),
                   controller: upiID,
                   hintText: "9876543210@okaxis",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,

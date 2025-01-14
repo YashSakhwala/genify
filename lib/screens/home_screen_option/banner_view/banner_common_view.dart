@@ -221,6 +221,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   hintText: "MK Consulting",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -234,6 +235,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                   ),
                   hintText: "Insurance Advisor",
                   isDropDownItem: true,
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -249,6 +251,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                   needValidator: true,
                   emailValidator: true,
                   hintText: "mkconsultancy@gmail.com",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -268,6 +271,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                   needValidator: true,
                   phoneNoValidator: true,
                   hintText: "9876543210",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -282,6 +286,7 @@ class _BannerCommonViewScreenState extends State<BannerCommonViewScreen> {
                   maxLines: 4,
                   vertical: 4,
                   hintText: "119, Silver line, K.M. chock, Surat - 395006",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,

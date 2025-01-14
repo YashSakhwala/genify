@@ -300,6 +300,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               ),
                               controller: name,
                               hintText: "Varun Mishra",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -321,6 +322,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               needValidator: true,
                               phoneNoValidator: true,
                               hintText: "9876543210",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -337,6 +339,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               vertical: 4,
                               hintText:
                                   "105-A, Ambar society, Neharu chock, surat.",
+                              isCompulsory: true,
                             ),
                           ],
                         ),
@@ -358,6 +361,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               controller: profession,
                               isDropDownItem: true,
                               hintText: "Software Engineer",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -374,6 +378,7 @@ class _WebCardScreenState extends State<WebCardScreen> {
                               needValidator: true,
                               emailValidator: true,
                               hintText: "mishra.varun@email.com",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,

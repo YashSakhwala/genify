@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
 
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
@@ -52,6 +52,33 @@ class _AddExpensesCommonViewScreenState
     "Debit card",
   ];
 
+  List<String> expenseList = [
+    "Fixed Expenses",
+    "Rent/Mortgage",
+    "Utilities",
+    "Internet/Phone bills",
+    "Insurance",
+    "Loan Payments",
+    "Subscription Services",
+    "Taxes",
+    "Variable Expenses",
+    "Groceries",
+    "Transportation",
+    "Dining Out",
+    "Entertainment",
+    "Shopping",
+    "Healthcare",
+    "Education",
+    "Childcare",
+    "Personal Care",
+    "Travel & Vacation",
+    "Gifts & Donations",
+    "Pet Expenses",
+    "Miscellaneous Expenses",
+    "Emergency Fund",
+    "Miscellaneous"
+  ];
+
   @override
   void initState() {
     transactionController.imagePath.value = "";
@@ -87,7 +114,7 @@ class _AddExpensesCommonViewScreenState
                   Text(
                     "How Much?",
                     style: AppTextStyle.regularTextStyle.copyWith(
-                      color: AppColors.whiteColor.withOpacity(0.7),
+                      color: AppColors.whiteColor,
                     ),
                   ),
                   Row(
@@ -216,6 +243,8 @@ class _AddExpensesCommonViewScreenState
                         controller: title,
                         vertical: 18,
                         hintText: "Category",
+                        isDropDownItem: true,
+                        dropdownItems: expenseList,
                       ),
                       SizedBox(
                         height: 16,

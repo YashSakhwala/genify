@@ -169,6 +169,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
                   hintText: "Varun Mishra",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -182,6 +183,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                   controller: profession,
                   hintText: "Software Engineer",
                   isDropDownItem: true,
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -201,6 +203,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     LengthLimitingTextInputFormatter(10),
                   ],
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -216,6 +219,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                   needValidator: true,
                   emailValidator: true,
                   hintText: "mishra.varun@email.com",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -230,6 +234,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                   maxLines: 4,
                   vertical: 4,
                   hintText: "105-A, Ambar society, Neharu chock, surat.",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -245,6 +250,7 @@ class _ResumeCommonViewScreenState extends State<ResumeCommonViewScreen> {
                   vertical: 4,
                   hintText:
                       "I am a professional software developer for all type of cross-plateform developement.",
+                  isCompulsory: true,
                 ),
                 SizedBox(
                   height: 20,

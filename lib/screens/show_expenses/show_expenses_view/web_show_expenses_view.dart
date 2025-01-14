@@ -196,6 +196,70 @@ class _WebShowExpensesScreenState extends State<WebShowExpensesScreen> {
                                       }
                                     },
                                   ),
+                                  if (!transactionController.isSearching.value)
+                                    PopupMenuButton(
+                                      icon: Icon(Icons.filter_alt),
+                                      onSelected: (filter) {
+                                        List originalData = List.from(
+                                            transactionController
+                                                .expensesEntries);
+
+                                        transactionController.filteredData
+                                            .value = originalData.map((entry) {
+                                          List sortedValues;
+                                          switch (filter) {
+                                            case 'A to Z':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => a['title']
+                                                    .toString()
+                                                    .compareTo(
+                                                        b['title'].toString()));
+                                              break;
+                                            case 'Z to A':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => b['title']
+                                                    .toString()
+                                                    .compareTo(
+                                                        a['title'].toString()));
+                                              break;
+                                            case '0 to 9':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => a['amount']
+                                                    .compareTo(b['amount']));
+                                              break;
+                                            case '9 to 0':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => b['amount']
+                                                    .compareTo(a['amount']));
+                                              break;
+                                            default:
+                                              sortedValues =
+                                                  List.from(entry.value);
+                                              break;
+                                          }
+                                          return MapEntry(
+                                              entry.key, sortedValues);
+                                        }).toList();
+                                      },
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                            value: 'A to Z',
+                                            child: Text('A to Z')),
+                                        PopupMenuItem(
+                                            value: 'Z to A',
+                                            child: Text('Z to A')),
+                                        PopupMenuItem(
+                                            value: '0 to 9',
+                                            child: Text('0 to 9')),
+                                        PopupMenuItem(
+                                            value: '9 to 0',
+                                            child: Text('9 to 0')),
+                                      ],
+                                    )
                                 ],
                               ),
                               SizedBox(

@@ -69,6 +69,86 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               borderRadius: BorderRadius.circular(15),
                               color: AppColors.greyColor.shade300,
                               image: DecorationImage(
+                                image: SalaryMake.imagePath.isEmpty
+                                    ? Image.asset(
+                                        AppImages.addImage,
+                                        color: AppColors.greyColor.shade300,
+                                        scale: 12,
+                                      ).image
+                                    : Image.network(
+                                        SalaryMake.imagePath,
+                                      ).image,
+                                fit: SalaryMake.imagePath.isEmpty
+                                    ? BoxFit.scaleDown
+                                    : BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Some companies require salary slip without logo, so check before adding one.",
+                            style: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              html.FileUploadInputElement uploadInput =
+                                  html.FileUploadInputElement();
+                              uploadInput.accept = 'image/*';
+                              uploadInput.click();
+
+                              uploadInput.onChange.listen((event) {
+                                final file = uploadInput.files!.first;
+                                final reader = html.FileReader();
+
+                                reader.readAsDataUrl(file);
+                                reader.onLoadEnd.listen((event) {
+                                  setState(() {
+                                    SalaryMake.imagePath =
+                                        reader.result as String;
+                                  });
+                                });
+                              });
+                            },
+                            child: Container(
+                              height: 43,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload Logo",
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColors.greyColor.shade300,
+                              image: DecorationImage(
                                 image: SalaryMake.signatureImagePath.isEmpty
                                     ? Image.asset(
                                         AppImages.addImage,
@@ -156,6 +236,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             controller: companyName,
                             hintText: "MD Pharma",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -168,6 +249,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             controller: employeeID,
                             hintText: "1234",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -180,6 +262,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             controller: designation,
                             hintText: "Manager",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -250,6 +333,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             controller: employeeName,
                             hintText: "Varun Mishra",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -262,6 +346,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                             ),
                             controller: department,
                             hintText: "General affairs",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -279,6 +364,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                                   RegExp(r'[0-9\.]')),
                             ],
                             hintText: "2000.00",
+                            isCompulsory: true,
                           ),
                           SizedBox(
                             height: 20,
@@ -327,6 +413,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               ),
                               controller: bankName,
                               hintText: "State bank of india",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -341,6 +428,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               controller: bankAccountNumber,
                               keyboardType: TextInputType.number,
                               hintText: "1234567890",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -356,6 +444,7 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               ),
                               controller: upiID,
                               hintText: "9876543210@okaxis",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,

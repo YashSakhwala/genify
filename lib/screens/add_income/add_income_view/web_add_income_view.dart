@@ -49,6 +49,34 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
     "Debit card",
   ];
 
+  List<String> incomeList = [
+    "Salary/Wages",
+    "Monthly Salary",
+    "Bonus",
+    "Overtime Pay",
+    "Commission",
+    "Side Income",
+    "Freelance Work",
+    "Online Business",
+    "Investments",
+    "Rental Income",
+    "Royalties",
+    "Other Income",
+    "Gifts",
+    "Tax Refunds",
+    "Scholarships/Grants",
+    "Pensions/Retirement Benefits",
+    "Stipends",
+    "Government Assistance",
+    "Sale of Assets",
+    "Selling Property, Car, or Electronics",
+    "Selling Personal Items",
+    "Other Sources",
+    "Crowdfunding",
+    "Loans or Borrowing",
+    "Windfalls"
+  ];
+
   @override
   void initState() {
     transactionController.imagePath.value = "";
@@ -83,8 +111,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                   Text(
                     "How Much?",
                     style: AppTextStyle.regularTextStyle.copyWith(
-                      fontSize: 15,
-                      color: AppColors.whiteColor.withOpacity(0.7),
+                      color: AppColors.whiteColor,
                     ),
                   ),
                   Row(
@@ -224,6 +251,8 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                               controller: title,
                               vertical: 18,
                               hintText: "Category",
+                              isDropDownItem: true,
+                              dropdownItems: incomeList,
                             ),
                             SizedBox(
                               height: 13,

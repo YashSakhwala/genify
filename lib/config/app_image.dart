@@ -89,17 +89,11 @@ class AppImages {
   // Finance screen icons
   static const String income = "assets/icons/income.png";
   static const String expenses = "assets/icons/expense.png";
+
   static const String incomeImage =
-      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fincome_image.png?alt=media&token=e7d783d7-86a2-4625-bbcf-4498b782ff69";
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fincome_image.png?alt=media&token=b0e12d82-3c6a-4cb2-afb6-bb37b4b3949e";
   static const String expensesImage =
-      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image.png?alt=media&token=89251556-bd3f-492d-8e0d-8b8ec41fe5bd";
-
-
-  static const String incomeImage_1 =
-      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fincome_image_1.png?alt=media&token=cc467046-57fb-461c-9f7c-856605c2de3d";
-  static const String expensesImage_1 =
-      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image_1.png?alt=media&token=fc4e9b6d-dc8a-45e8-8634-2c3f9bf6e1fb";
-
+      "https://firebasestorage.googleapis.com/v0/b/genify-app-d06b8.appspot.com/o/App%2Fexpense_image.png?alt=media&token=3ef7d335-27ff-4f46-9e4e-06af99fd34a3";
 
   // Calculator screen icon
   static const String blankEqual = "assets/icons/blank_equal.png";

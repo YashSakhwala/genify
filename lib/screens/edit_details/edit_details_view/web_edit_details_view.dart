@@ -70,6 +70,61 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
     "Debit card",
   ];
 
+  List<String> incomeList = [
+    "Salary/Wages",
+    "Monthly Salary",
+    "Bonus",
+    "Overtime Pay",
+    "Commission",
+    "Side Income",
+    "Freelance Work",
+    "Online Business",
+    "Investments",
+    "Rental Income",
+    "Royalties",
+    "Other Income",
+    "Gifts",
+    "Tax Refunds",
+    "Scholarships/Grants",
+    "Pensions/Retirement Benefits",
+    "Stipends",
+    "Government Assistance",
+    "Sale of Assets",
+    "Selling Property, Car, or Electronics",
+    "Selling Personal Items",
+    "Other Sources",
+    "Crowdfunding",
+    "Loans or Borrowing",
+    "Windfalls"
+  ];
+
+  List<String> expenseList = [
+    "Fixed Expenses",
+    "Rent/Mortgage",
+    "Utilities",
+    "Internet/Phone bills",
+    "Insurance",
+    "Loan Payments",
+    "Subscription Services",
+    "Taxes",
+    "Variable Expenses",
+    "Groceries",
+    "Transportation",
+    "Dining Out",
+    "Entertainment",
+    "Shopping",
+    "Healthcare",
+    "Education",
+    "Childcare",
+    "Personal Care",
+    "Travel & Vacation",
+    "Gifts & Donations",
+    "Pet Expenses",
+    "Miscellaneous Expenses",
+    "Emergency Fund",
+    "Miscellaneous"
+  ];
+
   @override
   void initState() {
     amount.text = widget.amount;
@@ -116,8 +171,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                     Text(
                       "How Much?",
                       style: AppTextStyle.regularTextStyle.copyWith(
-                        fontSize: 15,
-                        color: AppColors.whiteColor.withOpacity(0.7),
+                        color: AppColors.whiteColor,
                       ),
                     ),
                     Row(
@@ -273,6 +327,10 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                 controller: title,
                                 vertical: 18,
                                 hintText: "Category",
+                                isDropDownItem: true,
+                                dropdownItems: widget.type == "Incomes"
+                                    ? incomeList
+                                    : expenseList,
                               ),
                               SizedBox(
                                 height: 13,

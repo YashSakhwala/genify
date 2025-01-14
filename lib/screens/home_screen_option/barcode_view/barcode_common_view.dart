@@ -121,6 +121,7 @@ class _BarcodeCommonViewScreenState extends State<BarcodeCommonViewScreen> {
                 onChanged: (value) {
                   generateQrCode(value);
                 },
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 70,

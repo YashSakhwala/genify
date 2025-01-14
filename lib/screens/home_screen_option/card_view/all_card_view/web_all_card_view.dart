@@ -50,6 +50,7 @@ class _WebAllCardScreenState extends State<WebAllCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(top: 30, left: 30, right: 30),
         child: Column(

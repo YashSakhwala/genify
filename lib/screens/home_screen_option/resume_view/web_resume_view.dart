@@ -162,6 +162,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                     RegExp(r'[a-zA-Z ]')),
                               ],
                               hintText: "Varun Mishra",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -183,6 +184,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                                     RegExp(r'[0-9]')),
                                 LengthLimitingTextInputFormatter(10),
                               ],
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -199,6 +201,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                               vertical: 4,
                               hintText:
                                   "105-A, Ambar society, Neharu chock, surat.",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -447,6 +450,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                               controller: profession,
                               hintText: "Software Engineer",
                               isDropDownItem: true,
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -461,6 +465,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                               controller: email,
                               keyboardType: TextInputType.emailAddress,
                               hintText: "mishra.varun@email.com",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -477,6 +482,7 @@ class _WebResumeScreenState extends State<WebResumeScreen> {
                               vertical: 4,
                               hintText:
                                   "I am a professional software developer for all type of cross-plateform developement.",
+                              isCompulsory: true,
                             ),
                             SizedBox(
                               height: 20,

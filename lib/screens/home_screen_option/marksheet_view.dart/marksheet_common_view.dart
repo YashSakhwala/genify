@@ -159,7 +159,8 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                   fontWeight: FontWeight.w600,
                 ),
                 controller: collegeName,
-                hintText: "S.V. Patel College",
+                hintText: "Vellore Institue of Technology",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -175,6 +176,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                       ),
                       controller: passingMonth,
                       hintText: "April",
+                      isCompulsory: true,
                     ),
                   ),
                   SizedBox(
@@ -193,6 +195,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                       ],
                       hintText: "2024",
+                      isCompulsory: true,
                     ),
                   ),
                 ],
@@ -303,6 +306,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 ),
                 controller: studentName,
                 hintText: "Varun Mishra",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -315,6 +319,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 ),
                 controller: course,
                 hintText: "Bachelor of Computer Application",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 20,
@@ -327,6 +332,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                 ),
                 controller: seatNumber,
                 hintText: "123456",
+                isCompulsory: true,
               ),
               SizedBox(
                 height: 30,
@@ -349,6 +355,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                         ),
                         controller: subject["subjectName"]!,
                         hintText: "Maths",
+                        isCompulsory: true,
                       ),
                       SizedBox(
                         height: 10,
@@ -372,6 +379,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                                     RegExp(r'[0-9\.]')),
                               ],
                               hintText: "100",
+                              isCompulsory: true,
                             ),
                           ),
                           SizedBox(
@@ -392,6 +400,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                                     RegExp(r'[0-9\.]')),
                               ],
                               hintText: "33",
+                              isCompulsory: true,
                             ),
                           ),
                           SizedBox(
@@ -412,6 +421,7 @@ class _MarksheetCommonViewScreenState extends State<MarksheetCommonViewScreen> {
                                     RegExp(r'[0-9\.]')),
                               ],
                               hintText: "70",
+                              isCompulsory: true,
                             ),
                           ),
                           IconButton(

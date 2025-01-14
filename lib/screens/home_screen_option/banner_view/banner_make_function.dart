@@ -79,7 +79,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_1.png"))
+          (await rootBundle.load("assets/images/banner_bg_1.png"))
               .buffer
               .asUint8List(),
         );
@@ -328,7 +328,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_2.png"))
+          (await rootBundle.load("assets/images/banner_bg_2.png"))
               .buffer
               .asUint8List(),
         );
@@ -576,7 +576,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_3.png"))
+          (await rootBundle.load("assets/images/banner_bg_3.png"))
               .buffer
               .asUint8List(),
         );
@@ -820,7 +820,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_4.png"))
+          (await rootBundle.load("assets/images/banner_bg_4.png"))
               .buffer
               .asUint8List(),
         );
@@ -1061,7 +1061,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_5.png"))
+          (await rootBundle.load("assets/images/banner_bg_5.png"))
               .buffer
               .asUint8List(),
         );
@@ -1313,7 +1313,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_6.png"))
+          (await rootBundle.load("assets/images/banner_bg_6.png"))
               .buffer
               .asUint8List(),
         );
@@ -1566,7 +1566,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_7.png"))
+          (await rootBundle.load("assets/images/banner_bg_7.png"))
               .buffer
               .asUint8List(),
         );
@@ -1826,7 +1826,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_8.png"))
+          (await rootBundle.load("assets/images/banner_bg_8.png"))
               .buffer
               .asUint8List(),
         );
@@ -2092,7 +2092,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_9.png"))
+          (await rootBundle.load("assets/images/banner_bg_9.png"))
               .buffer
               .asUint8List(),
         );
@@ -2368,7 +2368,7 @@ class BannerMake {
     } else {
       try {
         backgroundImage = pw.MemoryImage(
-          (await rootBundle.load("assets/images/bg_10.png"))
+          (await rootBundle.load("assets/images/banner_bg_10.png"))
               .buffer
               .asUint8List(),
         );
