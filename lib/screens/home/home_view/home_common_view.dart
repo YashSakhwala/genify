@@ -9,7 +9,7 @@ import 'package:genify/controller/calculator_controller.dart';
 import 'package:genify/screens/home_screen_option/banner_screen.dart';
 import 'package:genify/screens/home_screen_option/barcode_screen.dart';
 import 'package:genify/screens/home_screen_option/card_screen.dart';
-import 'package:genify/screens/home_screen_option/certificate_screen.dart';
+import 'package:genify/screens/home_screen_option/income_screen.dart';
 import 'package:genify/screens/home_screen_option/marksheet_screen.dart';
 import 'package:genify/screens/home_screen_option/resume_screen.dart';
 import 'package:genify/screens/home_screen_option/salary_slip_screen.dart';
@@ -64,9 +64,9 @@ class _HomeCommonViewScreenState extends State<HomeCommonViewScreen>
       "navigation": SalarySlipScreen(),
     },
     {
-      "name": "Certificate",
-      "image": AppImages.certificate,
-      "navigation": CertificateScreen(),
+      "name": "Income Statement",
+      "image": AppImages.incomeHome,
+      "navigation": IncomeScreen(),
     },
     {
       "name": "Marksheet",

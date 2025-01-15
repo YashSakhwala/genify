@@ -15,7 +15,7 @@ import '../../calculation/other_calculation_view/other_calculation_common_view.d
 import '../../home_screen_option/banner_screen.dart';
 import '../../home_screen_option/barcode_screen.dart';
 import '../../home_screen_option/card_screen.dart';
-import '../../home_screen_option/certificate_screen.dart';
+import '../../home_screen_option/income_screen.dart';
 import '../../home_screen_option/invoice_screen.dart';
 import '../../home_screen_option/marksheet_screen.dart';
 import '../../home_screen_option/resume_screen.dart';
@@ -65,9 +65,9 @@ class _WebHomeScreenState extends State<WebHomeScreen>
       "navigation": SalarySlipScreen(),
     },
     {
-      "name": "Certificate",
-      "image": AppImages.certificate,
-      "navigation": CertificateScreen(),
+      "name": "Income Statement",
+      "image": AppImages.incomeHome,
+      "navigation": IncomeScreen(),
     },
     {
       "name": "Marksheet",

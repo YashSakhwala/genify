@@ -33,7 +33,7 @@ class AppImages {
   static const String salary = "assets/images/salary.png";
   static const String microphone = "assets/images/microphone.png";
   static const String marksheet = "assets/images/marksheet.png";
-  static const String certificate = "assets/images/certificate.png";
+  static const String incomeHome = "assets/images/income.png";
 
   static const String transfer = "assets/images/transfer.png";
 
