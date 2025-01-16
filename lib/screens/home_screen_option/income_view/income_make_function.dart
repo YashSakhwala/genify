@@ -6,7 +6,6 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:genify/widgets/common_widgets/indicatior.dart";
 import "package:genify/widgets/common_widgets/toast_view.dart";
-import "package:intl/intl.dart";
 import "package:pdf/pdf.dart";
 import "package:pdf/widgets.dart" as pw;
 import "package:universal_html/html.dart" as html;
@@ -23,6 +22,7 @@ class IncomeMake {
     required String gstNumber,
     required String companyEmail,
     required String companyPhoneNo,
+    required String taxType,
     required String tax,
     required List revenues,
     required List cgs,
@@ -114,320 +114,559 @@ class IncomeMake {
       rupeeIcon = null;
     }
 
-    final now = DateTime.now();
-    final formattedDate = DateFormat("dd-MM-yyyy").format(now);
-    // final formattedTime = DateFormat("hh:mm a").format(now);
+    if (otherIncomes!.length == 1) {
+      otherIncomes = [];
+    }
+
+    if (otherExpenses!.length == 1) {
+      otherExpenses = [];
+    }
+
+    String totalRevenue = revenues
+        .fold(0.0,
+            (sum, item) => sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+        .toStringAsFixed(2);
+
+    String totalCgs = cgs
+        .fold(0.0,
+            (sum, item) => sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+        .toStringAsFixed(2);
+
+    String totalExpense = expenses
+        .fold(0.0,
+            (sum, item) => sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+        .toStringAsFixed(2);
+
+    String totalOtherIncome = otherIncomes
+        .fold(0.0,
+            (sum, item) => sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+        .toStringAsFixed(2);
+
+    String totalOtherExpense = otherExpenses
+        .fold(0.0,
+            (sum, item) => sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+        .toStringAsFixed(2);
+
+    var beforeTax = (double.tryParse(totalRevenue))! -
+        (double.tryParse(totalCgs))! -
+        (double.tryParse(totalExpense))! +
+        (double.tryParse(totalOtherIncome))! -
+        (double.tryParse(totalOtherExpense))!;
+
+    double finalTax = taxType == "taxPercentage"
+        ? (beforeTax * double.tryParse(tax)!) / 100
+        : double.tryParse(tax)!;
+
+    double finalTotal = beforeTax - finalTax;
 
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(20),
+        margin: pw.EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         build: (pw.Context context) => [
-          pw.Row(
-            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-            children: [
-              if (image != null)
-                pw.Image(
-                  image,
-                  height: 60,
-                  width: 60,
-                  fit: pw.BoxFit.fill,
-                ),
-              pw.Spacer(),
-              pw.Text(
-                companyName,
-                style: pw.TextStyle(
-                  fontSize: 30,
-                  fontWeight: pw.FontWeight.bold,
-                  color: PdfColor.fromHex("#03335e"),
-                ),
-              ),
-              pw.Spacer(),
-            ],
-          ),
-          pw.SizedBox(
-            height: 10,
-          ),
-          pw.Row(
-            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Row(
-                children: [
-                  pw.Text(
-                    "GST",
-                    style: pw.TextStyle(
-                      fontSize: 10,
-                      fontWeight: pw.FontWeight.bold,
-                      color: PdfColor.fromHex("#03335e"),
-                    ),
-                  ),
-                  pw.SizedBox(
-                    width: 8,
-                  ),
-                  pw.Text(
-                    gstNumber,
-                    style: pw.TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                ],
-              ),
-              pw.Text(
-                "For the Year Ended December 31, 2024",
-                style: pw.TextStyle(
-                  fontSize: 10,
-                  fontWeight: pw.FontWeight.bold,
-                ),
-              ),
-              pw.Column(
-                children: [
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        companyEmail,
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        emailIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(
-                    height: 7,
-                  ),
-                  pw.Row(
-                    children: [
-                      pw.Text(
-                        "+91 $companyPhoneNo",
-                        style: pw.TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 8,
-                      ),
-                      pw.Image(
-                        phoneIcon!,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          pw.SizedBox(
-            height: 20,
-          ),
           pw.Container(
-            height: 1.5,
-            width: double.infinity,
-            color: PdfColor.fromHex("#03335e"),
-          ),
-          pw.SizedBox(
-            height: 20,
-          ),
-          pw.Table.fromTextArray(
-            headers: ["Items", "Amount (₹)"],
-            data: [
-              // Revenues
-              ...List.generate(revenues.length, (index) {
-                final revenue = revenues[index];
-                final revenueName = revenue["name"] ?? '';
-                final itemPrice =
-                    double.tryParse(revenue["price"] ?? '') ?? 0.0;
-
-                return [
-                  index == 0 ? "$revenueName" : "   $revenueName",
-                  index == 0 ? "" : itemPrice.toStringAsFixed(2),
-                ];
-              }),
-              [
-                "     Total Revenue",
-                revenues
-                    .fold(
-                        0.0,
-                        (sum, item) =>
-                            sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
-                    .toStringAsFixed(2)
-              ],
-
-              // COGS
-              ...List.generate(cgs.length, (index) {
-                final cogsItem = cgs[index];
-                final cogsName = cogsItem["name"] ?? '';
-                final itemPrice =
-                    double.tryParse(cogsItem["price"] ?? '') ?? 0.0;
-
-                return [
-                  index == 0 ? "$cogsName" : "   $cogsName",
-                  index == 0 ? "" : itemPrice.toStringAsFixed(2),
-                ];
-              }),
-              [
-                "     Total COGS",
-                cgs
-                    .fold(
-                        0.0,
-                        (sum, item) =>
-                            sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
-                    .toStringAsFixed(2)
-              ],
-
-              // Expenses
-              ...List.generate(expenses.length, (index) {
-                final expense = expenses[index];
-                final expenseName = expense["name"] ?? '';
-                final itemPrice =
-                    double.tryParse(expense["price"] ?? '') ?? 0.0;
-
-                return [
-                  index == 0 ? "$expenseName" : "   $expenseName",
-                  index == 0 ? "" : itemPrice.toStringAsFixed(2),
-                ];
-              }),
-              [
-                "     Total Expenses",
-                expenses
-                    .fold(
-                        0.0,
-                        (sum, item) =>
-                            sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
-                    .toStringAsFixed(2)
-              ],
-
-              // Other Incomes
-              ...List.generate(otherIncomes!.length, (index) {
-                final otherIncome = otherIncomes[index];
-                final incomeName = otherIncome["name"] ?? '';
-                final itemPrice =
-                    double.tryParse(otherIncome["price"] ?? '') ?? 0.0;
-
-                return [
-                  index == 0 ? "$incomeName" : "   $incomeName",
-                  index == 0 ? "" : itemPrice.toStringAsFixed(2),
-                ];
-              }),
-              [
-                "     Total Other Income",
-                otherIncomes
-                    .fold(
-                        0.0,
-                        (sum, item) =>
-                            sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
-                    .toStringAsFixed(2)
-              ],
-
-              // Other Expenses
-              ...List.generate(otherExpenses!.length, (index) {
-                final otherExpense = otherExpenses[index];
-                final expenseName = otherExpense["name"] ?? '';
-                final itemPrice =
-                    double.tryParse(otherExpense["price"] ?? '') ?? 0.0;
-
-                return [
-                  index == 0 ? "$expenseName" : "   $expenseName",
-                  index == 0 ? "" : itemPrice.toStringAsFixed(2),
-                ];
-              }),
-              [
-                "     Total Other Expenses",
-                otherExpenses
-                    .fold(
-                        0.0,
-                        (sum, item) =>
-                            sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
-                    .toStringAsFixed(2)
-              ],
-
-              // Totals and Summary
-
-              ["Tax", double.tryParse(tax)!.toStringAsFixed(2)],
-              [
-                "Profit/Loss",
-                (revenues.fold(
-                            0.0,
-                            (sum, item) =>
-                                sum +
-                                (double.tryParse(item["price"] ?? '') ?? 0.0)) -
-                        cgs.fold(
-                            0.0,
-                            (sum, item) =>
-                                sum +
-                                (double.tryParse(item["price"] ?? '') ?? 0.0)) -
-                        expenses.fold(
-                            0.0,
-                            (sum, item) =>
-                                sum +
-                                (double.tryParse(item["price"] ?? '') ?? 0.0)) +
-                        otherIncomes.fold(
-                            0.0,
-                            (sum, item) =>
-                                sum +
-                                (double.tryParse(item["price"] ?? '') ?? 0.0)) -
-                        otherExpenses.fold(
-                            0.0,
-                            (sum, item) =>
-                                sum +
-                                (double.tryParse(item["price"] ?? '') ?? 0.0)) -
-                        double.tryParse(tax)!)
-                    .toStringAsFixed(2)
-              ]
-            ],
-            // border: pw.TableBorder.all(),
-            oddRowDecoration: pw.BoxDecoration(
-              color: PdfColor.fromHex("#F7F1D9"),
+            decoration: pw.BoxDecoration(
+              border: pw.Border.all(),
             ),
-            columnWidths: {
-              0: pw.FlexColumnWidth(2),
-              1: pw.FlexColumnWidth(1),
-            },
-            headerStyle: pw.TextStyle(
-              fontWeight: pw.FontWeight.bold,
-              color: PdfColor.fromHex("#ffffff"),
-            ),
-            headerDecoration: pw.BoxDecoration(
-              color: PdfColor.fromHex("#03335e"),
-            ),
-            cellStyle: pw.TextStyle(
-              fontSize: 12,
-            ),
-          ),
-          pw.SizedBox(
-            height: 40,
-          ),
-          pw.Align(
-            alignment: pw.Alignment.topRight,
             child: pw.Column(
               children: [
-                if (signatureImage != null)
-                  pw.Image(
-                    signatureImage,
-                    height: 70,
-                    width: 120,
-                  ),
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    if (image != null)
+                      pw.Padding(
+                        padding: pw.EdgeInsets.all(10),
+                        child: pw.Image(
+                          image,
+                          height: 60,
+                          width: 60,
+                          fit: pw.BoxFit.fill,
+                        ),
+                      ),
+                    pw.Spacer(),
+                    pw.Padding(
+                      padding: pw.EdgeInsets.all(10),
+                      child: pw.Text(
+                        companyName,
+                        style: pw.TextStyle(
+                          fontSize: 30,
+                          fontWeight: pw.FontWeight.bold,
+                          color: PdfColor.fromHex("#03335e"),
+                        ),
+                      ),
+                    ),
+                    pw.Spacer(),
+                    if (image != null)
+                      pw.SizedBox(
+                        width: 70,
+                      ),
+                  ],
+                ),
+
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Expanded(
+                      child: pw.Container(
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(),
+                        ),
+                        child: pw.Padding(
+                          padding: pw.EdgeInsets.all(10),
+                          child: pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Row(
+                                children: [
+                                  pw.Text(
+                                    "GST",
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 8,
+                                  ),
+                                  pw.Text(
+                                    gstNumber,
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              pw.Row(
+                                children: [
+                                  pw.Text(
+                                    "Date",
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: pw.FontWeight.bold,
+                                      color: PdfColor.fromHex("#03335e"),
+                                    ),
+                                  ),
+                                  pw.SizedBox(
+                                    width: 8,
+                                  ),
+                                  pw.Text(
+                                    "For the Year Ended December 31, 2024",
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    pw.Expanded(
+                      child: pw.Container(
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(),
+                        ),
+                        child: pw.Padding(
+                          padding: pw.EdgeInsets.all(10),
+                          child: pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              pw.Row(
+                                children: [
+                                  pw.Image(
+                                    emailIcon!,
+                                    height: 10,
+                                    width: 10,
+                                  ),
+                                  pw.SizedBox(
+                                    width: 8,
+                                  ),
+                                  pw.Text(
+                                    companyEmail,
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              pw.SizedBox(
+                                height: 7,
+                              ),
+                              pw.Row(
+                                children: [
+                                  pw.Image(
+                                    phoneIcon!,
+                                    height: 10,
+                                    width: 10,
+                                  ),
+                                  pw.SizedBox(
+                                    width: 8,
+                                  ),
+                                  pw.Text(
+                                    "+91 $companyPhoneNo",
+                                    style: pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
                 pw.SizedBox(
-                  height: 7,
+                  height: 15,
                 ),
-                pw.Container(
-                  height: 1.5,
-                  width: 120,
-                  color: PdfColor.fromHex("#03335e"),
-                ),
-                pw.Text(
-                  "Authorised Signature",
-                  style: pw.TextStyle(
-                    fontSize: 9,
+
+                // Revenues
+                pw.Table.fromTextArray(
+                  headers: ["Items", "Amount"],
+                  data: [
+                    ...List.generate(revenues.length, (index) {
+                      final revenue = revenues[index];
+                      final revenueName = revenue["name"] ?? '';
+                      final itemPrice =
+                          double.tryParse(revenue["price"] ?? '') ?? 0.0;
+
+                      return [
+                        index == 0 ? "$revenueName" : "   $revenueName",
+                        index == 0 ? "" : itemPrice.toStringAsFixed(2),
+                      ];
+                    }),
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  headerStyle: pw.TextStyle(
                     fontWeight: pw.FontWeight.bold,
+                    color: PdfColor.fromHex("#ffffff"),
+                  ),
+                  headerDecoration: pw.BoxDecoration(
+                    color: PdfColor.fromHex("#03335e"),
+                  ),
+                  cellStyle: pw.TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+
+                // Total Revenue
+                pw.Table.fromTextArray(
+                  data: [
+                    [
+                      "       Total Revenue",
+                      totalRevenue,
+                    ],
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                  border: pw.TableBorder.all(
+                    width: 1.7,
+                  ),
+                  headerDecoration: pw.BoxDecoration(
+                    color: PdfColor.fromHex("#F8F7F4"),
+                  ),
+                  headerStyle: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+
+                // COGS
+                pw.Table.fromTextArray(
+                  data: [
+                    ...List.generate(cgs.length, (index) {
+                      final cogsItem = cgs[index];
+                      final cogsName = cogsItem["name"] ?? '';
+                      final itemPrice =
+                          double.tryParse(cogsItem["price"] ?? '') ?? 0.0;
+
+                      return [
+                        index == 0 ? "$cogsName" : "   $cogsName",
+                        index == 0 ? "" : itemPrice.toStringAsFixed(2),
+                      ];
+                    }),
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                ),
+
+                // Total COGS
+                pw.Table.fromTextArray(
+                  data: [
+                    [
+                      "       Total COGS",
+                      totalCgs,
+                    ],
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                  border: pw.TableBorder.all(
+                    width: 1.7,
+                  ),
+                  headerDecoration: pw.BoxDecoration(
+                    color: PdfColor.fromHex("#F8F7F4"),
+                  ),
+                  headerStyle: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+
+                // Expenses
+                pw.Table.fromTextArray(
+                  data: [
+                    ...List.generate(expenses.length, (index) {
+                      final expense = expenses[index];
+                      final expenseName = expense["name"] ?? '';
+                      final itemPrice =
+                          double.tryParse(expense["price"] ?? '') ?? 0.0;
+
+                      return [
+                        index == 0 ? "$expenseName" : "   $expenseName",
+                        index == 0 ? "" : itemPrice.toStringAsFixed(2),
+                      ];
+                    }),
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                ),
+
+                // Total Expenses
+                pw.Table.fromTextArray(
+                  data: [
+                    [
+                      "       Total Expenses",
+                      totalExpense,
+                    ],
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                  border: pw.TableBorder.all(
+                    width: 1.7,
+                  ),
+                  headerDecoration: pw.BoxDecoration(
+                    color: PdfColor.fromHex("#F8F7F4"),
+                  ),
+                  headerStyle: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+
+                // Other Incomes
+                pw.Table.fromTextArray(
+                  data: [
+                    ...List.generate(otherIncomes!.length, (index) {
+                      final otherIncome = otherIncomes![index];
+                      final incomeName = otherIncome["name"] ?? '';
+                      final itemPrice =
+                          double.tryParse(otherIncome["price"] ?? '') ?? 0.0;
+
+                      return [
+                        index == 0 ? "$incomeName" : "   $incomeName",
+                        index == 0 ? "" : itemPrice.toStringAsFixed(2),
+                      ];
+                    }),
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                ),
+
+                // Total Other Incomes
+                if (otherIncomes.isNotEmpty)
+                  pw.Table.fromTextArray(
+                    data: [
+                      [
+                        "       Total Other Income",
+                        totalOtherIncome,
+                      ],
+                    ],
+                    columnWidths: {
+                      0: pw.FlexColumnWidth(2),
+                      1: pw.FlexColumnWidth(1),
+                    },
+                    cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.centerLeft
+                    },
+                    border: pw.TableBorder.all(
+                      width: 1.7,
+                    ),
+                    headerDecoration: pw.BoxDecoration(
+                      color: PdfColor.fromHex("#F8F7F4"),
+                    ),
+                    headerStyle: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+
+                // Other Expenses
+                pw.Table.fromTextArray(
+                  data: [
+                    ...List.generate(otherExpenses!.length, (index) {
+                      final otherExpense = otherExpenses![index];
+                      final expenseName = otherExpense["name"] ?? '';
+                      final itemPrice =
+                          double.tryParse(otherExpense["price"] ?? '') ?? 0.0;
+
+                      return [
+                        index == 0 ? "$expenseName" : "   $expenseName",
+                        index == 0 ? "" : itemPrice.toStringAsFixed(2),
+                      ];
+                    }),
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                ),
+
+                // Total Other Expenses
+                if (otherExpenses.isNotEmpty)
+                  pw.Table.fromTextArray(
+                    data: [
+                      [
+                        "       Total Other Expenses",
+                        totalOtherExpense,
+                      ],
+                    ],
+                    columnWidths: {
+                      0: pw.FlexColumnWidth(2),
+                      1: pw.FlexColumnWidth(1),
+                    },
+                    cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.centerLeft
+                    },
+                    border: pw.TableBorder.all(
+                      width: 1.7,
+                    ),
+                    headerDecoration: pw.BoxDecoration(
+                      color: PdfColor.fromHex("#F8F7F4"),
+                    ),
+                    headerStyle: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+
+                // Tax, Profit/loss
+                pw.Table.fromTextArray(
+                  data: [
+                    [
+                      "Tax ${taxType == "taxPercentage" ? "($tax%)" : ""}",
+                      finalTax.toStringAsFixed(2),
+                    ],
+                    [
+                      finalTotal < 0 ? "Net Loss" : "Net Profit",
+                      finalTotal.toStringAsFixed(2),
+                    ]
+                  ],
+                  columnWidths: {
+                    0: pw.FlexColumnWidth(2),
+                    1: pw.FlexColumnWidth(1),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerLeft
+                  },
+                  border: pw.TableBorder.all(
+                    width: 1.7,
+                  ),
+                  rowDecoration: pw.BoxDecoration(
+                    color: PdfColor.fromHex("#F8F7F4"),
+                  ),
+                  cellStyle: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+                pw.SizedBox(
+                  height: 40,
+                ),
+                pw.Padding(
+                  padding: pw.EdgeInsets.all(10),
+                  child: pw.Align(
+                    alignment: pw.Alignment.topRight,
+                    child: pw.Column(
+                      children: [
+                        if (signatureImage != null)
+                          pw.Image(
+                            signatureImage,
+                            height: 70,
+                            width: 120,
+                          ),
+                        pw.SizedBox(
+                          height: 7,
+                        ),
+                        pw.Container(
+                          height: 1.5,
+                          width: 140,
+                          color: PdfColor.fromHex("#03335e"),
+                        ),
+                        pw.Text(
+                          "Authorised Signature",
+                          style: pw.TextStyle(
+                            fontSize: 9,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -481,3 +720,163 @@ class IncomeMake {
     }
   }
 }
+
+
+
+// pw.Table.fromTextArray(
+//             headers: ["Items", "Amount (₹)"],
+//             data: [
+//               // Revenues
+//               ...List.generate(revenues.length, (index) {
+//                 final revenue = revenues[index];
+//                 final revenueName = revenue["name"] ?? '';
+//                 final itemPrice =
+//                     double.tryParse(revenue["price"] ?? '') ?? 0.0;
+
+//                 return [
+//                   index == 0 ? "$revenueName" : "   $revenueName",
+//                   index == 0 ? "" : itemPrice.toStringAsFixed(2),
+//                 ];
+//               }),
+
+//               // COGS
+              // ...List.generate(cgs.length, (index) {
+              //   final cogsItem = cgs[index];
+              //   final cogsName = cogsItem["name"] ?? '';
+              //   final itemPrice =
+              //       double.tryParse(cogsItem["price"] ?? '') ?? 0.0;
+
+              //   return [
+              //     index == 0 ? "$cogsName" : "   $cogsName",
+              //     index == 0 ? "" : itemPrice.toStringAsFixed(2),
+              //   ];
+              // }),
+
+//               // Expenses
+              // ...List.generate(expenses.length, (index) {
+              //   final expense = expenses[index];
+              //   final expenseName = expense["name"] ?? '';
+              //   final itemPrice =
+              //       double.tryParse(expense["price"] ?? '') ?? 0.0;
+
+              //   return [
+              //     index == 0 ? "$expenseName" : "   $expenseName",
+              //     index == 0 ? "" : itemPrice.toStringAsFixed(2),
+              //   ];
+              // }),
+
+//               // Other Incomes
+              // ...List.generate(otherIncomes!.length, (index) {
+              //   final otherIncome = otherIncomes[index];
+              //   final incomeName = otherIncome["name"] ?? '';
+              //   final itemPrice =
+              //       double.tryParse(otherIncome["price"] ?? '') ?? 0.0;
+
+              //   return [
+              //     index == 0 ? "$incomeName" : "   $incomeName",
+              //     index == 0 ? "" : itemPrice.toStringAsFixed(2),
+              //   ];
+              // }),
+//               [
+                // "     Total Other Income",
+                // otherIncomes
+                //     .fold(
+                //         0.0,
+                //         (sum, item) =>
+                //             sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+                //     .toStringAsFixed(2)
+//               ],
+
+//               // Other Expenses
+              // ...List.generate(otherExpenses!.length, (index) {
+              //   final otherExpense = otherExpenses[index];
+              //   final expenseName = otherExpense["name"] ?? '';
+              //   final itemPrice =
+              //       double.tryParse(otherExpense["price"] ?? '') ?? 0.0;
+
+              //   return [
+              //     index == 0 ? "$expenseName" : "   $expenseName",
+              //     index == 0 ? "" : itemPrice.toStringAsFixed(2),
+              //   ];
+              // }),
+//               [
+                // "     Total Other Expenses",
+                // otherExpenses
+                //     .fold(
+                //         0.0,
+                //         (sum, item) =>
+                //             sum + (double.tryParse(item["price"] ?? '') ?? 0.0))
+                //     .toStringAsFixed(2)
+//               ],
+
+              // ["Tax", double.tryParse(tax)!.toStringAsFixed(2)],
+              // [
+              //   "Profit/Loss",
+              //   (revenues.fold(
+              //               0.0,
+              //               (sum, item) =>
+              //                   sum +
+              //                   (double.tryParse(item["price"] ?? '') ?? 0.0)) -
+              //           cgs.fold(
+              //               0.0,
+              //               (sum, item) =>
+              //                   sum +
+              //                   (double.tryParse(item["price"] ?? '') ?? 0.0)) -
+              //           expenses.fold(
+              //               0.0,
+              //               (sum, item) =>
+              //                   sum +
+              //                   (double.tryParse(item["price"] ?? '') ?? 0.0)) +
+              //           otherIncomes.fold(
+              //               0.0,
+              //               (sum, item) =>
+              //                   sum +
+              //                   (double.tryParse(item["price"] ?? '') ?? 0.0)) -
+              //           otherExpenses.fold(
+              //               0.0,
+              //               (sum, item) =>
+              //                   sum +
+              //                   (double.tryParse(item["price"] ?? '') ?? 0.0)) -
+              //           double.tryParse(tax)!)
+              //       .toStringAsFixed(2)
+              // ]
+//             ],
+//             oddRowDecoration: pw.BoxDecoration(
+//               color: PdfColor.fromHex("#F8F7F4"),
+//             ),
+//             columnWidths: {
+//               0: pw.FlexColumnWidth(2),
+//               1: pw.FlexColumnWidth(1),
+//             },
+//             headerStyle: pw.TextStyle(
+//               fontWeight: pw.FontWeight.bold,
+//               color: PdfColor.fromHex("#ffffff"),
+//             ),
+//             headerDecoration: pw.BoxDecoration(
+//               color: PdfColor.fromHex("#03335e"),
+//             ),
+//             cellStyle: pw.TextStyle(
+//               fontSize: 12,
+//             ),
+//           ),
+
+
+
+
+//  cellDecoration: (index, data, rowNum) {
+//               return index == 0
+//                   ? pw.BoxDecoration(
+//                       color: PdfColor.fromHex("#03335e"),
+//                       border: pw.Border.all(
+//                         color: PdfColor.fromInt(0xFF000000),
+//                         width: 2,
+//                       ),
+//                     )
+//                   : pw.BoxDecoration(
+//                       color: PdfColor.fromInt(0xFFEEEEEE),
+//                       border: pw.Border.all(
+//                         color: PdfColor.fromInt(0xFF000000),
+//                         width: 0.5,
+//                       ),
+//                     );
+//             },

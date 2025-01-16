@@ -41,6 +41,7 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
 
   final List<Map<String, TextEditingController>> items = [];
 
+  List dateValue = ["Month", "Year"];
   List taxValue = ["Tax Percentage", "Tax Amount"];
 
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -159,6 +160,7 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
     IncomeMake.imagePath = "";
     IncomeMake.signatureImagePath = "";
 
+    incomeController.dateValue.value = 0;
     incomeController.taxValue.value = 0;
     super.initState();
   }
@@ -344,6 +346,105 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   height: 20,
                 ),
 
+                Obx(
+                  () => Column(
+                    children: [
+                      if (incomeController.taxValue.value == 1)
+                        TextFieldView(
+                          title: "Month",
+                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          controller: tax,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
+                          hintText: "18 %",
+                          isCompulsory: true,
+                        ),
+                      if (incomeController.taxValue.value == 2)
+                        TextFieldView(
+                          title: "Year",
+                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          controller: tax,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]')),
+                          ],
+                          hintText: "",
+                          isCompulsory: true,
+                        ),
+                      // if (incomeController.dateValue.value == 1 ||
+                      //     incomeController.dateValue.value == 2)
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 30,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: dateValue.length,
+                            itemBuilder: (context, index) {
+                              return Obx(
+                                () => GestureDetector(
+                                  onTap: () {
+                                    incomeController.dateValue.value =
+                                        index + 1;
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        fillColor:
+                                            MaterialStateColor.resolveWith(
+                                          (states) => incomeController
+                                                      .dateValue.value ==
+                                                  index + 1
+                                              ? AppColors.primaryColor
+                                              : AppColors.greyColor,
+                                        ),
+                                        value: index + 1,
+                                        groupValue:
+                                            incomeController.dateValue.value,
+                                        onChanged: (value) {
+                                          incomeController.dateValue.value =
+                                              value!;
+                                        },
+                                      ),
+                                      Text(
+                                        dateValue[index],
+                                        style: AppTextStyle.regularTextStyle
+                                            .copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+
                 // All Amounts
 
                 // Revenue List
@@ -352,59 +453,52 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   Map<String, TextEditingController> revenue = entry.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Revenue Item Name",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: revenue["name"]!,
-                                hintText: "Product A",
-                                isCompulsory: true,
-                                isDropDownItem: true,
-                                dropdownItems: revenuesList,
-                              ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Revenue Item Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
+                            controller: revenue["name"]!,
+                            hintText: "Product A",
+                            isCompulsory: true,
+                            isDropDownItem: true,
+                            dropdownItems: revenuesList,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Price (₹)",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Price (₹)",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: revenue["price"]!,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9\.]')),
-                                ],
-                                hintText: "1,000",
-                                isCompulsory: true,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: AppColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  revenues.removeAt(revenueIndex);
-                                });
-                              },
-                            ),
-                          ],
+                            controller: revenue["price"]!,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]')),
+                            ],
+                            hintText: "1,000",
+                            isCompulsory: true,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              revenues.removeAt(revenueIndex);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -454,59 +548,52 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   Map<String, TextEditingController> cogs = entry.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "COGS Item Name",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: cogs["name"]!,
-                                hintText: "Product A",
-                                isCompulsory: true,
-                                isDropDownItem: true,
-                                dropdownItems: cogsList,
-                              ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "COGS Item Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
+                            controller: cogs["name"]!,
+                            hintText: "Product A",
+                            isCompulsory: true,
+                            isDropDownItem: true,
+                            dropdownItems: cogsList,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Price (₹)",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Price (₹)",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: cogs["price"]!,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9\.]')),
-                                ],
-                                hintText: "1,000",
-                                isCompulsory: true,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: AppColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  cgs.removeAt(cogsIndex);
-                                });
-                              },
-                            ),
-                          ],
+                            controller: cogs["price"]!,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]')),
+                            ],
+                            hintText: "1,000",
+                            isCompulsory: true,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              cgs.removeAt(cogsIndex);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -556,59 +643,52 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   Map<String, TextEditingController> expense = entry.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Expense Item Name",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: expense["name"]!,
-                                hintText: "Product A",
-                                isCompulsory: true,
-                                isDropDownItem: true,
-                                dropdownItems: expensesList,
-                              ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Expense Item Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
+                            controller: expense["name"]!,
+                            hintText: "Product A",
+                            isCompulsory: true,
+                            isDropDownItem: true,
+                            dropdownItems: expensesList,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Price (₹)",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Price (₹)",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: expense["price"]!,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9\.]')),
-                                ],
-                                hintText: "1,000",
-                                isCompulsory: true,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: AppColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  expenses.removeAt(expensesIndex);
-                                });
-                              },
-                            ),
-                          ],
+                            controller: expense["price"]!,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]')),
+                            ],
+                            hintText: "1,000",
+                            isCompulsory: true,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              expenses.removeAt(expensesIndex);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -658,57 +738,50 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   Map<String, TextEditingController> otherIncome = entry.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Other Income Name",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: otherIncome["name"]!,
-                                hintText: "Product A",
-                                isDropDownItem: true,
-                                dropdownItems: otherIncomesList,
-                              ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Other Income Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
+                            controller: otherIncome["name"]!,
+                            hintText: "Product A",
+                            isDropDownItem: true,
+                            dropdownItems: otherIncomesList,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Price (₹)",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Price (₹)",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: otherIncome["price"]!,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9\.]')),
-                                ],
-                                hintText: "1,000",
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: AppColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  otherIncomes.removeAt(otherIncomeIndex);
-                                });
-                              },
-                            ),
-                          ],
+                            controller: otherIncome["price"]!,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]')),
+                            ],
+                            hintText: "1,000",
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              otherIncomes.removeAt(otherIncomeIndex);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -758,57 +831,50 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   Map<String, TextEditingController> otherExpense = entry.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Other Expense Name",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: otherExpense["name"]!,
-                                hintText: "Product A",
-                                isDropDownItem: true,
-                                dropdownItems: otherExpensesList,
-                              ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Other Expense Name",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(
-                              width: 10,
+                            controller: otherExpense["name"]!,
+                            hintText: "Product A",
+                            isDropDownItem: true,
+                            dropdownItems: otherExpensesList,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextFieldView(
+                            title: "Price (₹)",
+                            titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Expanded(
-                              child: TextFieldView(
-                                title: "Price (₹)",
-                                titleStyle:
-                                    AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                controller: otherExpense["price"]!,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9\.]')),
-                                ],
-                                hintText: "1,000",
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: AppColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  otherExpenses.removeAt(otherExpenseIndex);
-                                });
-                              },
-                            ),
-                          ],
+                            controller: otherExpense["price"]!,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]')),
+                            ],
+                            hintText: "1,000",
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              otherExpenses.removeAt(otherExpenseIndex);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -1169,12 +1235,14 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                           context: context,
                         );
                       } else {
-                        print("-----> $revenuesList");
                         IncomeMake.generateIncome(
                           companyName: companyName.text,
                           gstNumber: gstNo.text,
                           companyEmail: companyEmail.text,
                           companyPhoneNo: companyPhoneNo.text,
+                          taxType: incomeController.taxValue.value == 1
+                              ? "taxPercentage"
+                              : "taxAmount",
                           tax: tax.text,
                           revenues: revenuesList,
                           cgs: cgsList,
@@ -1183,12 +1251,6 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                           otherExpenses: otherExpensesList,
                           context: context,
                         );
-
-                        // int totalRevenue = 0;
-                        // List.generate(revenuesList.length, (index) {
-                        //   totalRevenue +=
-                        //       int.tryParse(revenuesList[index]["price"])!;
-                        // });
                       }
                     }
                   },
