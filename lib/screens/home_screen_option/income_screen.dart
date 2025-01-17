@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:genify/widgets/layout_builder_view.dart';
 import 'income_view/income_common_view.dart';
+import 'income_view/web_income_view.dart';
 
 class IncomeScreen extends StatefulWidget {
   const IncomeScreen({super.key});
@@ -17,7 +18,7 @@ class _IncomeScreenState extends State<IncomeScreen> {
     return LayoutBuilderView(
       mobileView: IncomeCommonViewScreen(),
       tabletView: IncomeCommonViewScreen(),
-      webView: IncomeCommonViewScreen(),
+      webView: WebIncomeView(),
     );
   }
 }

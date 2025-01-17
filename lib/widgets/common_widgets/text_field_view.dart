@@ -183,7 +183,7 @@ class TextFieldView extends StatelessWidget {
                 hintStyle: TextStyle(color: AppColors.greyColor),
                 suffixIcon: isDropDownItem == true
                     ? PopupMenuButton<String>(
-                        color: AppColors.greyColor,
+                        color: AppColors.dropDownColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -197,10 +197,7 @@ class TextFieldView extends StatelessWidget {
                                     value: item,
                                     child: Text(
                                       item,
-                                      style:
-                                          AppTextStyle.smallTextStyle.copyWith(
-                                        color: AppColors.whiteColor,
-                                      ),
+                                      style: AppTextStyle.smallTextStyle,
                                     ),
                                   ))
                               .toList();

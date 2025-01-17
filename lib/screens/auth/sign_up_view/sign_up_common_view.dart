@@ -175,6 +175,7 @@ class _SignUpCommomViewState extends State<SignUpCommomView> {
               ),
               hintText: "example@gmail.com",
               controller: email,
+                  keyboardType: TextInputType.emailAddress,
               needValidator: true,
               emailValidator: true,
             ),

@@ -55,7 +55,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
 
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  List timeValue = ["Old Real-Time", "New Real-Time", "Manually"];
+  List? timeValue;
 
   String wallet = "";
   List walletList = [
@@ -134,9 +134,17 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
     dateController.text = widget.date;
     timeController.text = widget.time;
 
-    widget.timeType == "RealTime"
-        ? transactionController.timeValue.value = 1
-        : transactionController.timeValue.value = 3;
+    timeValue = widget.timeType == "Manual"
+        ? ["Current Time", "Choose Time"]
+        : ["Previous Time", "Current Time", "Choose Time"];
+
+    widget.timeType == "Manual"
+        ? widget.timeType == "CurrentTime"
+            ? transactionController.timeValue.value = 1
+            : transactionController.timeValue.value = 2
+        : widget.timeType == "CurrentTime"
+            ? transactionController.timeValue.value = 1
+            : transactionController.timeValue.value = 3;
 
     transactionController.imagePath.value = "";
     super.initState();
@@ -365,14 +373,15 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                   filled: true,
                                   fillColor: AppColors.whiteColor,
                                 ),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.greyColor,
-                                ),
+                                icon: Icon(Icons.keyboard_arrow_down_rounded),
+                                dropdownColor: AppColors.dropDownColor,
                                 items: walletList.map((value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: Text(
+                                      value,
+                                      style: AppTextStyle.regularTextStyle,
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (String? newValue) {
@@ -388,101 +397,220 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                 () => Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    transactionController.timeValue.value == 3
-                                        ? Row(
-                                            children: [
-                                              Expanded(
-                                                child: TextFieldView(
-                                                  title: "",
-                                                  controller: dateController,
-                                                  onTap: () async {
-                                                    final DateTime?
-                                                        selectedDate =
-                                                        await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate: DateTime(2000),
-                                                      lastDate: DateTime.now(),
-                                                    );
+                                    widget.timeType == "Manual"
+                                        ? transactionController
+                                                    .timeValue.value ==
+                                                2
+                                            ? Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          dateController,
+                                                      onTap: () async {
+                                                        final DateTime?
+                                                            selectedDate =
+                                                            await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime(2000),
+                                                          lastDate:
+                                                              DateTime.now(),
+                                                        );
 
-                                                    dateController.text =
-                                                        DateFormat('dd-MM-yyyy')
+                                                        dateController
+                                                            .text = DateFormat(
+                                                                'dd-MM-yyyy')
                                                             .format(
                                                                 selectedDate!);
-                                                  },
-                                                  vertical: 15,
-                                                  readOnly: true,
-                                                  hintText: "Select Date",
-                                                  suffixIcon: Icon(
-                                                      Icons.date_range_rounded),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: TextFieldView(
-                                                  title: "",
-                                                  controller: timeController,
-                                                  onTap: () async {
-                                                    TimeOfDay? timeOfDay =
-                                                        await showTimePicker(
-                                                            context: context,
-                                                            initialTime:
-                                                                TimeOfDay
-                                                                    .now());
+                                                      },
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      hintText: "Select Date",
+                                                      suffixIcon: Icon(Icons
+                                                          .date_range_rounded),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          timeController,
+                                                      onTap: () async {
+                                                        TimeOfDay? timeOfDay =
+                                                            await showTimePicker(
+                                                                context:
+                                                                    context,
+                                                                initialTime:
+                                                                    TimeOfDay
+                                                                        .now());
 
-                                                    if (timeOfDay != null) {
-                                                      timeController.text =
-                                                          DateFormat(
+                                                        if (timeOfDay != null) {
+                                                          timeController
+                                                              .text = DateFormat(
                                                                   'hh:mm:ss a')
                                                               .format(
-                                                        DateTime(
-                                                            0,
-                                                            1,
-                                                            1,
-                                                            timeOfDay.hour,
-                                                            timeOfDay.minute),
-                                                      );
-                                                    }
-                                                  },
-                                                  vertical: 15,
-                                                  readOnly: true,
-                                                  hintText: "Select Time",
-                                                  suffixIcon: Icon(Icons
-                                                      .access_time_rounded),
-                                                ),
+                                                            DateTime(
+                                                                0,
+                                                                1,
+                                                                1,
+                                                                timeOfDay.hour,
+                                                                timeOfDay
+                                                                    .minute),
+                                                          );
+                                                        }
+                                                      },
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      hintText: "Select Time",
+                                                      suffixIcon: Icon(Icons
+                                                          .access_time_rounded),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          dateController,
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      suffixIcon: Icon(Icons
+                                                          .date_range_rounded),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          timeController,
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      suffixIcon: Icon(Icons
+                                                          .access_time_rounded),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                        : transactionController
+                                                    .timeValue.value ==
+                                                3
+                                            ? Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          dateController,
+                                                      onTap: () async {
+                                                        final DateTime?
+                                                            selectedDate =
+                                                            await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime(2000),
+                                                          lastDate:
+                                                              DateTime.now(),
+                                                        );
+
+                                                        dateController
+                                                            .text = DateFormat(
+                                                                'dd-MM-yyyy')
+                                                            .format(
+                                                                selectedDate!);
+                                                      },
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      hintText: "Select Date",
+                                                      suffixIcon: Icon(Icons
+                                                          .date_range_rounded),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          timeController,
+                                                      onTap: () async {
+                                                        TimeOfDay? timeOfDay =
+                                                            await showTimePicker(
+                                                                context:
+                                                                    context,
+                                                                initialTime:
+                                                                    TimeOfDay
+                                                                        .now());
+
+                                                        if (timeOfDay != null) {
+                                                          timeController
+                                                              .text = DateFormat(
+                                                                  'hh:mm:ss a')
+                                                              .format(
+                                                            DateTime(
+                                                                0,
+                                                                1,
+                                                                1,
+                                                                timeOfDay.hour,
+                                                                timeOfDay
+                                                                    .minute),
+                                                          );
+                                                        }
+                                                      },
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      hintText: "Select Time",
+                                                      suffixIcon: Icon(Icons
+                                                          .access_time_rounded),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          dateController,
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      suffixIcon: Icon(Icons
+                                                          .date_range_rounded),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: TextFieldView(
+                                                      title: "",
+                                                      controller:
+                                                          timeController,
+                                                      vertical: 15,
+                                                      readOnly: true,
+                                                      suffixIcon: Icon(Icons
+                                                          .access_time_rounded),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          )
-                                        : Row(
-                                            children: [
-                                              Expanded(
-                                                child: TextFieldView(
-                                                  title: "",
-                                                  controller: dateController,
-                                                  vertical: 15,
-                                                  readOnly: true,
-                                                  suffixIcon: Icon(
-                                                      Icons.date_range_rounded),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: TextFieldView(
-                                                  title: "",
-                                                  controller: timeController,
-                                                  vertical: 15,
-                                                  readOnly: true,
-                                                  suffixIcon: Icon(Icons
-                                                      .access_time_rounded),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -495,7 +623,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                         child: ListView.builder(
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
-                                          itemCount: timeValue.length,
+                                          itemCount: timeValue!.length,
                                           itemBuilder: (context, index) {
                                             return Obx(
                                               () => GestureDetector(
@@ -531,7 +659,7 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                                       },
                                                     ),
                                                     Text(
-                                                      timeValue[index],
+                                                      timeValue![index],
                                                       style: AppTextStyle
                                                           .regularTextStyle
                                                           .copyWith(
@@ -569,68 +697,109 @@ class _WebEditDetailsScreenState extends State<WebEditDetailsScreen> {
                                     );
                                   } else {
                                     DateTime now = DateTime.now();
-                                    String realDate = DateFormat('dd-MM-yyyy')
-                                        .format(DateTime.now());
-                                    String realTime =
+                                    String currentDate =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(DateTime.now());
+                                    String currentTime =
                                         DateFormat("hh:mm:ss a").format(now);
 
                                     String timeType =
-                                        transactionController.timeValue.value ==
+                                        widget.timeType == "Manual"
+                                            ? transactionController
+                                                        .timeValue.value ==
+                                                    2
+                                                ? "Manual"
+                                                : "CurrentTime"
+                                            : transactionController
+                                                        .timeValue.value ==
+                                                    1
+                                                ? "CurrentTime"
+                                                : transactionController
+                                                            .timeValue.value ==
+                                                        2
+                                                    ? "CurrentTime"
+                                                    : "Manual";
+
+                                    widget.timeType == "Manual"
+                                        ? transactionController
+                                                    .timeValue.value ==
+                                                2
+                                            ? transactionController
+                                                .updateTransactionData(
+                                                amount: amount.text,
+                                                title: title.text,
+                                                subTitle: subTitle.text,
+                                                payment: wallet,
+                                                image: widget.image,
+                                                uniqueNumber:
+                                                    widget.uniqueNumber,
+                                                date: dateController.text,
+                                                time: timeController.text,
+                                                timeType: timeType,
+                                                context: context,
+                                              )
+                                            : transactionController
+                                                .updateTransactionData(
+                                                amount: amount.text,
+                                                title: title.text,
+                                                subTitle: subTitle.text,
+                                                payment: wallet,
+                                                image: widget.image,
+                                                uniqueNumber:
+                                                    widget.uniqueNumber,
+                                                date: currentDate,
+                                                time: currentTime,
+                                                timeType: timeType,
+                                                context: context,
+                                              )
+                                        : transactionController
+                                                    .timeValue.value ==
                                                 1
-                                            ? "RealTime"
+                                            ? transactionController
+                                                .updateTransactionData(
+                                                amount: amount.text,
+                                                title: title.text,
+                                                subTitle: subTitle.text,
+                                                payment: wallet,
+                                                image: widget.image,
+                                                uniqueNumber:
+                                                    widget.uniqueNumber,
+                                                date: currentDate,
+                                                time: currentTime,
+                                                timeType: timeType,
+                                                context: context,
+                                              )
                                             : transactionController
                                                         .timeValue.value ==
                                                     2
-                                                ? "RealTime"
-                                                : "Manual";
-
-                                    // Real time issue----------------
-                                    if (transactionController.timeValue.value ==
-                                        1) {
-                                      transactionController
-                                          .updateTransactionData(
-                                        amount: amount.text,
-                                        title: title.text,
-                                        subTitle: subTitle.text,
-                                        payment: wallet,
-                                        image: widget.image,
-                                        uniqueNumber: widget.uniqueNumber,
-                                        date: dateController.text,
-                                        time: timeController.text,
-                                        timeType: timeType,
-                                        context: context,
-                                      );
-                                    } else if (transactionController
-                                            .timeValue.value ==
-                                        2) {
-                                      transactionController
-                                          .updateTransactionData(
-                                        amount: amount.text,
-                                        title: title.text,
-                                        subTitle: subTitle.text,
-                                        payment: wallet,
-                                        image: widget.image,
-                                        uniqueNumber: widget.uniqueNumber,
-                                        date: realDate,
-                                        time: realTime,
-                                        timeType: timeType,
-                                        context: context,
-                                      );
-                                    } else {
-                                      transactionController
-                                          .updateTransactionData(
-                                        amount: amount.text,
-                                        title: title.text,
-                                        subTitle: subTitle.text,
-                                        payment: wallet,
-                                        image: widget.image,
-                                        uniqueNumber: widget.uniqueNumber,
-                                        date: dateController.text,
-                                        time: timeController.text,
-                                        timeType: timeType,
-                                        context: context,
-                                      );
-                                    }
+                                                ? transactionController
+                                                    .updateTransactionData(
+                                                    amount: amount.text,
+                                                    title: title.text,
+                                                    subTitle: subTitle.text,
+                                                    payment: wallet,
+                                                    image: widget.image,
+                                                    uniqueNumber:
+                                                        widget.uniqueNumber,
+                                                    date: currentDate,
+                                                    time: currentTime,
+                                                    timeType: timeType,
+                                                    context: context,
+                                                  )
+                                                : transactionController
+                                                    .updateTransactionData(
+                                                    amount: amount.text,
+                                                    title: title.text,
+                                                    subTitle: subTitle.text,
+                                                    payment: wallet,
+                                                    image: widget.image,
+                                                    uniqueNumber:
+                                                        widget.uniqueNumber,
+                                                    date: dateController.text,
+                                                    time: timeController.text,
+                                                    timeType: timeType,
+                                                    context: context,
+                                                  );
                                   }
                                 },
                               ),

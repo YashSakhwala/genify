@@ -24,6 +24,8 @@ class IncomeMake {
     required String companyPhoneNo,
     required String taxType,
     required String tax,
+    required String dateType,
+    required String date,
     required List revenues,
     required List cgs,
     required List expenses,
@@ -38,9 +40,6 @@ class IncomeMake {
     pw.MemoryImage? signatureImage;
     pw.MemoryImage? phoneIcon;
     pw.MemoryImage? emailIcon;
-    pw.MemoryImage? dateIcon;
-    pw.MemoryImage? timeIcon;
-    pw.MemoryImage? rupeeIcon;
 
     if (imagePath.isNotEmpty) {
       if (kIsWeb) {
@@ -93,25 +92,9 @@ class IncomeMake {
             .buffer
             .asUint8List(),
       );
-      dateIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_date.png"))
-            .buffer
-            .asUint8List(),
-      );
-      timeIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/black_time.png"))
-            .buffer
-            .asUint8List(),
-      );
-      rupeeIcon = pw.MemoryImage(
-        (await rootBundle.load("assets/icons/rupee.png")).buffer.asUint8List(),
-      );
     } catch (e) {
       phoneIcon = null;
       emailIcon = null;
-      dateIcon = null;
-      timeIcon = null;
-      rupeeIcon = null;
     }
 
     if (otherIncomes!.length == 1) {
@@ -254,7 +237,7 @@ class IncomeMake {
                                     width: 8,
                                   ),
                                   pw.Text(
-                                    "For the Year Ended December 31, 2024",
+                                    "For the $dateType ended $date",
                                     style: pw.TextStyle(
                                       fontSize: 10,
                                     ),

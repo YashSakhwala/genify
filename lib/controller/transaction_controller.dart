@@ -347,8 +347,8 @@ class TransactionController extends GetxController {
     DocumentSnapshot docSnapshot = await docRef.get();
     Map data = docSnapshot.data() as Map<String, dynamic>;
 
-    List expenses = data["Expenses"];
-    List income = data["Incomes"];
+    List expenses = data["Expenses"] ?? [];
+    List income = data["Incomes"] ?? [];
 
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 

@@ -54,6 +54,7 @@ class _LoginCommonViewState extends State<LoginCommonView> {
               ),
               hintText: "example@gmail.com",
               controller: email,
+              keyboardType: TextInputType.emailAddress,
               needValidator: true,
               emailValidator: true,
             ),

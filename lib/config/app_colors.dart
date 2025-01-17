@@ -11,4 +11,5 @@ class AppColors {
   static const greenColor = Colors.green;
   static const blackThemeBoxColor = Color(0xFF2c2d32);
   static const transparentColor = Colors.transparent;
+  static const dropDownColor = Color(0xFFf4f8fb);
 }

@@ -37,7 +37,7 @@ class _AddExpensesCommonViewScreenState
 
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  List timeValue = ["Real-Time", "Manually"];
+  List timeValue = ["Current Time", "Choose Time"];
 
   String wallet = "Google pay";
   List walletList = [
@@ -277,13 +277,16 @@ class _AddExpensesCommonViewScreenState
                           fillColor: AppColors.whiteColor,
                         ),
                         icon: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.greyColor,
+                          Icons.keyboard_arrow_down_rounded
                         ),
+                        dropdownColor: AppColors.dropDownColor,
                         items: walletList.map((value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: AppTextStyle.regularTextStyle,
+                            ),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -447,14 +450,14 @@ class _AddExpensesCommonViewScreenState
                             }
 
                             DateTime now = DateTime.now();
-                            String realDate =
+                            String currentDate =
                                 DateFormat('dd-MM-yyyy').format(DateTime.now());
-                            String realTime =
+                            String currentTime =
                                 DateFormat("hh:mm:ss a").format(now);
 
                             String timeType =
                                 transactionController.timeValue.value == 1
-                                    ? "RealTime"
+                                    ? "CurrentTime"
                                     : "Manual";
 
                             if (transactionController.timeValue.value == 1) {
@@ -463,8 +466,8 @@ class _AddExpensesCommonViewScreenState
                                 title: title.text,
                                 subTitle: subTitle.text,
                                 payment: wallet,
-                                date: realDate,
-                                time: realTime,
+                                date: currentDate,
+                                time: currentTime,
                                 context: context,
                                 type: "Expenses",
                                 timeType: timeType,

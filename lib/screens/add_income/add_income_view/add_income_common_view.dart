@@ -36,7 +36,7 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
 
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  List timeValue = ["Real-Time", "Manually"];
+  List timeValue = ["Current Time", "Choose Time"];
 
   String wallet = "Google pay";
   List walletList = [
@@ -304,13 +304,16 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                           fillColor: AppColors.whiteColor,
                         ),
                         icon: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.greyColor,
+                          Icons.keyboard_arrow_down_rounded
                         ),
+                        dropdownColor: AppColors.dropDownColor,
                         items: walletList.map((value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: AppTextStyle.regularTextStyle,
+                            ),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -474,14 +477,14 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                             }
 
                             DateTime now = DateTime.now();
-                            String realDate =
+                            String currentDate =
                                 DateFormat('dd-MM-yyyy').format(DateTime.now());
-                            String realTime =
+                            String currentTime =
                                 DateFormat("hh:mm:ss a").format(now);
 
                             String timeType =
                                 transactionController.timeValue.value == 1
-                                    ? "RealTime"
+                                    ? "CurrentTime"
                                     : "Manual";
 
                             if (transactionController.timeValue.value == 1) {
@@ -490,11 +493,11 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                                 title: title.text,
                                 subTitle: subTitle.text,
                                 payment: wallet,
-                                date: realDate,
-                                time: realTime,
-                                context: context,
+                                date: currentDate,
+                                time: currentTime,
                                 type: "Incomes",
                                 timeType: timeType,
+                                context: context,
                               );
                             } else {
                               if (dateController.text.isEmpty ||
@@ -511,9 +514,9 @@ class _AddIncomeCommonViewScreenState extends State<AddIncomeCommonViewScreen> {
                                   payment: wallet,
                                   date: dateController.text,
                                   time: timeController.text,
-                                  context: context,
                                   type: "Incomes",
                                   timeType: timeType,
+                                  context: context,
                                 );
                               }
                             }

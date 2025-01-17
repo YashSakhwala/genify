@@ -522,6 +522,11 @@ class _InvoiceCommonViewScreenState extends State<InvoiceCommonViewScreen> {
                         msg: "Please fill all details",
                         context: context,
                       );
+                    } else if (gstNo.text.length < 15) {
+                      toastView(
+                        msg: "GST number must be 15 character",
+                        context: context,
+                      );
                     } else if (items.isEmpty) {
                       toastView(
                         msg: "Please add items",

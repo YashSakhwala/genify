@@ -470,11 +470,15 @@ class _WebSalarySlipScreenState extends State<WebSalarySlipScreen> {
                               value: paymentMethod,
                               isExpanded: true,
                               underline: SizedBox(),
+                              dropdownColor: AppColors.dropDownColor,
                               items: ["Cash", "Bank Transfer", "UPI Payment"]
                                   .map((String value) {
                                 return DropdownMenuItem(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(
+                                    value,
+                                    style: AppTextStyle.regularTextStyle,
+                                  ),
                                 );
                               }).toList(),
                               onChanged: (newValue) {

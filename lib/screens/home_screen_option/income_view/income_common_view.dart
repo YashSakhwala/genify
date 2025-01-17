@@ -9,6 +9,7 @@ import 'package:genify/config/app_colors.dart';
 import 'package:genify/widgets/common_widgets/appbar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../../config/app_image.dart';
 import '../../../config/app_style.dart';
 import '../../../controller/income_controller.dart';
@@ -31,6 +32,7 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
   final TextEditingController gstNo = TextEditingController();
   final TextEditingController companyEmail = TextEditingController();
   final TextEditingController companyPhoneNo = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   final TextEditingController tax = TextEditingController();
 
   final List<Map<String, TextEditingController>> revenues = [];
@@ -38,8 +40,6 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
   final List<Map<String, TextEditingController>> expenses = [];
   final List<Map<String, TextEditingController>> otherIncomes = [];
   final List<Map<String, TextEditingController>> otherExpenses = [];
-
-  final List<Map<String, TextEditingController>> items = [];
 
   List dateValue = ["Month", "Year"];
   List taxValue = ["Tax Percentage", "Tax Amount"];
@@ -346,103 +346,91 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                   height: 20,
                 ),
 
-                Obx(
-                  () => Column(
-                    children: [
-                      if (incomeController.taxValue.value == 1)
-                        TextFieldView(
-                          title: "Month",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: tax,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]')),
-                          ],
-                          hintText: "18 %",
-                          isCompulsory: true,
-                        ),
-                      if (incomeController.taxValue.value == 2)
-                        TextFieldView(
-                          title: "Year",
-                          titleStyle: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          controller: tax,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]')),
-                          ],
-                          hintText: "",
-                          isCompulsory: true,
-                        ),
-                      // if (incomeController.dateValue.value == 1 ||
-                      //     incomeController.dateValue.value == 2)
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 30,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: dateValue.length,
-                            itemBuilder: (context, index) {
-                              return Obx(
-                                () => GestureDetector(
-                                  onTap: () {
-                                    incomeController.dateValue.value =
-                                        index + 1;
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Radio(
-                                        fillColor:
-                                            MaterialStateColor.resolveWith(
-                                          (states) => incomeController
-                                                      .dateValue.value ==
-                                                  index + 1
-                                              ? AppColors.primaryColor
-                                              : AppColors.greyColor,
-                                        ),
-                                        value: index + 1,
-                                        groupValue:
-                                            incomeController.dateValue.value,
-                                        onChanged: (value) {
-                                          incomeController.dateValue.value =
-                                              value!;
-                                        },
-                                      ),
-                                      Text(
-                                        dateValue[index],
-                                        style: AppTextStyle.regularTextStyle
-                                            .copyWith(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                TextFieldView(
+                  title: "Select Date",
+                  titleStyle: AppTextStyle.regularTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  controller: dateController,
+                  onTap: () async {
+                    final DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
+                    );
+
+                    dateController.text =
+                        DateFormat('dd MMMM, yyyy').format(selectedDate!);
+                  },
+                  isCompulsory: true,
+                  readOnly: true,
+                  hintText: "31 December, 2024",
+                  suffixIcon: Icon(Icons.date_range_rounded),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Select financial month/year end *",
+                  style: AppTextStyle.regularTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 5,
+                ),
+                Container(
+                  height: 30,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: dateValue.length,
+                      itemBuilder: (context, index) {
+                        return Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              incomeController.dateValue.value = index + 1;
+                            },
+                            child: Row(
+                              children: [
+                                Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        incomeController.dateValue.value ==
+                                                index + 1
+                                            ? AppColors.primaryColor
+                                            : AppColors.greyColor,
+                                  ),
+                                  value: index + 1,
+                                  groupValue: incomeController.dateValue.value,
+                                  onChanged: (value) {
+                                    incomeController.dateValue.value = value!;
+                                  },
+                                ),
+                                Text(
+                                  dateValue[index],
+                                  style: AppTextStyle.regularTextStyle.copyWith(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
 
                 // All Amounts
@@ -1168,9 +1156,15 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                     if (companyName.text.isEmpty ||
                         gstNo.text.isEmpty ||
                         companyEmail.text.isEmpty ||
-                        companyPhoneNo.text.isEmpty) {
+                        companyPhoneNo.text.isEmpty ||
+                        dateController.text.isEmpty) {
                       toastView(
                         msg: "Please fill all details",
+                        context: context,
+                      );
+                    } else if (gstNo.text.length < 15) {
+                      toastView(
+                        msg: "GST number must be 15 character",
                         context: context,
                       );
                     } else if (revenues.isEmpty) {
@@ -1228,6 +1222,11 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                         msg: "Please select tax type",
                         context: context,
                       );
+                    } else if (incomeController.dateValue.value == 0) {
+                      toastView(
+                        msg: "Please select month/year",
+                        context: context,
+                      );
                     } else {
                       if (tax.text.isEmpty) {
                         toastView(
@@ -1235,22 +1234,28 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
                           context: context,
                         );
                       } else {
-                        IncomeMake.generateIncome(
-                          companyName: companyName.text,
-                          gstNumber: gstNo.text,
-                          companyEmail: companyEmail.text,
-                          companyPhoneNo: companyPhoneNo.text,
-                          taxType: incomeController.taxValue.value == 1
-                              ? "taxPercentage"
-                              : "taxAmount",
-                          tax: tax.text,
-                          revenues: revenuesList,
-                          cgs: cgsList,
-                          expenses: expensesList,
-                          otherIncomes: otherIncomesList,
-                          otherExpenses: otherExpensesList,
-                          context: context,
-                        );
+                        if (_formKey.currentState!.validate()) {
+                          IncomeMake.generateIncome(
+                            companyName: companyName.text,
+                            gstNumber: gstNo.text,
+                            companyEmail: companyEmail.text,
+                            companyPhoneNo: companyPhoneNo.text,
+                            taxType: incomeController.taxValue.value == 1
+                                ? "taxPercentage"
+                                : "taxAmount",
+                            tax: tax.text,
+                            dateType: incomeController.dateValue.value == 1
+                                ? "month"
+                                : "year",
+                            date: dateController.text,
+                            revenues: revenuesList,
+                            cgs: cgsList,
+                            expenses: expensesList,
+                            otherIncomes: otherIncomesList,
+                            otherExpenses: otherExpensesList,
+                            context: context,
+                          );
+                        }
                       }
                     }
                   },
@@ -1263,20 +1268,3 @@ class _IncomeCommonViewScreenState extends State<IncomeCommonViewScreen> {
     );
   }
 }
-
-
-
-
-
-  // InvoiceMake.generateInvoice(
-                          //   companyName: companyName.text,
-                          //   gstNumber: gstNo.text,
-                          //   companyEmail: companyEmail.text,
-                          //   companyPhoneNo: companyPhoneNo.text,
-                          //   address: address.text,
-                          //   clientName: clientName.text,
-                          //   clientEmail: clientEmail.text,
-                          //   clientPhoneNo: clientPhoneNo.text,
-                          //   items: itemList,
-                          //   context: context,
-                          // );
