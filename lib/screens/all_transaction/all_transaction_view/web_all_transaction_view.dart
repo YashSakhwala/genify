@@ -185,8 +185,9 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                   }
                                 },
                               ),
-                                   if (!transactionController.isSearching.value)
+                              if (!transactionController.isSearching.value)
                                 PopupMenuButton(
+                                  color: AppColors.dropDownColor,
                                   icon: Icon(Icons.filter_alt),
                                   onSelected: (filter) {
                                     List originalData = List.from(
@@ -238,7 +239,6 @@ class _WebAllTransactionScreenState extends State<WebAllTransactionScreen> {
                                         value: '9 to 0', child: Text('9 to 0')),
                                   ],
                                 )
-                         
                             ],
                           ),
                           SizedBox(

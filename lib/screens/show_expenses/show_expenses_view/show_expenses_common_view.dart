@@ -201,6 +201,7 @@ class _ShowExpensesCommonViewScreenState
                                   ),
                                   if (!transactionController.isSearching.value)
                                     PopupMenuButton(
+                                      color: AppColors.dropDownColor,
                                       icon: Icon(Icons.filter_alt),
                                       onSelected: (filter) {
                                         List originalData = List.from(

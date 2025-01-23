@@ -1,9 +1,11 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, invalid_use_of_protected_member
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:genify/screens/all_transaction/all_transaction_view/transaction_make_function.dart';
 import 'package:genify/widgets/common_widgets/text_field_view.dart';
+import 'package:genify/widgets/common_widgets/toast_view.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../../../config/app_colors.dart';
@@ -115,7 +117,7 @@ class _AllTransactionCommonViewScreenState
                                 Text(
                                   "All Transactions",
                                   style: AppTextStyle.regularTextStyle.copyWith(
-                                    fontSize: 18,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -171,76 +173,185 @@ class _AllTransactionCommonViewScreenState
                                     },
                                   ),
                                 ),
-                              IconButton(
-                                icon: Icon(
-                                    transactionController.isSearching.value
-                                        ? Icons.close
-                                        : Icons.search),
-                                onPressed: () {
-                                  transactionController.isSearching.value =
-                                      !transactionController.isSearching.value;
-                                  if (!transactionController
-                                      .isSearching.value) {
-                                    searchController.clear();
-                                    transactionController.filteredData.value =
-                                        List.from(
-                                            transactionController.dataEntries);
-                                  }
-                                },
-                              ),
-                              if (!transactionController.isSearching.value)
-                                PopupMenuButton(
-                                  icon: Icon(Icons.filter_alt),
-                                  onSelected: (filter) {
-                                    List originalData = List.from(
-                                        transactionController.dataEntries);
+                              Row(
+                                children: [
+                                  if (!transactionController.isSearching.value)
+                                    // IconButton(
+                                    //   icon: Icon(
+                                    //     Icons.download_rounded,
+                                    //     size: 22,
+                                    //     color: AppColors.blackColor
+                                    //         .withOpacity(0.7),
+                                    //   ),
+                                    //   onPressed: () {
+                                    // TransactionMake.generateStatement(
+                                    //   name: "Yash Sakhwala",
+                                    //   allData:
+                                    //       transactionController.dataEntries,
+                                    //   context: context,
+                                    // );
 
-                                    transactionController.filteredData.value =
-                                        originalData.map((entry) {
-                                      List sortedValues;
-                                      switch (filter) {
-                                        case 'A to Z':
-                                          sortedValues = List.from(entry.value)
-                                            ..sort((a, b) => a['title']
-                                                .toString()
-                                                .compareTo(
-                                                    b['title'].toString()));
-                                          break;
-                                        case 'Z to A':
-                                          sortedValues = List.from(entry.value)
-                                            ..sort((a, b) => b['title']
-                                                .toString()
-                                                .compareTo(
-                                                    a['title'].toString()));
-                                          break;
-                                        case '0 to 9':
-                                          sortedValues = List.from(entry.value)
-                                            ..sort((a, b) => a['amount']
-                                                .compareTo(b['amount']));
-                                          break;
-                                        case '9 to 0':
-                                          sortedValues = List.from(entry.value)
-                                            ..sort((a, b) => b['amount']
-                                                .compareTo(a['amount']));
-                                          break;
-                                        default:
-                                          sortedValues = List.from(entry.value);
-                                          break;
+                                    // print(
+                                    //     "------>  ${transactionController.dataEntries.value}");
+
+                                    //     // print(
+                                    //     //     "------>  ${transactionController.dataEntries[0].key}");
+                                    //   },
+                                    // ),
+
+                                    PopupMenuButton(
+                                      color: AppColors.dropDownColor,
+                                      icon: Icon(
+                                        Icons.download_rounded,
+                                        size: 22,
+                                        color: AppColors.blackColor
+                                            .withOpacity(0.7),
+                                      ),
+                                      onSelected: (filter) {
+                                        switch (filter) {
+                                          case 'Monthly':
+                                            print(
+                                                "------>  ${transactionController.dataEntries.value}");
+
+                                            final int currentMonth =
+                                                DateTime.now().month;
+
+                                            final filteredData =
+                                                transactionController
+                                                    .dataEntries
+                                                    .where((entry) =>
+                                                        int.parse(entry.key
+                                                            .split('-')[1]) ==
+                                                        currentMonth)
+                                                    .toList();
+
+                                            TransactionMake.generateStatement(
+                                              name: "Yash Sakhwala",
+                                              allData: filteredData,
+                                              context: context,
+                                            );
+
+                                            break;
+                                          case 'Yearly':
+                                            TransactionMake.generateStatement(
+                                              name: "Genify",
+                                              allData: transactionController
+                                                  .dataEntries,
+                                              context: context,
+                                            );
+                                            break;
+
+                                          default:
+                                            toastView(
+                                              msg: "-----> Default Statement",
+                                              context: context,
+                                            );
+                                            break;
+                                        }
+                                      },
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                            value: 'Monthly',
+                                            child: Text('Monthly Statement')),
+                                        PopupMenuItem(
+                                            value: 'Yearly',
+                                            child: Text('Yearly Statement')),
+                                      ],
+                                    ),
+                                  IconButton(
+                                    icon: Icon(
+                                      transactionController.isSearching.value
+                                          ? Icons.close
+                                          : Icons.search,
+                                      size: 22,
+                                      color:
+                                          AppColors.blackColor.withOpacity(0.7),
+                                    ),
+                                    onPressed: () {
+                                      transactionController.isSearching.value =
+                                          !transactionController
+                                              .isSearching.value;
+                                      if (!transactionController
+                                          .isSearching.value) {
+                                        searchController.clear();
+                                        transactionController
+                                                .filteredData.value =
+                                            List.from(transactionController
+                                                .dataEntries);
                                       }
-                                      return MapEntry(entry.key, sortedValues);
-                                    }).toList();
-                                  },
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                        value: 'A to Z', child: Text('A to Z')),
-                                    PopupMenuItem(
-                                        value: 'Z to A', child: Text('Z to A')),
-                                    PopupMenuItem(
-                                        value: '0 to 9', child: Text('0 to 9')),
-                                    PopupMenuItem(
-                                        value: '9 to 0', child: Text('9 to 0')),
-                                  ],
-                                )
+                                    },
+                                  ),
+                                  if (!transactionController.isSearching.value)
+                                    PopupMenuButton(
+                                      color: AppColors.dropDownColor,
+                                      icon: Icon(
+                                        Icons.filter_alt,
+                                        size: 22,
+                                        color: AppColors.blackColor
+                                            .withOpacity(0.7),
+                                      ),
+                                      onSelected: (filter) {
+                                        List originalData = List.from(
+                                            transactionController.dataEntries);
+
+                                        transactionController.filteredData
+                                            .value = originalData.map((entry) {
+                                          List sortedValues;
+                                          switch (filter) {
+                                            case 'A to Z':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => a['title']
+                                                    .toString()
+                                                    .compareTo(
+                                                        b['title'].toString()));
+                                              break;
+                                            case 'Z to A':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => b['title']
+                                                    .toString()
+                                                    .compareTo(
+                                                        a['title'].toString()));
+                                              break;
+                                            case '0 to 9':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => a['amount']
+                                                    .compareTo(b['amount']));
+                                              break;
+                                            case '9 to 0':
+                                              sortedValues = List.from(
+                                                  entry.value)
+                                                ..sort((a, b) => b['amount']
+                                                    .compareTo(a['amount']));
+                                              break;
+                                            default:
+                                              sortedValues =
+                                                  List.from(entry.value);
+                                              break;
+                                          }
+                                          return MapEntry(
+                                              entry.key, sortedValues);
+                                        }).toList();
+                                      },
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                            value: 'A to Z',
+                                            child: Text('A to Z')),
+                                        PopupMenuItem(
+                                            value: 'Z to A',
+                                            child: Text('Z to A')),
+                                        PopupMenuItem(
+                                            value: '0 to 9',
+                                            child: Text('0 to 9')),
+                                        PopupMenuItem(
+                                            value: '9 to 0',
+                                            child: Text('9 to 0')),
+                                      ],
+                                    ),
+                                ],
+                              ),
                             ],
                           ),
                           SizedBox(

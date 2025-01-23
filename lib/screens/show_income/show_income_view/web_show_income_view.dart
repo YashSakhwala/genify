@@ -198,6 +198,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                   ),
                                   if (!transactionController.isSearching.value)
                                     PopupMenuButton(
+                                      color: AppColors.dropDownColor,
                                       icon: Icon(Icons.filter_alt),
                                       onSelected: (filter) {
                                         List originalData = List.from(
