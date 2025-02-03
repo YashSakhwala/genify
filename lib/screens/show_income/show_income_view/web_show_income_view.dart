@@ -42,6 +42,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBarView(
         title: "",
         automaticallyImplyLeading: false,
@@ -67,7 +68,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                     ? ""
                                     : "Spend Frequency",
                                 style: AppTextStyle.regularTextStyle.copyWith(
-                                  fontSize: 18,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -117,7 +118,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                       "All Incomes",
                                       style: AppTextStyle.regularTextStyle
                                           .copyWith(
-                                        fontSize: 18,
+                                        fontSize: 17,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -177,90 +178,109 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                         },
                                       ),
                                     ),
-                                  IconButton(
-                                    icon: Icon(
-                                        transactionController.isSearching.value
-                                            ? Icons.close
-                                            : Icons.search),
-                                    onPressed: () {
-                                      transactionController.isSearching.value =
-                                          !transactionController
-                                              .isSearching.value;
-                                      if (!transactionController
-                                          .isSearching.value) {
-                                        searchController.clear();
-                                        transactionController
-                                                .filteredData.value =
-                                            List.from(transactionController
-                                                .incomeEntries);
-                                      }
-                                    },
-                                  ),
-                                  if (!transactionController.isSearching.value)
-                                    PopupMenuButton(
-                                      color: AppColors.dropDownColor,
-                                      icon: Icon(Icons.filter_alt),
-                                      onSelected: (filter) {
-                                        List originalData = List.from(
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          transactionController
+                                                  .isSearching.value
+                                              ? Icons.close
+                                              : Icons.search,
+                                          size: 22,
+                                          color: AppColors.blackColor
+                                              .withOpacity(0.7),
+                                        ),
+                                        onPressed: () {
+                                          transactionController
+                                                  .isSearching.value =
+                                              !transactionController
+                                                  .isSearching.value;
+                                          if (!transactionController
+                                              .isSearching.value) {
+                                            searchController.clear();
                                             transactionController
-                                                .incomeEntries);
-
-                                        transactionController.filteredData
-                                            .value = originalData.map((entry) {
-                                          List sortedValues;
-                                          switch (filter) {
-                                            case 'A to Z':
-                                              sortedValues = List.from(
-                                                  entry.value)
-                                                ..sort((a, b) => a['title']
-                                                    .toString()
-                                                    .compareTo(
-                                                        b['title'].toString()));
-                                              break;
-                                            case 'Z to A':
-                                              sortedValues = List.from(
-                                                  entry.value)
-                                                ..sort((a, b) => b['title']
-                                                    .toString()
-                                                    .compareTo(
-                                                        a['title'].toString()));
-                                              break;
-                                            case '0 to 9':
-                                              sortedValues = List.from(
-                                                  entry.value)
-                                                ..sort((a, b) => a['amount']
-                                                    .compareTo(b['amount']));
-                                              break;
-                                            case '9 to 0':
-                                              sortedValues = List.from(
-                                                  entry.value)
-                                                ..sort((a, b) => b['amount']
-                                                    .compareTo(a['amount']));
-                                              break;
-                                            default:
-                                              sortedValues =
-                                                  List.from(entry.value);
-                                              break;
+                                                    .filteredData.value =
+                                                List.from(transactionController
+                                                    .incomeEntries);
                                           }
-                                          return MapEntry(
-                                              entry.key, sortedValues);
-                                        }).toList();
-                                      },
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                            value: 'A to Z',
-                                            child: Text('A to Z')),
-                                        PopupMenuItem(
-                                            value: 'Z to A',
-                                            child: Text('Z to A')),
-                                        PopupMenuItem(
-                                            value: '0 to 9',
-                                            child: Text('0 to 9')),
-                                        PopupMenuItem(
-                                            value: '9 to 0',
-                                            child: Text('9 to 0')),
-                                      ],
-                                    )
+                                        },
+                                      ),
+                                      if (!transactionController
+                                          .isSearching.value)
+                                        PopupMenuButton(
+                                          color: AppColors.dropDownColor,
+                                          icon: Icon(
+                                            Icons.filter_alt,
+                                            size: 22,
+                                            color: AppColors.blackColor
+                                                .withOpacity(0.7),
+                                          ),
+                                          onSelected: (filter) {
+                                            List originalData = List.from(
+                                                transactionController
+                                                    .incomeEntries);
+
+                                            transactionController
+                                                    .filteredData.value =
+                                                originalData.map((entry) {
+                                              List sortedValues;
+                                              switch (filter) {
+                                                case 'A to Z':
+                                                  sortedValues = List.from(
+                                                      entry.value)
+                                                    ..sort((a, b) => a['title']
+                                                        .toString()
+                                                        .compareTo(b['title']
+                                                            .toString()));
+                                                  break;
+                                                case 'Z to A':
+                                                  sortedValues = List.from(
+                                                      entry.value)
+                                                    ..sort((a, b) => b['title']
+                                                        .toString()
+                                                        .compareTo(a['title']
+                                                            .toString()));
+                                                  break;
+                                                case '0 to 9':
+                                                  sortedValues = List.from(
+                                                      entry.value)
+                                                    ..sort((a, b) => a['amount']
+                                                        .compareTo(
+                                                            b['amount']));
+                                                  break;
+                                                case '9 to 0':
+                                                  sortedValues = List.from(
+                                                      entry.value)
+                                                    ..sort((a, b) => b['amount']
+                                                        .compareTo(
+                                                            a['amount']));
+                                                  break;
+                                                default:
+                                                  sortedValues =
+                                                      List.from(entry.value);
+                                                  break;
+                                              }
+                                              return MapEntry(
+                                                  entry.key, sortedValues);
+                                            }).toList();
+                                          },
+                                          itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                value: 'A to Z',
+                                                child: Text('A to Z')),
+                                            PopupMenuItem(
+                                                value: 'Z to A',
+                                                child: Text('Z to A')),
+                                            PopupMenuItem(
+                                                value: '0 to 9',
+                                                child: Text('0 to 9')),
+                                            PopupMenuItem(
+                                                value: '9 to 0',
+                                                child: Text('9 to 0')),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -284,7 +304,7 @@ class _WebShowIncomeScreenState extends State<WebShowIncomeScreen> {
                                           transactionController
                                               .incomeEntries[index].key,
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),

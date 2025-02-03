@@ -207,7 +207,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,7 +255,6 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                             : "--- Swipe for edit and delete ---",
                         style: AppTextStyle.smallTextStyle.copyWith(
                           fontSize: 12,
-                          // color: AppColors.greyColor,
                         ),
                       ),
                     ),
@@ -695,7 +694,7 @@ class _FinancesCommonViewScreenState extends State<FinancesCommonViewScreen> {
                                         ),
                                         child: FlipInX(
                                           child: Container(
-                                            height: 89,
+                                            height: 85,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,

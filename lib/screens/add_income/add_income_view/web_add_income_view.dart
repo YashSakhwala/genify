@@ -152,6 +152,9 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: AppColors.whiteColor,
@@ -287,9 +290,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                                 filled: true,
                                 fillColor: AppColors.whiteColor,
                               ),
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded
-                              ),
+                              icon: Icon(Icons.keyboard_arrow_down_rounded),
                               dropdownColor: AppColors.dropDownColor,
                               items: walletList.map((value) {
                                 return DropdownMenuItem<String>(
@@ -454,7 +455,7 @@ class _WebAddIncomeScreenState extends State<WebAddIncomeScreen> {
                               ),
                             ),
                             Container(
-                              height: 50,
+                              height: 60,
                             ),
                             ButtonView(
                               height: 50,

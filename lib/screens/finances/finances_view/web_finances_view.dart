@@ -48,7 +48,8 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.all(30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Container(
                   child: SingleChildScrollView(
                     child: Column(
@@ -58,7 +59,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                         Text(
                           "Account Balance",
                           style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: AppColors.greyColor,
                           ),
                           textAlign: TextAlign.center,
@@ -66,13 +67,13 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                         Text(
                           "₹${transactionController.totalAmount.value.toStringAsFixed(2)}",
                           style: AppTextStyle.regularTextStyle.copyWith(
-                            fontSize: 33,
+                            fontSize: 31,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 12,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,15 +88,15 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                 width: 250,
                                 decoration: BoxDecoration(
                                   color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(28),
+                                  borderRadius: BorderRadius.circular(22),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(10),
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: 50,
-                                        width: 50,
+                                        height: 45,
+                                        width: 45,
                                         decoration: BoxDecoration(
                                           color: AppColors.backgroundColor,
                                           borderRadius:
@@ -154,15 +155,15 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                 width: 250,
                                 decoration: BoxDecoration(
                                   color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(28),
+                                  borderRadius: BorderRadius.circular(22),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(10),
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: 50,
-                                        width: 50,
+                                        height: 45,
+                                        width: 45,
                                         decoration: BoxDecoration(
                                           color: AppColors.backgroundColor,
                                           borderRadius:
@@ -212,7 +213,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 17,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,7 +221,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                             Text(
                               "Recent Transactions",
                               style: AppTextStyle.regularTextStyle.copyWith(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -232,7 +233,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                               },
                               child: Container(
                                 height: 30,
-                                width: 78,
+                                width: 76,
                                 decoration: BoxDecoration(
                                   color: AppColors.primaryColor,
                                   borderRadius: BorderRadius.circular(40),
@@ -242,7 +243,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                                     "See All",
                                     style:
                                         AppTextStyle.regularTextStyle.copyWith(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       color: AppColors.whiteColor,
                                     ),
                                   ),
@@ -252,7 +253,7 @@ class _WebFinancesScreenState extends State<WebFinancesScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 12,
                         ),
                         transactionController.todayTransactions.isEmpty
                             ? Center(child: EmptyView())

@@ -74,7 +74,7 @@ class _AllTransactionCommonViewScreenState
                                 ? ""
                                 : "Spend Frequency",
                             style: AppTextStyle.regularTextStyle.copyWith(
-                              fontSize: 18,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -176,29 +176,6 @@ class _AllTransactionCommonViewScreenState
                               Row(
                                 children: [
                                   if (!transactionController.isSearching.value)
-                                    // IconButton(
-                                    //   icon: Icon(
-                                    //     Icons.download_rounded,
-                                    //     size: 22,
-                                    //     color: AppColors.blackColor
-                                    //         .withOpacity(0.7),
-                                    //   ),
-                                    //   onPressed: () {
-                                    // TransactionMake.generateStatement(
-                                    //   name: "Yash Sakhwala",
-                                    //   allData:
-                                    //       transactionController.dataEntries,
-                                    //   context: context,
-                                    // );
-
-                                    // print(
-                                    //     "------>  ${transactionController.dataEntries.value}");
-
-                                    //     // print(
-                                    //     //     "------>  ${transactionController.dataEntries[0].key}");
-                                    //   },
-                                    // ),
-
                                     PopupMenuButton(
                                       color: AppColors.dropDownColor,
                                       icon: Icon(
@@ -208,11 +185,17 @@ class _AllTransactionCommonViewScreenState
                                             .withOpacity(0.7),
                                       ),
                                       onSelected: (filter) {
+                                        if (transactionController
+                                            .dataEntries.isEmpty) {
+                                          toastView(
+                                            msg: "No transactions available.",
+                                            context: context,
+                                          );
+                                          return;
+                                        }
+
                                         switch (filter) {
                                           case 'Monthly':
-                                            print(
-                                                "------>  ${transactionController.dataEntries.value}");
-
                                             final int currentMonth =
                                                 DateTime.now().month;
 
@@ -225,18 +208,26 @@ class _AllTransactionCommonViewScreenState
                                                         currentMonth)
                                                     .toList();
 
-                                            TransactionMake.generateStatement(
-                                              name: "Yash Sakhwala",
-                                              allData: filteredData,
-                                              context: context,
-                                            );
+                                            if (filteredData.isEmpty) {
+                                              toastView(
+                                                msg:
+                                                    "No transactions for current month.",
+                                                context: context,
+                                              );
+                                            } else {
+                                              TransactionMake.generateStatement(
+                                                allData: filteredData,
+                                                statementType: "Monthly",
+                                                context: context,
+                                              );
+                                            }
 
                                             break;
                                           case 'Yearly':
                                             TransactionMake.generateStatement(
-                                              name: "Genify",
                                               allData: transactionController
                                                   .dataEntries,
+                                              statementType: "Yearly",
                                               context: context,
                                             );
                                             break;
@@ -375,7 +366,7 @@ class _AllTransactionCommonViewScreenState
                                       transactionController
                                           .dataEntries[index].key,
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -814,7 +805,7 @@ class _AllTransactionCommonViewScreenState
                                             ),
                                             child: FlipInX(
                                               child: Container(
-                                                height: 89,
+                                                height: 85,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,

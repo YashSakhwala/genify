@@ -151,6 +151,9 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: AppColors.whiteColor,
@@ -286,9 +289,7 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                                 filled: true,
                                 fillColor: AppColors.whiteColor,
                               ),
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded
-                              ),
+                              icon: Icon(Icons.keyboard_arrow_down_rounded),
                               dropdownColor: AppColors.dropDownColor,
                               items: walletList.map((value) {
                                 return DropdownMenuItem<String>(
@@ -453,7 +454,7 @@ class _WebAddExpensesScreenState extends State<WebAddExpensesScreen> {
                               ),
                             ),
                             Container(
-                              height: 50,
+                              height: 60,
                             ),
                             ButtonView(
                               height: 50,

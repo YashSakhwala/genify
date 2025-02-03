@@ -155,7 +155,7 @@ class _WebHomeScreenState extends State<WebHomeScreen>
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 30),
         child: ListView(
           children: [
             Row(
