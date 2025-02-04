@@ -153,6 +153,7 @@ class _TemperatureCalculationScreenState
   void showTempUnitPicker(String unitType) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.dropDownColor,
       builder: (BuildContext context) {
         return ListView.builder(
           itemCount: tempUnitSymbols.length,

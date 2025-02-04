@@ -772,6 +772,7 @@ class _OtherCalculationCommonViewScreenState
   void showUnitPicker(String calculatorType, String unitType) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.dropDownColor,
       builder: (BuildContext context) {
         final unitSymbols = calculators[calculatorType]!["unitSymbols"];
         return ListView.builder(

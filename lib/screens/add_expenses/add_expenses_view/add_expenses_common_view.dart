@@ -276,9 +276,7 @@ class _AddExpensesCommonViewScreenState
                           filled: true,
                           fillColor: AppColors.whiteColor,
                         ),
-                        icon: Icon(
-                          Icons.keyboard_arrow_down_rounded
-                        ),
+                        icon: Icon(Icons.keyboard_arrow_down_rounded),
                         dropdownColor: AppColors.dropDownColor,
                         items: walletList.map((value) {
                           return DropdownMenuItem<String>(
@@ -316,6 +314,18 @@ class _AddExpensesCommonViewScreenState
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime(2000),
                                           lastDate: DateTime.now(),
+                                          builder: (BuildContext context,
+                                              Widget? child) {
+                                            return Theme(
+                                              data: ThemeData.light().copyWith(
+                                                colorScheme: ColorScheme.light(
+                                                  primary:
+                                                      AppColors.primaryColor,
+                                                ),
+                                              ),
+                                              child: child!,
+                                            );
+                                          },
                                         );
 
                                         dateController.text =
@@ -339,8 +349,21 @@ class _AddExpensesCommonViewScreenState
                                       onTap: () async {
                                         TimeOfDay? timeOfDay =
                                             await showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now());
+                                          context: context,
+                                          initialTime: TimeOfDay.now(),
+                                          builder: (BuildContext context,
+                                              Widget? child) {
+                                            return Theme(
+                                              data: ThemeData.light().copyWith(
+                                                colorScheme: ColorScheme.light(
+                                                  primary:
+                                                      AppColors.primaryColor,
+                                                ),
+                                              ),
+                                              child: child!,
+                                            );
+                                          },
+                                        );
 
                                         if (timeOfDay != null) {
                                           timeController.text =

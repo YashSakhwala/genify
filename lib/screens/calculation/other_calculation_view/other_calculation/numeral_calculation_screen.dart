@@ -76,6 +76,7 @@ class _NumeralCalculationScreenState extends State<NumeralCalculationScreen> {
   void showNumeralUnitPicker(String unitType) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.dropDownColor,
       builder: (BuildContext context) {
         return ListView.builder(
           itemCount: numeralUnitSymbols.length,

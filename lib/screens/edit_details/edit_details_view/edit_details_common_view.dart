@@ -398,6 +398,21 @@ class _EditDetailsCommonViewScreenState
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(2000),
                                                   lastDate: DateTime.now(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          Widget? child) {
+                                                    return Theme(
+                                                      data: ThemeData.light()
+                                                          .copyWith(
+                                                        colorScheme:
+                                                            ColorScheme.light(
+                                                          primary: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  },
                                                 );
 
                                                 dateController.text =
@@ -421,9 +436,24 @@ class _EditDetailsCommonViewScreenState
                                               onTap: () async {
                                                 TimeOfDay? timeOfDay =
                                                     await showTimePicker(
-                                                        context: context,
-                                                        initialTime:
-                                                            TimeOfDay.now());
+                                                  context: context,
+                                                  initialTime: TimeOfDay.now(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          Widget? child) {
+                                                    return Theme(
+                                                      data: ThemeData.light()
+                                                          .copyWith(
+                                                        colorScheme:
+                                                            ColorScheme.light(
+                                                          primary: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  },
+                                                );
 
                                                 if (timeOfDay != null) {
                                                   timeController.text =
@@ -488,6 +518,21 @@ class _EditDetailsCommonViewScreenState
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(2000),
                                                   lastDate: DateTime.now(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          Widget? child) {
+                                                    return Theme(
+                                                      data: ThemeData.light()
+                                                          .copyWith(
+                                                        colorScheme:
+                                                            ColorScheme.light(
+                                                          primary: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  },
                                                 );
 
                                                 dateController.text =
@@ -511,9 +556,24 @@ class _EditDetailsCommonViewScreenState
                                               onTap: () async {
                                                 TimeOfDay? timeOfDay =
                                                     await showTimePicker(
-                                                        context: context,
-                                                        initialTime:
-                                                            TimeOfDay.now());
+                                                  context: context,
+                                                  initialTime: TimeOfDay.now(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          Widget? child) {
+                                                    return Theme(
+                                                      data: ThemeData.light()
+                                                          .copyWith(
+                                                        colorScheme:
+                                                            ColorScheme.light(
+                                                          primary: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  },
+                                                );
 
                                                 if (timeOfDay != null) {
                                                   timeController.text =

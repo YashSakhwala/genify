@@ -155,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () async {
                         if (index == 0) {
                           final Uri _url = Uri.parse(
-                              "https://doc-hosting.flycricket.io/about-us/4b8bf7f0-0c19-438c-9080-182a6ae68b8f/other");
+                              "https://doc-hosting.flycricket.io/about-me/4b8bf7f0-0c19-438c-9080-182a6ae68b8f/other");
 
                           if (!await launchUrl(_url)) {
                             throw Exception("Could not launch $_url");

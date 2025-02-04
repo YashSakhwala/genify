@@ -438,6 +438,7 @@ class _FinancialCalculationCommonViewScreenState
                               children: [
                                 DropdownButton<int>(
                                   value: investmentSelectedYears,
+                                  dropdownColor: AppColors.dropDownColor,
                                   items: List.generate(31, (index) => index)
                                       .map((int value) {
                                     return DropdownMenuItem<int>(
@@ -457,6 +458,7 @@ class _FinancialCalculationCommonViewScreenState
                                 ),
                                 DropdownButton<int>(
                                   value: investmentSelectedMonths,
+                                  dropdownColor: AppColors.dropDownColor,
                                   items: List.generate(12, (index) => index)
                                       .map((int value) {
                                     return DropdownMenuItem<int>(
@@ -611,6 +613,7 @@ class _FinancialCalculationCommonViewScreenState
                               children: [
                                 DropdownButton<int>(
                                   value: loanSelectedYears,
+                                  dropdownColor: AppColors.dropDownColor,
                                   items: List.generate(31, (index) => index)
                                       .map((int value) {
                                     return DropdownMenuItem<int>(
@@ -630,6 +633,7 @@ class _FinancialCalculationCommonViewScreenState
                                 ),
                                 DropdownButton<int>(
                                   value: loanSelectedMonths,
+                                  dropdownColor: AppColors.dropDownColor,
                                   items: List.generate(12, (index) => index)
                                       .map((int value) {
                                     return DropdownMenuItem<int>(

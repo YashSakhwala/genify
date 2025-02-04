@@ -65,6 +65,7 @@ class _BMICalculationScreenState extends State<BMICalculationScreen> {
         : ["Centimeters cm", "Meters m", "Feet ft", "Inches in"];
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.dropDownColor,
       builder: (BuildContext context) {
         return Container(
           child: Column(
